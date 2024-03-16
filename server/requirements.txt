@@ -1,2 +1,2 @@
-django>=0
-djangorestframework>=0
+django>=0  # website
+djangorestframework>=0  # website
