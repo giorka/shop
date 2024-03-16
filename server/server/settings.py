@@ -60,9 +60,13 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+        'ENGINE': 'django.db.backends.' + getenv(key='ENGINE'),
+        'NAME': getenv(key='DB_NAME'),
+        'USER': getenv(key='DB_USER'),
+        'PASSWORD': getenv(key='DB_PASSWORD'),
+        'HOST': getenv(key='DB_HOST'),
+        'PORT': getenv(key='DB_PORT'),
+    },
 }
 
 AUTH_PASSWORD_VALIDATORS = [
