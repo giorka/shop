@@ -1,3 +1,5 @@
+from json import loads
+from os import getenv
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -6,9 +8,9 @@ load_dotenv()  # loads .env file
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure--*&!fj*vp0a6)kl88!*8=k78ezcyu(*j6gb%)b$b%cf_-1-*&f'
+SECRET_KEY = getenv(key='SECRET_KEY')
 
-DEBUG = True
+DEBUG = loads(getenv(key='DEBUG'))
 
 ALLOWED_HOSTS = []
 
