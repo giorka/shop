@@ -1,2 +1,3 @@
 django>=0  # website
 djangorestframework>=0  # website
+python-dotenv  # .env support
