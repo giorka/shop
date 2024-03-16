@@ -23,12 +23,12 @@ DJANGO_APPS = (
     'django.contrib.staticfiles',
 )
 
-INSTALLED_APPS = [
+INSTALLED_APPS = (
     *DJANGO_APPS,
 
-]
+)
 
-MIDDLEWARE = [
+MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -36,11 +36,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-]
+)
 
 ROOT_URLCONF = 'server.urls'
 
-TEMPLATES = [
+TEMPLATES = (
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
@@ -54,7 +54,7 @@ TEMPLATES = [
             ],
         },
     },
-]
+)
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
@@ -69,7 +69,7 @@ DATABASES = {
     },
 }
 
-AUTH_PASSWORD_VALIDATORS = [
+AUTH_PASSWORD_VALIDATORS = (
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     },
@@ -82,7 +82,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
-]
+)
 
 LANGUAGE_CODE = 'en-us'
 
