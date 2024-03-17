@@ -13,8 +13,8 @@ from domains import *
 class Service(ABC):
     _domain: str = None
 
-    def __init__(self, *categories) -> NoReturn:
-        self._categories: tuple = categories
+    def __init__(self, category: dict) -> NoReturn:
+        self.category: dict = category
 
     @abstractmethod
     def get_links(self) -> tuple:
@@ -85,31 +85,29 @@ class InterkidsyService(Service):
         #     spider=spider
         # )
         #
-        # print([*view.colors])
-        # for color in view.colors:
-        #     print(color)
-        for category in self._categories:
-            max_page: int = await self.get_page_count(category=category)
+        # print(view.dict)
 
+        max_page: int = await self.get_page_count(category=self.category)
+
+        tasks = []
+
+        for page_number in range(1, max_page + 1):
+            url: str = 'http://' + self.category[self._domain] + f'?p={page_number}'
+
+            task = self.get_spider(url=url)
+            tasks.append(task)
+
+        for spider in await gather(*tasks):
             tasks = []
 
-            for page_number in range(1, max_page + 1):
-                url: str = 'http://' + category[self._domain] + f'?p={page_number}'
+            for page_link in self.get_page_links(spider=spider):
+                url: str = 'http://' + self._domain + page_link.lstrip('/')
 
-                task = self.get_spider(url=url)
+                task = self.get_dict(url=url)
                 tasks.append(task)
 
-            for spider in await gather(*tasks):
-                tasks = []
-
-                for page_link in self.get_page_links(spider=spider):
-                    url: str = 'http://' + self._domain + page_link.lstrip('/')
-
-                    task = self.get_dict(url=url)
-                    tasks.append(task)
-
-                for information in await gather(*tasks):
-                    print(information)
+            for information in await gather(*tasks):
+                yield information
 
 
 class ZeydankidsService(Service):

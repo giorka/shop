@@ -6,7 +6,7 @@ import services
 
 
 async def main() -> NoReturn:
-    service = services.InterkidsyService(categories.GIRL_SET)
+    service = services.InterkidsyService(category=categories.GIRL_SET)
     await service.get_links()
 
 

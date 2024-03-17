@@ -1,7 +1,7 @@
 from abc import ABC
 from dataclasses import dataclass
 
-from bs4 import BeautifulSoup, ResultSet, Tag
+from bs4 import BeautifulSoup, ResultSet
 
 from constants import exchange_rates
 
@@ -22,7 +22,7 @@ class InterkidsyView(View):
         exchange = float(exchange_rates['USD'].value)
 
         return round(exchange * dollars, 1)
-    
+
     @property
     def colors(self):
         colors: ResultSet = self.spider.find_all(
