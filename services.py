@@ -6,6 +6,7 @@ from urllib.parse import parse_qs, urlparse
 from aiohttp import ClientSession
 from bs4 import BeautifulSoup
 
+import views
 from domains import *
 
 
@@ -29,6 +30,7 @@ class Service(ABC):
             markup=markup,
             features='lxml'
         )
+        # spider.url = url
 
         return spider
 
@@ -67,7 +69,25 @@ class InterkidsyService(Service):
 
             yield link
 
+    async def get_dict(self, url: str):
+        view: views.InterkidsyView = views.InterkidsyView(
+            spider=await self.get_spider(url=url)
+        )
+
+        return view.dict
+
     async def get_links(self):
+        # spider = await self.get_spider(
+        #     url='https://www.interkidsy.com/wholesale-baby-girls-2-piece-shirt-and-shorts-set-7-10y-busra-bebe-1016-24131'
+        # )
+        #
+        # view = views.InterkidsyView(
+        #     spider=spider
+        # )
+        #
+        # print([*view.colors])
+        # for color in view.colors:
+        #     print(color)
         for category in self._categories:
             max_page: int = await self.get_page_count(category=category)
 
@@ -75,12 +95,27 @@ class InterkidsyService(Service):
 
             for page_number in range(1, max_page + 1):
                 url: str = 'http://' + category[self._domain] + f'?p={page_number}'
+
                 task = self.get_spider(url=url)
                 tasks.append(task)
 
             for spider in await gather(*tasks):
                 for page_link in self.get_page_links(spider=spider):
-                    print('http://' + self._domain + page_link.lstrip('/'))
+                    url: str = 'http://' + self._domain + page_link.lstrip('/')
+
+                    view: views.InterkidsyView = views.InterkidsyView(
+                        spider=await self.get_spider(url=url)
+                    )
+
+                    print(view.dict)
+
+                    # task = self.get_spider(url=url)
+                    # tasks.append(task)
+
+            # tasks = []
+            #
+            # for spider in await gather(*tasks):
+            #     print(spider)
 
 
 class ZeydankidsService(Service):

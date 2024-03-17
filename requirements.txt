@@ -1,3 +1,4 @@
 aiohttp>=0
 bs4>=0
 lxml>=0
+pycbrf>=0
