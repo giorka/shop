@@ -44,9 +44,8 @@ class InterkidsyView(View):
 
     @property
     def dict(self):
-        return [*self.colors]
-        # return dict(
-        #     title=self.title,
-        #     price=self.price,
-        #     colors=[*self.colors],
-        # )
+        return dict(
+            title=self.title,
+            price=self.price,
+            colors=[*self.colors],
+        )

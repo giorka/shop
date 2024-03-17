@@ -100,22 +100,16 @@ class InterkidsyService(Service):
                 tasks.append(task)
 
             for spider in await gather(*tasks):
+                tasks = []
+
                 for page_link in self.get_page_links(spider=spider):
                     url: str = 'http://' + self._domain + page_link.lstrip('/')
 
-                    view: views.InterkidsyView = views.InterkidsyView(
-                        spider=await self.get_spider(url=url)
-                    )
+                    task = self.get_dict(url=url)
+                    tasks.append(task)
 
-                    print(view.dict)
-
-                    # task = self.get_spider(url=url)
-                    # tasks.append(task)
-
-            # tasks = []
-            #
-            # for spider in await gather(*tasks):
-            #     print(spider)
+                for information in await gather(*tasks):
+                    print(information)
 
 
 class ZeydankidsService(Service):
