@@ -1,5 +1,4 @@
-INTERKIDSY_DOMAIN = 'www.interkidsy.com/'
-ZEYDANKIDS_DOMAIN = 'www.zeydankids.com/'
+from domains import *
 
 INTERKIDSY_CATEGORY = INTERKIDSY_DOMAIN + 'ru/'
 ZEYDANKIDS_CATEGORY = ZEYDANKIDS_DOMAIN + 'urunler/kategori/'
