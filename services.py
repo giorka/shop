@@ -54,7 +54,7 @@ class InterkidsyService(Service):
         return page_number
 
     @staticmethod
-    def get_page_links(spider: BeautifulSoup, domain: str) -> Iterable[int]:
+    def get_page_links(spider: BeautifulSoup) -> Iterable[str]:
         cards = spider.find_all(class_='w-100 product-title')
 
         for card in cards:
@@ -65,7 +65,7 @@ class InterkidsyService(Service):
                     'Нет атрибута href в ссылке ' + link
                 )
 
-            yield 'http://' + domain + link.lstrip('/')
+            yield link
 
     async def get_links(self):
         for category in self._categories:
@@ -79,11 +79,8 @@ class InterkidsyService(Service):
                 tasks.append(task)
 
             for spider in await gather(*tasks):
-                for page_link in self.get_page_links(
-                        spider=spider,
-                        domain=self._domain,
-                ):
-                    print(page_link)
+                for page_link in self.get_page_links(spider=spider):
+                    print('http://' + self._domain + page_link.lstrip('/'))
 
 
 class ZeydankidsService(Service):
