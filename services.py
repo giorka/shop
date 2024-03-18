@@ -17,7 +17,7 @@ class Service(ABC):
         self.category: dict = category
 
     @abstractmethod
-    def get_links(self) -> tuple:
+    def get_all_links(self) -> tuple:
         ...
 
     @staticmethod
