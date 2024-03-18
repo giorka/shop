@@ -39,7 +39,6 @@ class InterkidsyService(Service):
     _domain: str = INTERKIDSY_DOMAIN
 
     async def get_page_count(self, category: dict) -> int:
-        return 2
         url: str = 'http://' + category[self._domain]
         spider: BeautifulSoup = await self.get_spider(url=url)
         last_url: str = spider.find(attrs=dict(title='Последние')).get('href')
@@ -76,7 +75,7 @@ class InterkidsyService(Service):
 
         return view.dict
 
-    async def get_links(self) -> iter:
+    async def get_all_links(self) -> iter:
         # spider = await self.get_spider(
         #     url='https://www.interkidsy.com/wholesale-baby-girls-2-piece-shirt-and-shorts-set-7-10y-busra-bebe-1016-24131'
         # )
@@ -111,7 +110,7 @@ class InterkidsyService(Service):
             #     print(information)
 
     async def all(self) -> iter:
-        links = self.get_links()
+        links = self.get_all_links()
 
         tasks = []
 
