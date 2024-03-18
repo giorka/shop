@@ -125,7 +125,7 @@ class InterkidsyService(Service):
 class ZeydankidsService(Service):
     _domain: str = ZEYDANKIDS_DOMAIN
 
-    def get_links(self):
+    def get_all_links(self):
         ...
 
     ...
