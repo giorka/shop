@@ -76,7 +76,7 @@ class InterkidsyService(Service):
 
         return view.dict
 
-    async def get_links(self):
+    async def get_links(self) -> iter:
         # spider = await self.get_spider(
         #     url='https://www.interkidsy.com/wholesale-baby-girls-2-piece-shirt-and-shorts-set-7-10y-busra-bebe-1016-24131'
         # )
@@ -98,16 +98,29 @@ class InterkidsyService(Service):
             tasks.append(task)
 
         for spider in await gather(*tasks):
-            tasks = []
+            # tasks = []
 
             for page_link in self.get_page_links(spider=spider):
                 url: str = 'http://' + self._domain + page_link.lstrip('/')
+                yield url
 
-                task = self.get_dict(url=url)
-                tasks.append(task)
+            #     task = self.get_dict(url=url)
+            #     tasks.append(task)
+            #
+            # for information in await gather(*tasks):
+            #     print(information)
 
-            for information in await gather(*tasks):
-                yield information
+    async def all(self) -> iter:
+        links = self.get_links()
+
+        tasks = []
+
+        async for link in links:
+            task = self.get_dict(url=link)
+            tasks.append(task)
+
+        for information in await gather(*tasks):
+            yield information
 
 
 class ZeydankidsService(Service):

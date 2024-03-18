@@ -7,7 +7,11 @@ import services
 
 async def main() -> NoReturn:
     service = services.InterkidsyService(category=categories.GIRL_SET)
-    await service.get_links()
+
+    records = service.all()
+
+    async for record in records:
+        print(record)
 
 
 if __name__ == '__main__':
