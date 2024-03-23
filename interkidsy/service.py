@@ -7,6 +7,7 @@ from bs4 import BeautifulSoup, ResultSet
 
 from base import BaseService
 from domains import INTERKIDSY_DOMAIN
+from settings import DEBUG
 from utils import get_spider
 from .view import View
 
@@ -17,7 +18,9 @@ class Service(BaseService, ABC):
 
     @property
     async def _page_count(self) -> int:
-        return 2
+        if DEBUG is True:
+            return 2
+
         url: str = 'http://' + self.category[self._domain]
         spider: BeautifulSoup = await get_spider(url=url)
         last_url: str = spider.find(attrs=dict(title='Последние')).get('href')
@@ -32,7 +35,7 @@ class Service(BaseService, ABC):
         return int(pgs[0])
 
     @staticmethod
-    def get_page_links(spider: BeautifulSoup) -> Iterable[str]:
+    def get_page_links(spider: BeautifulSoup) -> Optional[Iterable[str]]:
         items: ResultSet = spider.find_all(class_='w-100 product-title')
 
         for item in items:

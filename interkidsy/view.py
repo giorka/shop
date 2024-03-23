@@ -2,6 +2,7 @@ from bs4 import ResultSet
 
 import utils
 from base import BaseView
+from settings import DEBUG
 
 
 class View(BaseView):
@@ -25,7 +26,9 @@ class View(BaseView):
             attrs=dict(href="javascript:void(0);"),
 
         )
-        # print(self.spider.url)
+
+        if DEBUG is True:
+            print(self.spider.url)
 
         yield from (
             dict(
@@ -40,12 +43,3 @@ class View(BaseView):
     @property
     def _count(self) -> int:
         return int(self.spider.find(class_='form-control no-arrows text-center').get('value'))
-
-    @property
-    def dict(self) -> dict:
-        return dict(
-            title=self.title,
-            price=(price := self.price),
-            item_price=round(price / self._count, 1),
-            colors=[*self.colors],
-        )

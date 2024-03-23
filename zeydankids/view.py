@@ -27,7 +27,7 @@ class View(BaseView):
     @property
     def price(self) -> float:
         """
-        Вместо цены в лирах брать цену в долларах и приводить к рублям через единый интерфейс
+        TODO: Брать цену в долларах и приводить к рублям через единый интерфейс. [НЕАКТУАЛЬНО]
         """
 
         price: float = self.extract_value(
@@ -70,13 +70,3 @@ class View(BaseView):
                 image=color.get('src'),
                 color=translated_color.upper(),
             )
-
-    @property
-    def dict(self):
-        return dict(
-            title=self.title,
-            price=(price := self.price),
-            item_price=round(price / self._count, 1),
-            colors=[*self.colors],
-
-        )

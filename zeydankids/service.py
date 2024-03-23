@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup, ResultSet
 
 from base import BaseService
 from domains import ZEYDANKIDS_DOMAIN
+from settings import DEBUG
 from utils import get_spider
 from .view import View
 
@@ -30,7 +31,10 @@ class Service(BaseService, ABC):
         counter: int = 1
 
         while True:
-            if counter == 2: break
+            # Collect information from only two pages, if in testing mode
+            if DEBUG and counter == 2:
+                break
+
             url: str = 'http://' + self.category.get(self._domain) + '?sayfa=' + str(counter)
 
             spider: BeautifulSoup = await get_spider(url=url)
@@ -38,7 +42,9 @@ class Service(BaseService, ABC):
             links = [*self.get_page_links(spider=spider)]
 
             if not links:
-                print('Конечная страница', counter)
+                if DEBUG is True:
+                    print('Конечная страница', counter)
+
                 break
             else:
                 for link in links:
