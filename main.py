@@ -2,15 +2,16 @@ from asyncio import run
 from typing import NoReturn
 
 import categories
-import services
+import interkidsy
+import zeydankids
 
 
 async def main() -> NoReturn:
     category: dict = categories.GIRL_SET
 
     service_classes = (
-        services.ZeydankidsService,
-        services.InterkidsyService
+        zeydankids.service.Service,
+        interkidsy.service.Service,
     )
 
     for service_class in service_classes:
