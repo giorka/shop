@@ -6,12 +6,20 @@ import services
 
 
 async def main() -> NoReturn:
-    service = services.InterkidsyService(category=categories.GIRL_SET)
+    category: dict = categories.GIRL_SET
 
-    records = service.all()
+    service_classes = (
+        services.ZeydankidsService,
+        services.InterkidsyService
+    )
 
-    async for record in records:
-        print(record)
+    for service_class in service_classes:
+        service = service_class(category=category)
+
+        records = service.all()
+
+        async for record in records:
+            print(record)
 
 
 if __name__ == '__main__':

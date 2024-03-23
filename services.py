@@ -11,6 +11,10 @@ from domains import *
 
 
 class Service(ABC):
+    """
+    TODO: Singletone
+    """
+
     _domain: str = None
 
     def __init__(self, category: dict) -> NoReturn:
@@ -30,7 +34,6 @@ class Service(ABC):
             markup=markup,
             features='lxml'
         )
-        # spider.url = url
 
         return spider
 
@@ -39,6 +42,7 @@ class InterkidsyService(Service):
     _domain: str = INTERKIDSY_DOMAIN
 
     async def get_page_count(self, category: dict) -> int:
+        # return 2
         url: str = 'http://' + category[self._domain]
         spider: BeautifulSoup = await self.get_spider(url=url)
         last_url: str = spider.find(attrs=dict(title='Последние')).get('href')
@@ -70,22 +74,14 @@ class InterkidsyService(Service):
 
     async def get_dict(self, url: str):
         view: views.InterkidsyView = views.InterkidsyView(
-            spider=await self.get_spider(url=url)
+            spider=await self.get_spider(
+                url=url,
+            )
         )
 
         return view.dict
 
     async def get_all_links(self) -> iter:
-        # spider = await self.get_spider(
-        #     url='https://www.interkidsy.com/wholesale-baby-girls-2-piece-shirt-and-shorts-set-7-10y-busra-bebe-1016-24131'
-        # )
-        #
-        # view = views.InterkidsyView(
-        #     spider=spider
-        # )
-        #
-        # print(view.dict)
-
         max_page: int = await self.get_page_count(category=self.category)
 
         tasks = []
@@ -97,17 +93,8 @@ class InterkidsyService(Service):
             tasks.append(task)
 
         for spider in await gather(*tasks):
-            # tasks = []
-
             for page_link in self.get_page_links(spider=spider):
-                url: str = 'http://' + self._domain + page_link.lstrip('/')
-                yield url
-
-            #     task = self.get_dict(url=url)
-            #     tasks.append(task)
-            #
-            # for information in await gather(*tasks):
-            #     print(information)
+                yield 'http://' + self._domain + page_link.lstrip('/')
 
     async def all(self) -> iter:
         links = self.get_all_links()
@@ -124,8 +111,53 @@ class InterkidsyService(Service):
 
 class ZeydankidsService(Service):
     _domain: str = ZEYDANKIDS_DOMAIN
+    _login_url: str = _domain + 'uye/giris/'
 
-    def get_all_links(self):
-        ...
+    @staticmethod
+    def get_page_links(spider: BeautifulSoup) -> Optional[Iterable[str]]:
+        items = spider.find_all('div', class_='owl-carousel owl-theme owlControl b-white b-ra20')
 
-    ...
+        if not items:
+            return None
+
+        yield from (item.find('a').get('href') for item in items)
+
+    async def get_dict(self, url: str):
+        view: views.ZeydankidsView = views.ZeydankidsView(
+            spider=await self.get_spider(url=url)
+        )
+
+        return view.dict
+
+    async def get_all_links(self) -> iter:
+        counter: int = 1
+
+        while True:
+            # if counter == 2: break
+            url: str = 'http://' + self.category.get(self._domain) + '?sayfa=' + str(counter)
+
+            spider: BeautifulSoup = await self.get_spider(url=url)
+
+            links = [*self.get_page_links(spider=spider)]
+
+            if not links:
+                print('Конечная страница', counter)
+                break
+            else:
+                for link in links:
+                    yield link
+
+            counter += 1
+
+    async def all(self):
+        links = self.get_all_links()
+
+        tasks = []
+
+        async for link in links:
+            # print(link)
+            task = self.get_dict(url=link)
+            tasks.append(task)
+
+        for information in await gather(*tasks):
+            yield information
