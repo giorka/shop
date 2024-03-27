@@ -1,9 +1,10 @@
-from re import findall, compile
+from re import compile, findall
 
 from googletrans import Translator
 
 import utils
 from base import BaseView
+from settings import DEBUG
 
 
 class View(BaseView):
@@ -60,11 +61,17 @@ class View(BaseView):
         colors = container.find_all(class_='img-fluid')
 
         for color in colors:
-            translated_color: str = self.translator.translate(
-                text=color.get('alt'),
-                dest='ru',
-                src='tr',
-            ).text
+            if DEBUG:
+                print(color)
+
+            try:
+                translated_color: str = self.translator.translate(
+                    text=color.get('alt'),
+                    dest='ru',
+                    src='tr',
+                ).text
+            except:
+                continue
 
             yield dict(
                 image=color.get('src'),

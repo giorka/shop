@@ -2,7 +2,6 @@ from bs4 import ResultSet
 
 import utils
 from base import BaseView
-from settings import DEBUG
 
 
 class View(BaseView):
@@ -26,9 +25,6 @@ class View(BaseView):
             attrs=dict(href="javascript:void(0);"),
 
         )
-
-        if DEBUG is True:
-            print(self.spider.url)
 
         yield from (
             dict(

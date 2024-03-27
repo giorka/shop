@@ -1,5 +1,6 @@
 from asyncio import run
 from typing import NoReturn
+from tqdm import tqdm
 
 import categories
 import interkidsy
@@ -10,11 +11,12 @@ async def main() -> NoReturn:
     category: dict = categories.GIRL_SET
 
     service_classes = (
-        zeydankids.service.Service,
         interkidsy.service.Service,
+        zeydankids.service.Service,
+
     )
 
-    for service_class in service_classes:
+    for service_class in tqdm(iterable=service_classes):
         service = service_class(category=category)
 
         records = service.all()

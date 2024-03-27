@@ -65,7 +65,12 @@ class BaseService(ABC):
         yield 'http://example.com/'
 
     async def get_dict(self, url: str) -> dict:
-        return self.view(spider=await get_spider(url=url)).dict
+        try:
+            information: dict = self.view(spider=await get_spider(url=url)).dict
+        except:
+            return {}
+
+        return information
 
     async def all(self) -> iter:
         links: iter = self.links
@@ -77,4 +82,7 @@ class BaseService(ABC):
             tasks.append(task)
 
         for information in await gather(*tasks):
+            if not information:
+                continue
+
             yield information

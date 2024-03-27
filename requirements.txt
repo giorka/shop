@@ -4,3 +4,4 @@ lxml>=0
 pycbrf>=0
 googletrans==3.1.0a0
 tqdm>=0
+loguru>=0
