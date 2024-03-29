@@ -3,3 +3,4 @@ djangorestframework>=0  # Website
 python-dotenv  # Dotenv Support
 psycopg2  # Database
 flake8  # Code Refactoring
+celery  # Task Queue
