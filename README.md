@@ -1,2 +1,2 @@
 #### Пока что тут танцует кот.
-<img src="https://s12.gifyu.com/images/SV6FZ.gif"/>
+<img width="1200" src="https://media.tenor.com/odivpWLQNGkAAAAM/catbailando.gif"/>
