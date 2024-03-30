@@ -1,6 +1,8 @@
-django>=0  # Website
-djangorestframework>=0  # Website
+django  # Website
+djangorestframework  # Website
 python-dotenv  # Dotenv Support
 psycopg2  # Database
 flake8  # Code Refactoring
 celery  # Task Queue
+Pillow  # Django ImageField
+requests  # Product Image Downloader

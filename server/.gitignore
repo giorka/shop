@@ -1,6 +1,7 @@
 .idea
 .env
-/migrations/
+*/migrations/*
 celerybeat-schedule.bak
 celerybeat-schedule.dat
 celerybeat-schedule.dir
+/media/

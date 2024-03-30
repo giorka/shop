@@ -1,3 +1,4 @@
+import os
 from json import loads
 from os import getenv
 from pathlib import Path
@@ -59,6 +60,8 @@ TEMPLATES = (
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
+AUTH_USER_MODEL = 'v1.User'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.' + getenv(key='ENGINE'),
@@ -98,3 +101,6 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672"
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
