@@ -44,4 +44,6 @@ async def get_spider(url: str) -> BeautifulSoup:
         features='lxml'
     )
 
+    spider.url = url
+
     return spider

@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Iterable, Optional
 
-from bs4 import BeautifulSoup, ResultSet
+from bs4 import BeautifulSoup, ResultSet, Tag
 
 from base import BaseService
 from domains import ZEYDANKIDS_DOMAIN
@@ -24,7 +24,13 @@ class Service(BaseService, ABC):
         if not items:
             return None
 
-        yield from (item.find('a').get('href') for item in items)
+        for item in items:
+            link_element: Tag = item.find('a')
+
+            if link_element:
+                yield link_element.get('href')
+            else:
+                break
 
     @property
     async def links(self) -> iter:

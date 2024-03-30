@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from asyncio import gather
 from dataclasses import dataclass
+from re import findall
 from typing import Coroutine, Iterable, NoReturn, Optional
 
 from bs4 import BeautifulSoup
@@ -35,6 +36,7 @@ class BaseView(ABC):
     @property
     def dict(self):
         return dict(
+            id=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
             title=self.title,
             price=(price := self.price),
             item_price=round(price / self._count, 1),
