@@ -1,8 +1,9 @@
-django  # Website
-djangorestframework  # Website
-python-dotenv  # Dotenv Support
-psycopg2  # Database
-flake8  # Code Refactoring
-celery  # Task Queue
-Pillow  # Django ImageField
-requests  # Product Image Downloader
+django  # WEBSITE
+djangorestframework  # WEBSITE
+djoser  # AUTH
+python-dotenv  # DOTENV SUPPORT
+psycopg2  # DATABASE
+flake8  # CODE REFACTORING
+celery  # TASK QUEUE
+Pillow  # DJANGO IMAGEFIELD
+requests  # PRODUCT IMAGE DOWNLOADER
