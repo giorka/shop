@@ -10,8 +10,8 @@ class Product(models.Model):
     item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
 
     class Meta:
-        verbose_name: str = 'продукт'
-        verbose_name_plural: str = 'продукты'
+        verbose_name: str = 'Продукт'
+        verbose_name_plural: str = 'Продукты'
 
 
 class Preview(models.Model):
@@ -24,8 +24,8 @@ class Preview(models.Model):
     )  # Продукт, которому принадлежит изображение
 
     class Meta:
-        verbose_name: str = 'изображение'
-        verbose_name_plural: str = 'изображения'
+        verbose_name: str = 'Изображение'
+        verbose_name_plural: str = 'Изображения'
 
 
 """

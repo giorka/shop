@@ -4,11 +4,11 @@ from django.urls import include, path
 
 from server import settings
 
-django_urlpatterns = (
+django_urlpatterns: tuple = (
     path('admin/', admin.site.urls),
 )
 
-urlpatterns = (
+urlpatterns: tuple = (
     *django_urlpatterns,
     path('api/v1/', include('v1.urls')),
 )

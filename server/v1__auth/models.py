@@ -12,11 +12,11 @@ class User(AbstractUser):
     products = models.ManyToManyField(
         to=v1_models.Product,
         related_name='interests'
-    )  # Пользовательская тележка с продуктами
+    )  # Custom grocery cart
 
     USERNAME_FIELD: str = 'email'
     REQUIRED_FIELDS: Tuple[str] = ('username',)
 
     class Meta:
-        verbose_name: str = 'пользователь'
-        verbose_name_plural: str = 'пользователи'
+        verbose_name: str = 'Пользователь'
+        verbose_name_plural: str = 'Пользователи'
