@@ -1,18 +1,19 @@
+from __future__ import annotations
+
 import os
 from json import loads
 from os import getenv
 from pathlib import Path
-from typing import Optional
 
 from dotenv import load_dotenv
 
-DEBUG: Optional[str] = getenv(key='DEBUG')
+DEBUG = getenv(key='DEBUG')
 
 if not DEBUG:
-    load_dotenv()  # loads .env file
-    DEBUG: bool = loads(getenv(key='DEBUG'))
+    load_dotenv()
+    DEBUG = loads(getenv(key='DEBUG'))
 else:
-    DEBUG: bool = loads(DEBUG)
+    DEBUG = loads(DEBUG)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -41,6 +42,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'djoser',
     'rest_framework.authtoken',
+
 )
 
 MIDDLEWARE = (
@@ -51,6 +53,10 @@ MIDDLEWARE = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+AUTHENTICATION_BACKENDS = (
+    'v1__auth.backends.GoogleOAuth2',
 )
 
 ROOT_URLCONF = 'server.urls'
@@ -123,5 +129,3 @@ CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-DJOSER = dict(LOGIN_FIELD='email')
