@@ -1,7 +1,7 @@
-aiohttp>=0
-bs4>=0
-lxml>=0
-pycbrf>=0
-googletrans==3.1.0a0
-tqdm>=0
-loguru>=0
+aiohttp
+bs4
+lxml
+pycbrf
+tqdm
+loguru
+googletrans
