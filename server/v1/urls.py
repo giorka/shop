@@ -1,3 +1,6 @@
 from django.urls import include, path
 
-urlpatterns = ()
+urlpatterns = (
+    path('products/', include('v1__products.urls')),
+
+)

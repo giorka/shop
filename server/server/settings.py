@@ -28,19 +28,17 @@ DJANGO_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
 )
 
 APPS = (
     'v1',
-    'v1__auth',
+    'v1__products',
 )
 
 INSTALLED_APPS = (
     *DJANGO_APPS,
     *APPS,
-    'rest_framework',
-    'djoser',
-    'rest_framework.authtoken',
 )
 
 MIDDLEWARE = (
@@ -52,8 +50,6 @@ MIDDLEWARE = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
-
-AUTHENTICATION_BACKENDS = ('v1__auth.backends.GoogleOAuth2',)
 
 ROOT_URLCONF = 'server.urls'
 
@@ -74,8 +70,6 @@ TEMPLATES = (
 )
 
 WSGI_APPLICATION = 'server.wsgi.application'
-
-AUTH_USER_MODEL = 'v1__auth.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
