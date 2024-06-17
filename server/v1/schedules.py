@@ -1,6 +1,6 @@
 """
-    celery -A v1 worker --pool=solo -l info
-    celery -A v1 beat -l info
+celery -A v1 worker --pool=solo -l info
+celery -A v1 beat -l info
 """
 
 import os

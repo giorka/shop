@@ -4,9 +4,7 @@ from django.urls import include, path
 
 from server import settings
 
-django_urlpatterns = (
-    path('admin/', admin.site.urls),
-)
+django_urlpatterns = (path('admin/', admin.site.urls),)
 
 urlpatterns = (
     *django_urlpatterns,

@@ -33,7 +33,6 @@ DJANGO_APPS = (
 APPS = (
     'v1',
     'v1__auth',
-
 )
 
 INSTALLED_APPS = (
@@ -42,7 +41,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'djoser',
     'rest_framework.authtoken',
-
 )
 
 MIDDLEWARE = (
@@ -55,9 +53,7 @@ MIDDLEWARE = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-AUTHENTICATION_BACKENDS = (
-    'v1__auth.backends.GoogleOAuth2',
-)
+AUTHENTICATION_BACKENDS = ('v1__auth.backends.GoogleOAuth2',)
 
 ROOT_URLCONF = 'server.urls'
 
@@ -82,9 +78,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 AUTH_USER_MODEL = 'v1__auth.User'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
 }
 
 DATABASES = {
@@ -125,7 +119,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672"
+CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

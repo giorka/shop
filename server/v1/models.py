@@ -18,9 +18,7 @@ class Preview(models.Model):
     title = models.CharField(max_length=64)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
     product = models.ForeignKey(
-        to=Product,
-        on_delete=models.CASCADE,
-        related_name='previews'
+        to=Product, on_delete=models.CASCADE, related_name='previews'
     )  # Продукт, которому принадлежит изображение
 
     class Meta:
