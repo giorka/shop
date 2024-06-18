@@ -17,9 +17,9 @@ application.config_from_object('django.conf:settings', namespace='CELERY')
 application.autodiscover_tasks()
 
 application.conf.beat_schedule = {
-    'scrapper': {
-        'task': 'parse',
-        'schedule': (crontab() if DEBUG else crontab(minute=0, hour=0)),
+    'populate_the_database': {
+        'task': 'populate_the_database',
+        'schedule': (crontab(minute='*/30') if DEBUG else crontab(minute=0, hour=0)),
     },
 }
 

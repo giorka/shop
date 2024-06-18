@@ -1,29 +1,35 @@
 from django.db import models
 
 
-class Product(models.Model):
-    identifier = models.CharField(
-        max_length=256
-    )  # 6ти значное ID / Slug поле (зависит от источника). Уникальное в рамках обоих сайтов
-    title = models.CharField(max_length=64)  # Заголовок
-    full_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за упаковку в дробях
-    item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
-
-    class Meta:
-        verbose_name: str = 'Продукт'
-        verbose_name_plural: str = 'Продукты'
+# TODO: комментарии перенести в DOCSTRING
 
 
 class Preview(models.Model):
     title = models.CharField(max_length=64)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
-    product = models.ForeignKey(
-        to=Product, on_delete=models.CASCADE, related_name='previews'
-    )  # Продукт, которому принадлежит изображение
 
     class Meta:
         verbose_name: str = 'Изображение'
         verbose_name_plural: str = 'Изображения'
+
+
+class Product(models.Model):
+    identifier = models.CharField(
+        max_length=256,
+        primary_key=True
+    )  # 6ти значное ID / Slug поле (зависит от источника). Уникальное в рамках обоих сайтов
+    title = models.CharField(max_length=256)  # Заголовок
+    full_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за упаковку в дробях
+    item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
+    previews = models.ForeignKey(
+        to=Preview,
+        on_delete=models.CASCADE,
+        related_name='product'
+    )  # Продукт, которому принадлежит изображение
+
+    class Meta:
+        verbose_name: str = 'Продукт'
+        verbose_name_plural: str = 'Продукты'
 
 
 """

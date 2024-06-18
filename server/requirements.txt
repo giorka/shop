@@ -8,3 +8,11 @@ psycopg2
 python-dotenv
 requests
 ruff
+pycbrf
+googletrans
+loguru
+tqdm
+bs4
+aiohttp
+lxml
+redis
