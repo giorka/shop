@@ -9,9 +9,9 @@ from aiohttp import ClientConnectorError
 from bs4 import BeautifulSoup, ResultSet, Tag
 
 from server import settings
+
+from . import constants, views
 from .utils import get_spider
-from . import constants
-from . import views
 
 
 class Service(ABC):
@@ -27,8 +27,7 @@ class Service(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_page_links(spider: BeautifulSoup) -> Generator[str] | None:
-        ...
+    def get_page_links(spider: BeautifulSoup) -> Generator[str] | None: ...
 
     @property
     @abstractmethod
@@ -92,9 +91,7 @@ class IService(Service):
         pgs = parsed_url.get('pg')
 
         if not pgs:
-            raise KeyError(
-                'Нет параметра pg в ссылке' + last_url
-            )
+            raise KeyError('Нет параметра pg в ссылке' + last_url)
 
         return int(pgs[0])
 
@@ -109,9 +106,7 @@ class IService(Service):
             link: str | None = item.get('href')
 
             if not link:
-                raise KeyError(
-                    'Нет атрибута href в ссылке ' + link
-                )
+                raise KeyError('Нет атрибута href в ссылке ' + link)
 
             yield link
 
@@ -146,10 +141,7 @@ class ZService(Service):
 
     @staticmethod
     def get_page_links(spider: BeautifulSoup) -> Generator[str] | None:
-        items: ResultSet = spider.find_all(
-            name='div',
-            class_='owl-carousel owl-theme owlControl b-white b-ra20'
-        )
+        items: ResultSet = spider.find_all(name='div', class_='owl-carousel owl-theme owlControl b-white b-ra20')
 
         if not items:
             return None

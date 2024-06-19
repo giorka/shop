@@ -18,10 +18,10 @@ def populate(record: dict) -> None:
             identifier=record['id'],
             title=record['title'],
             item_price=record['item_price'],
-            full_price=record['price']
+            full_price=record['price'],
+            category=record['category_key'],
         )
         product.save()
-        # product_id = product.identifier
 
     for color in record['colors']:
         image_data = requests.get(color['image']).content
@@ -30,25 +30,28 @@ def populate(record: dict) -> None:
         preview.image.save(record['id'] + '.jpg', ContentFile(image_data))
         preview.save()
 
+        product.previews.add(preview)
+
 
 async def parse() -> None:
-    category = scrapper.constants.CATEGORIES['GIRL_SET']
-
     service_classes = (
         scrapper.services.ZService,
         scrapper.services.IService,
     )
 
     for service_class in tqdm(iterable=service_classes):
-        service = service_class(category=category)
+        for key, category in scrapper.constants.CATEGORIES.items():
+            service = service_class(category=category)
 
-        records = service.all()
+            records = service.all()
 
-        async for record in records:
-            if not record:
-                continue
+            async for record in records:
+                if not record:
+                    continue
 
-            Thread(target=populate, args=(record,)).start()
+                record['category_key'] = key
+
+                Thread(target=populate, args=(record,)).start()
 
 
 @shared_task(name='populate_the_database')

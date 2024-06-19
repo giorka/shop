@@ -5,8 +5,9 @@ from aiohttp import ClientSession
 from bs4 import BeautifulSoup
 from loguru import logger
 
-from .constants import exchange_rates
 from server import settings
+
+from .constants import exchange_rates
 
 
 @dataclass
@@ -39,10 +40,7 @@ async def get_spider(url: str) -> BeautifulSoup:
         async with session.get(url=url) as request:
             markup: str = await request.text()
 
-    spider = BeautifulSoup(
-        markup=markup,
-        features='lxml'
-    )
+    spider = BeautifulSoup(markup=markup, features='lxml')
 
     spider.url = url
 

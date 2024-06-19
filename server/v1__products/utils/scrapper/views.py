@@ -5,8 +5,9 @@ from re import compile, findall
 from bs4 import BeautifulSoup, ResultSet
 from googletrans import Translator
 
-from . import utils
 from server import settings
+
+from . import utils
 
 
 @dataclass
@@ -15,23 +16,19 @@ class View(ABC):
 
     @property
     @abstractmethod
-    def title(self) -> str:
-        ...
+    def title(self) -> str: ...
 
     @property
     @abstractmethod
-    def price(self) -> float:
-        ...
+    def price(self) -> float: ...
 
     @property
     @abstractmethod
-    def colors(self) -> iter:
-        ...
+    def colors(self) -> iter: ...
 
     @property
     @abstractmethod
-    def _count(self) -> iter:
-        ...
+    def _count(self) -> iter: ...
 
     @property
     def dict(self):
@@ -46,7 +43,6 @@ class View(ABC):
             price=(price := self.price),
             item_price=round(price / self._count, 1),
             colors=[*self.colors],
-
         )
 
 
@@ -68,8 +64,7 @@ class IView(View):
     def colors(self):
         colors: ResultSet = self.spider.find_all(
             class_='sub-image-item',
-            attrs=dict(href="javascript:void(0);"),
-
+            attrs=dict(href='javascript:void(0);'),
         )
 
         yield from (
@@ -77,7 +72,6 @@ class IView(View):
                 image=color.select_one('figure > span > img').get('src'),
                 color=color.get('data-type').replace('-', '').replace(' ', '').upper(),
                 # stock=int(color.get('data-stock')),
-
             )
             for color in colors
         )
@@ -101,8 +95,10 @@ class ZView(View):
         return (
             self.spider.find(
                 name='div',
-                class_=compile(pattern='^col-12 col-lg-9 name fw8 fs24 lh24 mt7 colored op8 col-sm-fs16.*')
-            ).get_text().strip()[27:]
+                class_=compile(pattern='^col-12 col-lg-9 name fw8 fs24 lh24 mt7 colored op8 col-sm-fs16.*'),
+            )
+            .get_text()
+            .strip()[27:]
         )
 
     @property
@@ -111,24 +107,19 @@ class ZView(View):
             text=str(
                 self.spider.find_all(
                     name='script',
-                )[13]
-            )
+                )[13],
+            ),
         )
-        converter = utils.Converter(
-            value=price,
-            currency=self.currency
-        )
+        converter = utils.Converter(value=price, currency=self.currency)
 
         return converter.rubles
 
     @property
     def _count(self) -> int:
         return int(
-            self.spider.find(
-                class_='col-6 col-lg'
-            ).find(
-                class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14'
-            ).get_text(strip=True)
+            self.spider.find(class_='col-6 col-lg')
+            .find(class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14')
+            .get_text(strip=True),
         )
 
     @property
