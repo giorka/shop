@@ -24,7 +24,12 @@ def populate(record: dict) -> None:
         product.save()
 
     for color in record['colors']:
-        image_data = requests.get(color['image']).content
+        url = color['image']
+
+        if not url.lower().startswith('http'):
+            continue
+
+        image_data = requests.get(url).content
 
         preview = models.Preview(title=color['color'])
         preview.image.save(record['id'] + '.jpg', ContentFile(image_data))

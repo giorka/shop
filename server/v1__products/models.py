@@ -4,7 +4,7 @@ from django.db import models
 
 
 class Preview(models.Model):
-    title = models.CharField(max_length=256)  # Заголовок-название цвета
+    title = models.CharField(max_length=256)  # Заголовок-название цвета, TODO: max_length=64
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
 
     class Meta:
