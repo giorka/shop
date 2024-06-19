@@ -26,7 +26,7 @@ def populate(record: dict) -> None:
     for color in record['colors']:
         image_data = requests.get(color['image']).content
 
-        preview = models.Preview(title=record['id'])
+        preview = models.Preview(title=color['color'])
         preview.image.save(record['id'] + '.jpg', ContentFile(image_data))
         preview.save()
 
