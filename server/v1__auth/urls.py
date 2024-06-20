@@ -8,4 +8,5 @@ urlpatterns = (
     path('login/', djoser.TokenCreateView.as_view()),
     path('logout/', djoser.TokenDestroyView.as_view()),
     path('cart/', views.CartListCreateAPIView.as_view()),
+    path('cart/<str:identifier>/', views.CartDestroyAPIView.as_view()),
 )

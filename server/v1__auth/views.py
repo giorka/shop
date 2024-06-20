@@ -12,9 +12,9 @@ class UserCreateAPIView(generics.CreateAPIView):
 
 
 class CartListCreateAPIView(generics.ListCreateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.ProductSerializer
     model = serializer_class.Meta.model
-    permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self) -> QuerySet:
         return self.request.user.cart.all()
@@ -28,3 +28,17 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
         request.user.cart.add(self.get_object())
 
         return Response(data=self.serializer_class(self.get_object()).data, status=201)
+
+
+class CartDestroyAPIView(generics.DestroyAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = serializers.ProductSerializer
+    lookup_field = 'identifier'
+
+    def get_queryset(self) -> QuerySet:
+        return self.request.user.cart.all()
+
+    def destroy(self, request, *args, **kwargs) -> Response:
+        request.user.cart.remove(self.get_object())
+
+        return Response(status=204)

@@ -4,6 +4,7 @@ from djoser.utils import login_user as login
 from rest_framework import serializers
 
 from v1__products import models as v1__products_models
+from v1__products import serializers as v1__products_serializers
 
 from . import models
 
@@ -42,6 +43,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    previews = v1__products_serializers.PreviewSerializer(many=True)
+
     class Meta:
         model = v1__products_models.Product
-        fields = ('identifier',)
+        write_only_fields = ('identifier',)
+        exclude = ('likes',)
+        extra_kwargs: dict[str, dict] = {field: {'write_only': True} for field in write_only_fields}
