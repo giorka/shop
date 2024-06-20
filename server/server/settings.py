@@ -34,11 +34,14 @@ DJANGO_APPS = (
 APPS = (
     'v1',
     'v1__products',
+    'v1__auth',
 )
 
 INSTALLED_APPS = (
     *DJANGO_APPS,
     *APPS,
+    'djoser',
+    'rest_framework.authtoken',
 )
 
 MIDDLEWARE = (
@@ -108,6 +111,8 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+AUTH_USER_MODEL = 'v1__auth.User'
 
 STATIC_URL = 'static/'
 
