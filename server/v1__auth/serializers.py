@@ -47,6 +47,6 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = v1__products_models.Product
-        write_only_fields = ('identifier',)
         exclude = ('likes',)
-        extra_kwargs: dict[str, dict] = {field: {'write_only': True} for field in write_only_fields}
+        read_only_fields = ('title', 'previews', 'full_price', 'item_price', 'category')
+        extra_kwargs: dict[str, dict] = {field: {'read_only': True} for field in read_only_fields}
