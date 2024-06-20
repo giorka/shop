@@ -1,5 +1,7 @@
 from django.db import models
 
+from v1__auth.models import User
+
 # TODO: комментарии перенести в DOCSTRING
 
 
@@ -25,6 +27,7 @@ class Product(models.Model):
         related_name='products',
     )  # Продукт, которому принадлежит изображение
     category = models.CharField(max_length=64)
+    likes = models.ManyToManyField(to=User, related_name='cart')
 
     class Meta:
         verbose_name: str = 'Продукт'

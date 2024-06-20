@@ -3,6 +3,8 @@ from django.core import validators
 from djoser.utils import login_user as login
 from rest_framework import serializers
 
+from v1__products import models as v1__products_models
+
 from . import models
 
 
@@ -37,3 +39,9 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.save()
 
         return validated_data | {'auth_token': login(request=None, user=user)}
+
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = v1__products_models.Product
+        fields = ('identifier',)

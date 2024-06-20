@@ -7,5 +7,5 @@ urlpatterns = (
     path('register/', views.UserCreateAPIView.as_view()),
     path('login/', djoser.TokenCreateView.as_view()),
     path('logout/', djoser.TokenDestroyView.as_view()),
-    # path('cart/', views.CartListCreateAPIView.as_view()),
+    path('cart/', views.CartListCreateAPIView.as_view()),
 )

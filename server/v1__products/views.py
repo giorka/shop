@@ -5,7 +5,7 @@ from . import models, serializers
 
 
 class ProductListAPIView(generics.ListAPIView):
-    serializer_class = serializers.ProductModelSerializer
+    serializer_class = serializers.ProductSerializer
 
     def get_queryset(self) -> QuerySet:
         target = self.request.query_params.get('target')
