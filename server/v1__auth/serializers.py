@@ -36,6 +36,4 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
 
-        return validated_data | {
-            'auth_token': login(request=None, user=user),
-        }
+        return validated_data | {'auth_token': login(request=None, user=user)}
