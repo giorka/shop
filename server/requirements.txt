@@ -16,4 +16,5 @@ python-dotenv
 redis
 requests
 ruff
+social-auth-app-django
 tqdm

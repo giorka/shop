@@ -1,12 +1,18 @@
 from django.contrib.auth.password_validation import validate_password
 from django.core import validators
+from django.utils.crypto import get_random_string
 from djoser.utils import login_user as login
-from rest_framework import serializers
+from rest_framework import exceptions, serializers
+from social_core.backends.google import GoogleOAuth2
+from social_core.exceptions import AuthFailed
+from social_django.utils import load_strategy
 
 from v1__products import models as v1__products_models
 from v1__products import serializers as v1__products_serializers
 
 from . import models
+
+google = GoogleOAuth2(load_strategy())
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -38,6 +44,39 @@ class UserCreateSerializer(serializers.ModelSerializer):
         user = self.Meta.model(email=validated_data['email'])
         user.set_password(validated_data['password'])
         user.save()
+
+        return validated_data | {'auth_token': login(request=None, user=user)}
+
+
+class GoogleUserCreateSerializer(serializers.Serializer):
+    google_token = serializers.CharField(
+        max_length=216,
+        validators=(validators.MinLengthValidator(216),),
+        write_only=True,
+    )
+    auth_token = serializers.CharField(
+        max_length=40,
+        validators=(validators.MinLengthValidator(6),),
+        read_only=True,
+    )
+
+    class Meta:
+        model = models.User
+
+    def create(self, validated_data: dict) -> dict:
+        try:
+            email = google.user_data(validated_data['google_token'])['email']
+        except AuthFailed:
+            raise exceptions.ValidationError('Ключ недействителен.')
+
+        users_with_same_email = self.Meta.model.objects.filter(email=email)
+
+        if users_with_same_email.exists():
+            user = users_with_same_email.first()
+        else:
+            user = self.Meta.model(email=email)
+            user.set_password(get_random_string(length=128))
+            user.save()
 
         return validated_data | {'auth_token': login(request=None, user=user)}
 

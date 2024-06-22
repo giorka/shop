@@ -11,6 +11,10 @@ class UserCreateAPIView(generics.CreateAPIView):
     serializer_class = serializers.UserCreateSerializer
 
 
+class GoogleUserCreateAPIView(generics.CreateAPIView):
+    serializer_class = serializers.GoogleUserCreateSerializer
+
+
 class CartListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = serializers.ProductSerializer
