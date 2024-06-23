@@ -1,0 +1,37 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: debug-statements
+      - id: double-quote-string-fixer
+      - id: requirements-txt-fixer
+  - repo: https://github.com/asottile/setup-cfg-fmt
+    rev: v2.5.0
+    hooks:
+      - id: setup-cfg-fmt
+  - repo: local
+    hooks:
+      - id: reorder-python-imports
+        name: reorder-python-imports
+        entry: ruff check --select I --fix
+        language: system
+        pass_filenames: false
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.1.0
+    hooks:
+      - id: add-trailing-comma
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v3.15.2
+    hooks:
+      - id: pyupgrade
+        args: [ --py38-plus ]
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        entry: ruff format server
+        language: system
+        pass_filenames: false
