@@ -75,7 +75,6 @@ class GoogleUserCreateSerializer(serializers.Serializer):
             user = users_with_same_email.first()
         else:
             user = self.Meta.model(email=email)
-            user.set_password(get_random_string(length=128))
             user.save()
 
         return validated_data | {'auth_token': login(request=None, user=user)}
