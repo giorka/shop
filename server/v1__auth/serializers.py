@@ -1,6 +1,5 @@
 from django.contrib.auth.password_validation import validate_password
 from django.core import validators
-from django.utils.crypto import get_random_string
 from djoser.utils import login_user as login
 from rest_framework import exceptions, serializers
 from social_core.backends.google import GoogleOAuth2
