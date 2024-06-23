@@ -8,3 +8,13 @@ services:
     restart: unless-stopped
     ports:
       - "7000:7000"
+      -
+  tg_bot:
+    build:
+      context: tg_bot/
+      dockerfile: Dockerfile
+    image: tg_bot
+    container_name: tg_bot
+    restart: unless-stopped
+    ports:
+      - "6000:6000"
