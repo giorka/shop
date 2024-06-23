@@ -1,6 +1,8 @@
+from django.core import validators
 from django.db import models
 
 from v1__auth.models import User
+from v1__products.utils.scrapper.constants import CATEGORIES
 
 # TODO: комментарии перенести в DOCSTRING
 
@@ -32,6 +34,14 @@ class Product(models.Model):
     class Meta:
         verbose_name: str = 'Продукт'
         verbose_name_plural: str = 'Продукты'
+
+
+class CategoryMarkup(models.Model):
+    category = models.CharField(max_length=32, primary_key=True)
+    markup = models.IntegerField(
+        validators=(validators.MinValueValidator(0), validators.MaxValueValidator(100)),
+        choices=[(key, key) for key in CATEGORIES.keys()],
+    )
 
 
 """
