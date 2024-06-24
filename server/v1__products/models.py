@@ -37,11 +37,17 @@ class Product(models.Model):
 
 
 class CategoryMarkup(models.Model):
-    category = models.CharField(max_length=32, primary_key=True)
-    markup = models.IntegerField(
-        validators=(validators.MinValueValidator(0), validators.MaxValueValidator(100)),
+    category = models.CharField(
+        max_length=32,
+        primary_key=True,
         choices=[(key, key) for key in CATEGORIES.keys()],
     )
+    markup = models.IntegerField(
+        validators=(validators.MinValueValidator(0), validators.MaxValueValidator(100)),
+    )
+
+    def __str__(self) -> str:
+        return f'{self.category} -> +{self.markup}%'
 
 
 """
