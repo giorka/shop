@@ -7,8 +7,6 @@ from googletrans import Translator
 
 from server import settings
 
-from . import utils
-
 
 @dataclass
 class View(ABC):
@@ -20,7 +18,7 @@ class View(ABC):
 
     @property
     @abstractmethod
-    def price(self) -> float: ...
+    def price(self) -> tuple[str, float]: ...
 
     @property
     @abstractmethod
@@ -37,28 +35,28 @@ class View(ABC):
         except AttributeError:
             return {}
 
+        currency, price = self.price
+
         return dict(
-            id=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
+            identifier=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
             title=self.title,
-            price=(price := self.price),
-            item_price=round(price / self._count, 1),
+            full_price=price,
+            item_price=round(price / self._count, 2),
+            currency=currency,
             colors=[*self.colors],
         )
 
 
 class IView(View):
-    currency: str = 'USD'
+    currency = 'USD'
 
     @property
     def title(self):
         return self.spider.find(id='product-title').text
 
     @property
-    def price(self):
-        value: float = float(self.spider.find(class_='product-price').text.replace(',', '.'))
-        converter: utils.Converter = utils.Converter(value=value, currency=self.currency)
-
-        return converter.rubles
+    def price(self) -> tuple[str, float]:
+        return self.currency, float(self.spider.find(class_='product-price').text.replace(',', '.'))
 
     @property
     def colors(self):
@@ -83,8 +81,8 @@ class IView(View):
 
 class ZView(View):
     translator: Translator = Translator()
-    currency: str = 'TRY'
-    pattern: str = r'value: (\d*\.\d*),'
+    currency = 'TRY'
+    pattern = r'value: (\d*\.\d*),'
 
     @classmethod
     def extract_value(cls, text: str) -> float:
@@ -102,17 +100,14 @@ class ZView(View):
         )
 
     @property
-    def price(self) -> float:
-        price: float = self.extract_value(
+    def price(self) -> tuple[str, float]:
+        return self.currency, self.extract_value(
             text=str(
                 self.spider.find_all(
                     name='script',
                 )[13],
             ),
         )
-        converter = utils.Converter(value=price, currency=self.currency)
-
-        return converter.rubles
 
     @property
     def _count(self) -> int:
@@ -135,15 +130,6 @@ class ZView(View):
 
             if not bool(text):
                 continue
-
-            # try:
-            #     translated_color: str = self.translator.translate(
-            #         text=text,
-            #         dest='ru',
-            #         src='tr',
-            #     ).text
-            # except TypeError:
-            #     continue
 
             yield dict(
                 image=color.get('src'),

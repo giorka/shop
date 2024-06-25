@@ -44,6 +44,8 @@ class Service(ABC):
             print(spider)
             return None
 
+        print(self.view)
+
         return self.view(spider=spider).dict
 
     async def all(self) -> iter:

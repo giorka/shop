@@ -24,6 +24,7 @@ class Product(models.Model):
     title = models.CharField(max_length=256)  # Заголовок
     full_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за упаковку в дробях
     item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
+    currency = models.CharField(max_length=3)
     previews = models.ManyToManyField(
         to=Preview,
         related_name='products',

@@ -14,28 +14,25 @@ from v1__products.utils import scrapper
 
 def populate(record: dict) -> None:
     with suppress(IntegrityError):
-        product = models.Product(
-            identifier=record['id'],
-            title=record['title'],
-            item_price=record['item_price'],
-            full_price=record['price'],
-            category=record['category_key'],
-        )
+        colors = record['colors']
+        del record['colors']
+
+        product = models.Product(**record)
         product.save()
 
-    for color in record['colors']:
-        url = color['image']
+        for color in colors:
+            url = color['image']
 
-        if not url.lower().startswith('http'):
-            continue
+            if not url.lower().startswith('http'):
+                continue
 
-        image_data = requests.get(url).content
+            image_data = requests.get(url).content
 
-        preview = models.Preview(title=color['color'])
-        preview.image.save(record['id'] + '.jpg', ContentFile(image_data))
-        preview.save()
+            preview = models.Preview(title=color['color'])
+            preview.image.save(record['identifier'] + '.jpg', ContentFile(image_data))
+            preview.save()
 
-        product.previews.add(preview)
+            product.previews.add(preview)
 
 
 async def parse() -> None:
@@ -54,7 +51,7 @@ async def parse() -> None:
                 if not record:
                     continue
 
-                record['category_key'] = key
+                record['category'] = key
 
                 Thread(target=populate, args=(record,)).start()
 
