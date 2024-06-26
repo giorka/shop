@@ -1,25 +1,37 @@
 from __future__ import annotations
 
 import os
-from json import loads
 from os import getenv
 from pathlib import Path
 
-from dotenv import load_dotenv
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
-DEBUG = getenv(key='DEBUG')
 
-if not DEBUG:
-    load_dotenv()
-    DEBUG = loads(getenv(key='DEBUG'))
-else:
-    DEBUG = loads(DEBUG)
+class Settings(BaseSettings):
+    secret_key: str = 'secret-key'
+    debug: bool = True
+
+    db_engine: str = 'postgresql'
+    db_name: str = 'db'
+
+    db_user: str = 'admin'
+    db_password: str = 'admin'
+
+    db_host: str = 'localhost'
+    db_port: str = '5432'
+
+    model_config = SettingsConfigDict(env_file='.env')
+
+
+settings = Settings()
+
+DEBUG = settings.debug
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = getenv(key='SECRET_KEY')
+SECRET_KEY = settings.secret_key
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 DJANGO_APPS = (
     'django.contrib.admin',
@@ -80,12 +92,12 @@ REST_FRAMEWORK = {
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.' + getenv(key='DB_ENGINE'),
-        'NAME': getenv(key='DB_NAME'),
-        'USER': getenv(key='DB_USER'),
-        'PASSWORD': getenv(key='DB_PASSWORD'),
-        'HOST': getenv(key='DB_HOST'),
-        'PORT': getenv(key='DB_PORT'),
+        'ENGINE': 'django.db.backends.' + settings.db_engine,
+        'NAME': settings.db_name,
+        'USER': settings.db_user,
+        'PASSWORD': settings.db_password,
+        'HOST': settings.db_host,
+        'PORT': settings.db_port,
     },
 }
 
