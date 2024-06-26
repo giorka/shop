@@ -1,24 +1,26 @@
 from __future__ import annotations
 
 import os
-from os import getenv
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    # DJANGO
     secret_key: str = 'secret-key'
     debug: bool = True
 
+    # DB
     db_engine: str = 'postgresql'
     db_name: str = 'db'
-
     db_user: str = 'admin'
     db_password: str = 'admin'
-
     db_host: str = 'localhost'
     db_port: str = '5432'
+
+    # BROKER
+    broker_irl: str = 'redis://localhost:6379/0'
 
     model_config = SettingsConfigDict(env_file='.env')
 
@@ -130,8 +132,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = settings.broker_irl
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
