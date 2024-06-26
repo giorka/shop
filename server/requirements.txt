@@ -18,3 +18,5 @@ requests
 ruff
 social-auth-app-django
 tqdm
+amqp
+gunicorn

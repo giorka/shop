@@ -7,19 +7,15 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-DEBUG = getenv(key='DEBUG')
+load_dotenv()
 
-if not DEBUG:
-    load_dotenv()
-    DEBUG = loads(getenv(key='DEBUG'))
-else:
-    DEBUG = loads(DEBUG)
+DEBUG = False
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = getenv(key='SECRET_KEY')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 DJANGO_APPS = (
     'django.contrib.admin',
@@ -33,8 +29,8 @@ DJANGO_APPS = (
 
 APPS = (
     'v1',
-    'v1__products',
     'v1__auth',
+    'v1__products',
 )
 
 INSTALLED_APPS = (
@@ -114,12 +110,13 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'v1__auth.User'
 
-STATIC_URL = 'static/'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "mediafiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CELERY_BROKER_URL = 'amqp://guest:guest@localhost:5672'
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CELERY_BROKER_URL = 'amqp://rmuser:rmpassword@rabbitmq:5672'
+# CELERY_BROKER_URL = 'redis://localhost:6379/0'

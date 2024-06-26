@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    username = first_name = last_name = None  # Удаляем поля
+    first_name = last_name = None  # Удаляем поля
     email = models.EmailField(primary_key=True)
 
     USERNAME_FIELD = 'email'

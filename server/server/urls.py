@@ -4,7 +4,7 @@ from django.urls import include, path
 
 from server import settings
 
-django_urlpatterns = (path('admin/', admin.site.urls),)
+django_urlpatterns = (path('api/admin/', admin.site.urls),)
 
 urlpatterns = (
     *django_urlpatterns,
@@ -12,3 +12,4 @@ urlpatterns = (
 )
 
 urlpatterns += tuple(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
+urlpatterns += tuple(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
