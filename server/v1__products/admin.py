@@ -4,5 +4,4 @@ from . import models
 
 
 @admin.register(models.CategoryMarkup)
-class CategoryMarkupAdmin(admin.ModelAdmin):
-    readonly_fields = ('category',)
+class CategoryMarkupAdmin(admin.ModelAdmin): ...
