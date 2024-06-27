@@ -40,6 +40,7 @@ class View(ABC):
         currency, price = self.price
 
         return dict(
+            url=self.spider.url,
             identifier=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
             title=self.title,
             full_price=price,

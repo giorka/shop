@@ -1,4 +1,5 @@
 import asyncio
+import io
 from contextlib import suppress
 from threading import Thread
 
@@ -6,18 +7,30 @@ import requests
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.db import IntegrityError
+from qrcode import QRCode, constants
 from tqdm import tqdm
 
 from v1__products import models
 from v1__products.utils import scrapper
 
+qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
+
 
 def populate(record: dict) -> None:
-    with suppress(IntegrityError):
-        colors = record['colors']
-        del record['colors']
+    url, colors = record['url'], record['colors']
+    del record['colors'], record['url']
 
+    qr.add_data(url)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color='black', back_color='white')
+    image_stream = io.BytesIO()
+    qr_image.save(image_stream)
+    image_bytes = image_stream.getvalue()
+    qr.clear()
+
+    with suppress(IntegrityError):
         product = models.Product(**record)
+        product.qrcode.save(record['identifier'] + '.jpg', ContentFile(image_bytes))
         product.save()
 
         for color in colors:
