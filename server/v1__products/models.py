@@ -8,7 +8,7 @@ from v1__products.utils.scrapper.constants import CATEGORIES
 
 
 class Preview(models.Model):
-    title = models.CharField(max_length=256)  # Заголовок-название цвета, TODO: max_length=64
+    title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
 
     class Meta:
@@ -24,6 +24,8 @@ class Product(models.Model):
     title = models.CharField(max_length=256)  # Заголовок
     full_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за упаковку в дробях
     item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
+    package_count = models.IntegerField()
+    sizes = models.CharField(max_length=64)
     currency = models.CharField(max_length=3)
     previews = models.ManyToManyField(
         to=Preview,

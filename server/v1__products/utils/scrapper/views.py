@@ -2,10 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from re import compile, findall
 
-from bs4 import BeautifulSoup, ResultSet
+from bs4 import BeautifulSoup, ResultSet, Tag
 from googletrans import Translator
-
-from server import settings
 
 
 @dataclass
@@ -26,7 +24,11 @@ class View(ABC):
 
     @property
     @abstractmethod
-    def _count(self) -> iter: ...
+    def package_count(self) -> iter: ...
+
+    @property
+    @abstractmethod
+    def sizes(self) -> str: ...
 
     @property
     def dict(self):
@@ -41,8 +43,10 @@ class View(ABC):
             identifier=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
             title=self.title,
             full_price=price,
-            item_price=round(price / self._count, 2),
+            item_price=round(price / self.package_count, 2),
             currency=currency,
+            package_count=self.package_count,
+            sizes=self.sizes,
             colors=[*self.colors],
         )
 
@@ -59,7 +63,11 @@ class IView(View):
         return self.currency, float(self.spider.find(class_='product-price').text.replace(',', '.'))
 
     @property
-    def colors(self):
+    def package_count(self) -> int:
+        return int(self.spider.find(class_='form-control no-arrows text-center').get('value'))
+
+    @property
+    def colors(self) -> iter:
         colors: ResultSet = self.spider.find_all(
             class_='sub-image-item',
             attrs=dict(href='javascript:void(0);'),
@@ -75,8 +83,27 @@ class IView(View):
         )
 
     @property
-    def _count(self) -> int:
-        return int(self.spider.find(class_='form-control no-arrows text-center').get('value'))
+    def _tables_data(self) -> dict[str, str]:
+        tables = self.spider.find_all('table')
+        tables_data = {}
+
+        for table in tables:
+            body: Tag = table.find('tbody')
+
+            for row in body.find_all('tr'):
+                columns = row.find_all('td')
+
+                title, value = map(lambda column: column.get_text(strip=True), columns)
+
+                tables_data[title.lower()] = value
+
+        return tables_data
+
+    @property
+    def sizes(self) -> str:
+        tables_data = self._tables_data
+
+        return tables_data.get('size range') or tables_data.get('Размер/Возрастной промежуток')
 
 
 class ZView(View):
@@ -110,7 +137,7 @@ class ZView(View):
         )
 
     @property
-    def _count(self) -> int:
+    def package_count(self) -> int:
         return int(
             self.spider.find(class_='col-6 col-lg')
             .find(class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14')
@@ -123,9 +150,6 @@ class ZView(View):
         colors = container.find_all(class_='img-fluid')
 
         for color in colors:
-            if settings.DEBUG:
-                print(color)
-
             text = color.get('alt')
 
             if not bool(text):
@@ -135,3 +159,7 @@ class ZView(View):
                 image=color.get('src'),
                 color=text.upper(),
             )
+
+    @property
+    def sizes(self) -> str:
+        return self.spider.find(class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14').get_text(strip=True)
