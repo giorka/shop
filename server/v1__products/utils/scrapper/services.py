@@ -41,7 +41,6 @@ class Service(ABC):
             return await self.get_dict(url=url)
 
         if not spider:
-            print(spider)
             return None
 
         return self.view(spider=spider).dict
@@ -60,18 +59,6 @@ class Service(ABC):
                 continue
 
             yield information
-
-        # tasks: list = []
-        #
-        # async for link in links:
-        #     task = self.get_dict(url=link)
-        #     tasks.append(task)
-        #
-        # for information in await gather(*tasks):
-        #     if not information:
-        #         continue
-        #
-        #     yield information
 
 
 class IService(Service):

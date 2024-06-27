@@ -2,12 +2,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from re import compile, findall
 
-from bs4 import BeautifulSoup, ResultSet
+from bs4 import BeautifulSoup, ResultSet, Tag
 from googletrans import Translator
-
-from server import settings
-
-from . import utils
 
 
 @dataclass
@@ -20,7 +16,7 @@ class View(ABC):
 
     @property
     @abstractmethod
-    def price(self) -> float: ...
+    def price(self) -> tuple[str, float]: ...
 
     @property
     @abstractmethod
@@ -28,7 +24,11 @@ class View(ABC):
 
     @property
     @abstractmethod
-    def _count(self) -> iter: ...
+    def package_count(self) -> iter: ...
+
+    @property
+    @abstractmethod
+    def sizes(self) -> str: ...
 
     @property
     def dict(self):
@@ -37,31 +37,38 @@ class View(ABC):
         except AttributeError:
             return {}
 
+        currency, price = self.price
+
         return dict(
-            id=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
+            url=self.spider.url,
+            identifier=findall(string=self.spider.url, pattern=r'\/([^\/]+)$')[0],
             title=self.title,
-            price=(price := self.price),
-            item_price=round(price / self._count, 1),
+            full_price=price,
+            item_price=round(price / self.package_count, 2),
+            currency=currency,
+            package_count=self.package_count,
+            sizes=self.sizes,
             colors=[*self.colors],
         )
 
 
 class IView(View):
-    currency: str = 'USD'
+    currency = 'USD'
 
     @property
     def title(self):
         return self.spider.find(id='product-title').text
 
     @property
-    def price(self):
-        value: float = float(self.spider.find(class_='product-price').text.replace(',', '.'))
-        converter: utils.Converter = utils.Converter(value=value, currency=self.currency)
-
-        return converter.rubles
+    def price(self) -> tuple[str, float]:
+        return self.currency, float(self.spider.find(class_='product-price').text.replace(',', '.'))
 
     @property
-    def colors(self):
+    def package_count(self) -> int:
+        return int(self.spider.find(class_='form-control no-arrows text-center').get('value'))
+
+    @property
+    def colors(self) -> iter:
         colors: ResultSet = self.spider.find_all(
             class_='sub-image-item',
             attrs=dict(href='javascript:void(0);'),
@@ -77,14 +84,33 @@ class IView(View):
         )
 
     @property
-    def _count(self) -> int:
-        return int(self.spider.find(class_='form-control no-arrows text-center').get('value'))
+    def _tables_data(self) -> dict[str, str]:
+        tables = self.spider.find_all('table')
+        tables_data = {}
+
+        for table in tables:
+            body: Tag = table.find('tbody')
+
+            for row in body.find_all('tr'):
+                columns = row.find_all('td')
+
+                title, value = map(lambda column: column.get_text(strip=True), columns)
+
+                tables_data[title.lower()] = value
+
+        return tables_data
+
+    @property
+    def sizes(self) -> str:
+        tables_data = self._tables_data
+
+        return tables_data.get('size range') or tables_data.get('Размер/Возрастной промежуток')
 
 
 class ZView(View):
     translator: Translator = Translator()
-    currency: str = 'TRY'
-    pattern: str = r'value: (\d*\.\d*),'
+    currency = 'TRY'
+    pattern = r'value: (\d*\.\d*),'
 
     @classmethod
     def extract_value(cls, text: str) -> float:
@@ -102,20 +128,17 @@ class ZView(View):
         )
 
     @property
-    def price(self) -> float:
-        price: float = self.extract_value(
+    def price(self) -> tuple[str, float]:
+        return self.currency, self.extract_value(
             text=str(
                 self.spider.find_all(
                     name='script',
                 )[13],
             ),
         )
-        converter = utils.Converter(value=price, currency=self.currency)
-
-        return converter.rubles
 
     @property
-    def _count(self) -> int:
+    def package_count(self) -> int:
         return int(
             self.spider.find(class_='col-6 col-lg')
             .find(class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14')
@@ -128,24 +151,16 @@ class ZView(View):
         colors = container.find_all(class_='img-fluid')
 
         for color in colors:
-            if settings.DEBUG:
-                print(color)
-
             text = color.get('alt')
 
             if not bool(text):
                 continue
 
-            # try:
-            #     translated_color: str = self.translator.translate(
-            #         text=text,
-            #         dest='ru',
-            #         src='tr',
-            #     ).text
-            # except TypeError:
-            #     continue
-
             yield dict(
                 image=color.get('src'),
                 color=text.upper(),
             )
+
+    @property
+    def sizes(self) -> str:
+        return self.spider.find(class_='colored op8 fw7 fs16 lh16 col-sm-fs14 col-sm-lh14').get_text(strip=True)

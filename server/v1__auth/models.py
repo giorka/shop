@@ -4,10 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     first_name = last_name = None  # Удаляем поля
-    email = models.EmailField(primary_key=True)
-
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ('username',)
+    email = models.EmailField(unique=True)
 
     class Meta:
         verbose_name = 'Пользователь'
@@ -15,3 +12,7 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return self.Meta.verbose_name.lower()
+
+    def save(self, *args, **kwargs) -> None:
+        self.username = self.email
+        super().save(*args, **kwargs)

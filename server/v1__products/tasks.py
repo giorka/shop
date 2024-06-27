@@ -1,4 +1,5 @@
 import asyncio
+import io
 from contextlib import suppress
 from threading import Thread
 
@@ -6,36 +7,45 @@ import requests
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.db import IntegrityError
+from qrcode import QRCode, constants
 from tqdm import tqdm
 
 from v1__products import models
 from v1__products.utils import scrapper
 
+qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
+
 
 def populate(record: dict) -> None:
+    url, colors = record['url'], record['colors']
+    del record['colors'], record['url']
+
+    qr.add_data(url)
+    qr.make(fit=True)
+    qr_image = qr.make_image(fill_color='black', back_color='white')
+    image_stream = io.BytesIO()
+    qr_image.save(image_stream)
+    image_bytes = image_stream.getvalue()
+    qr.clear()
+
     with suppress(IntegrityError):
-        product = models.Product(
-            identifier=record['id'],
-            title=record['title'],
-            item_price=record['item_price'],
-            full_price=record['price'],
-            category=record['category_key'],
-        )
+        product = models.Product(**record)
+        product.qrcode.save(record['identifier'] + '.jpg', ContentFile(image_bytes))
         product.save()
 
-    for color in record['colors']:
-        url = color['image']
+        for color in colors:
+            url = color['image']
 
-        if not url.lower().startswith('http'):
-            continue
+            if not url.lower().startswith('http'):
+                continue
 
-        image_data = requests.get(url).content
+            image_data = requests.get(url).content
 
-        preview = models.Preview(title=color['color'])
-        preview.image.save(record['id'] + '.jpg', ContentFile(image_data))
-        preview.save()
+            preview = models.Preview(title=color['color'])
+            preview.image.save(record['identifier'] + '.jpg', ContentFile(image_data))
+            preview.save()
 
-        product.previews.add(preview)
+            product.previews.add(preview)
 
 
 async def parse() -> None:
@@ -54,7 +64,7 @@ async def parse() -> None:
                 if not record:
                     continue
 
-                record['category_key'] = key
+                record['category'] = key
 
                 Thread(target=populate, args=(record,)).start()
 
