@@ -35,6 +35,31 @@ SECRET_KEY = settings.secret_key
 
 ALLOWED_HOSTS = ['*']
 
+# CSRF_TRUSTED_ORIGINS = ["https://kidsland-store.com", "http://kidsland-store.com", "http://localhost:3000"]
+
+# CORS_ORIGIN_WHITELIST = ("https://kidsland-store.com", "http://kidsland-store.com", "http://localhost:3000", "http://0.0.0.0:3000", "http://127.0.0.1:3000")
+CORS_ORIGIN_ALLOW_ALL = True
+СORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = (
+    "GET",
+    "POST",
+    "OPTIONS"
+)
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+    'Access-Control-Allow-Headers',
+    'Access-Control-Allow-Credentials',
+    "Access-Control-Allow-Origin"
+]
+
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -56,9 +81,11 @@ INSTALLED_APPS = (
     *APPS,
     'djoser',
     'rest_framework.authtoken',
+    "corsheaders"
 )
 
 MIDDLEWARE = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
