@@ -46,9 +46,7 @@ class CategoryMarkup(models.Model):
         primary_key=True,
         choices=[(key, key) for key in CATEGORIES.keys()],
     )
-    markup = models.IntegerField(
-        validators=(validators.MinValueValidator(0), validators.MaxValueValidator(100)),
-    )
+    markup = models.IntegerField(validators=(validators.MinValueValidator(0),))
 
     def __str__(self) -> str:
         return f'{self.category} -> +{self.markup}%'
