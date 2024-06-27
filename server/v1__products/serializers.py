@@ -28,10 +28,10 @@ class ProductSerializer(serializers.ModelSerializer):
     def markup(prices: dict[str, int | float], category: str) -> dict[str, int | float]:
         markup_queryset = models.CategoryMarkup.objects.filter(category=category)
 
-        markup: models.CategoryMarkup | None = None
-
         if markup_queryset.exists():
-            markup = markup_queryset.first()
+            markup: models.CategoryMarkup | None = markup_queryset.first()
+        else:
+            return prices
 
         prices = prices.copy()
 
