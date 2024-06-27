@@ -36,7 +36,7 @@ class ProductSerializer(serializers.ModelSerializer):
         prices = prices.copy()
 
         for key, price in prices.items():
-            prices[key] += (price / 100) * markup.markup
+            prices[key] = (price / 100) * markup.markup
 
         return prices
 

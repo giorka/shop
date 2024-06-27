@@ -49,7 +49,7 @@ class CategoryMarkup(models.Model):
     markup = models.IntegerField(validators=(validators.MinValueValidator(0),))
 
     def __str__(self) -> str:
-        return f'{self.category} -> +{self.markup}%'
+        return f'{self.category} {self.markup}%'
 
 
 """
