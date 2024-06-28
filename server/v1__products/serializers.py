@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta, timezone
+
 from rest_framework import serializers
 
 from . import models
@@ -13,10 +15,11 @@ class PreviewSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     previews = PreviewSerializer(many=True)
     prices = serializers.SerializerMethodField()
+    is_new = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Product
-        exclude = ('full_price', 'item_price', 'likes')
+        exclude = ('full_price', 'item_price', 'likes', 'created_at')
 
     @staticmethod
     def get_price(price: int | float, currency: str) -> dict[str, int | float]:
@@ -45,3 +48,9 @@ class ProductSerializer(serializers.ModelSerializer):
         prices_map = cls.markup({'full_price': obj.full_price, 'item_price': obj.item_price}, category=obj.category)
 
         return {text: cls.get_price(price=price, currency=obj.currency) for text, price in prices_map.items()}
+
+    @staticmethod
+    def get_is_new(obj: models.Product) -> bool:
+        ten_days_ago = datetime.now().replace(tzinfo=timezone.utc) - timedelta(days=10)
+
+        return obj.created_at > ten_days_ago
