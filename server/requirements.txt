@@ -1,7 +1,9 @@
 aiohttp
+boto3
 bs4
 celery
 django
+django-storages
 djangorestframework
 djoser
 flake8

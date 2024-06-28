@@ -43,6 +43,7 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'storages',
 )
 
 APPS = (
@@ -136,3 +137,12 @@ CELERY_BROKER_URL = settings.broker_irl
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+AWS_ACCESS_KEY_ID = '46c5d90c12f44db3825f24963dec333d'
+AWS_SECRET_ACCESS_KEY = 'a3dcad57375043829c62350dcd349825'
+
+AWS_STORAGE_BUCKET_NAME = 'testshop'
+
+AWS_S3_CUSTOM_DOMAIN = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.storage.selcloud.ru'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
