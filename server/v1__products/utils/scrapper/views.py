@@ -103,6 +103,7 @@ class IView(View):
     @property
     def sizes(self) -> str:
         tables_data = self._tables_data
+        print(tables_data)
 
         return tables_data.get('size range') or tables_data.get('Размер/Возрастной промежуток')
 
