@@ -22,6 +22,14 @@ class Settings(BaseSettings):
     # BROKER
     broker_irl: str = 'redis://localhost:6379/0'
 
+    # S3
+    s3: bool = False
+    s3_key_id: str = 's3-key-id'
+    s3_access_key: str = 's3-access-key'
+    s3_bucket_name: str = 's3-bucket-name'
+    s3_endpoint_url: str = 'https://user-id.r2.cloudflarestorage.com'
+    s3_custom_domain: str = 's3-custom-domain'
+
     model_config = SettingsConfigDict(env_file='.env')
 
 
@@ -138,11 +146,11 @@ CELERY_BROKER_URL = settings.broker_irl
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-AWS_ACCESS_KEY_ID = '46c5d90c12f44db3825f24963dec333d'
-AWS_SECRET_ACCESS_KEY = 'a3dcad57375043829c62350dcd349825'
+AWS_ACCESS_KEY_ID = settings.s3_key_id
+AWS_SECRET_ACCESS_KEY = settings.s3_access_key
+AWS_STORAGE_BUCKET_NAME = settings.s3_bucket_name
+AWS_S3_ENDPOINT_URL = settings.s3_endpoint_url
+AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
 
-AWS_STORAGE_BUCKET_NAME = 'testshop'
-
-AWS_S3_CUSTOM_DOMAIN = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.storage.selcloud.ru'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+if settings.s3:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
