@@ -7,3 +7,5 @@ from . import models
 class UserAdmin(admin.ModelAdmin):
     fields = ['email', 'last_login']
     readonly_fields = ['email', 'last_login']
+    search_fields = ['email']
+    actions = None
