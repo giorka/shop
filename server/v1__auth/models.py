@@ -7,11 +7,11 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
 
     class Meta:
-        verbose_name = 'Пользователь'
-        verbose_name_plural = 'Пользователи'
+        verbose_name = 'пользователь'
+        verbose_name_plural = 'пользователи'
 
     def __str__(self) -> str:
-        return self.Meta.verbose_name.lower()
+        return str(self.email)
 
     def save(self, *args, **kwargs) -> None:
         self.username = self.email
