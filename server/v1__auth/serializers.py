@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.password_validation import validate_password
 from django.core import validators
 from djoser.utils import login_user as login
@@ -9,7 +10,7 @@ from social_django.utils import load_strategy
 from v1__products import models as v1__products_models
 from v1__products import serializers as v1__products_serializers
 
-from . import models
+from . import models, utils
 
 google = GoogleOAuth2(load_strategy())
 
@@ -77,6 +78,26 @@ class GoogleUserCreateSerializer(serializers.Serializer):
             user.save()
 
         return validated_data | {'auth_token': login(request=None, user=user)}
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(validators=(validate_password,))
+    new_password = serializers.CharField(validators=(validate_password,))
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self._user: AbstractUser | None = None
+
+    def validate_password(self, value: str) -> str:
+        self._user: AbstractUser = self.context['request'].user
+
+        if not self._user.check_password(raw_password=value):
+            raise exceptions.ValidationError('The password is incorrect.')
+
+        return value
+
+    def save(self, **kwargs) -> None:
+        utils.cp(self._user, new_password=self.validated_data['new_password'])
 
 
 class ProductSerializer(serializers.ModelSerializer):
