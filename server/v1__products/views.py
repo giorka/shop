@@ -4,11 +4,12 @@ from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import generics
 
-from . import models, serializers
+from . import models, paginations, serializers
 
 
 class ProductListAPIView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
+    pagination_class = paginations.ProductPagination
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
     filterset_fields = ['category']
