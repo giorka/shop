@@ -1,0 +1,53 @@
+.map {
+    height: 955px;
+    width: 100%;
+    border: none;
+}
+
+.title {
+    padding: 50px 70px;
+    width: 100%;
+}
+
+.title h2 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 43.57px;
+    text-align: left;
+    
+}
+
+.info {
+    background-color: #2076E4;
+    height: 666px;
+    width: 666px;
+    position: absolute;
+    left: 60px;
+    padding: 168px 40px 188px;
+}
+
+.info p {
+    color: white;
+    font-size: 33px;
+    font-weight: 600;
+    line-height: 39.94px;
+    text-align: left;
+}
+
+.email {
+    margin-top: 100px;
+}
+
+p span {
+    text-decoration: underline;
+}
+
+.icons {
+    margin-top: 50px;
+    display: flex;
+    gap: 20px;
+}
+
+.footer {
+    display: none;
+}

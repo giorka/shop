@@ -1,0 +1,88 @@
+.buttons {
+    display: flex;
+    gap: 25px;
+}
+
+.button {
+    background-color: white;
+    border: 1px solid #83878C;
+    padding: 20px 25px;
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 43.57px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.select {
+    background-color: #2076E4;
+    color: white;
+    border: none;
+}
+
+.login {
+    display: flex;
+}
+
+.login_content {
+    margin: 130px auto 300px auto;
+}
+
+form {
+    margin-top: 20px;
+    border-radius: 10px;
+    border: 1px solid #83878C;
+    padding: 10px 30px 42px;
+}
+
+form input {
+    width: 100%;
+    padding: 18px 22px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24.2px;
+    border: 1px solid #83878C;
+    display: block;
+    margin-top: 20px;
+}
+
+form button {
+    cursor: pointer;
+    margin-top: 20px;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 29px;
+    display: block;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31.47px;
+    color: white;
+}
+
+.button_login {
+    background-color: #2076E4;
+}
+
+.button_registartion {
+    background-color: #E22B59;
+}
+
+.google {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 12px 22px;
+    border: 1px solid #83878C;
+    background-color: white;
+}
+
+.google div {
+    transform: translate(-20px);
+    width: 100%;
+    text-align: center;
+    color:#83878C;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24.2px;
+}

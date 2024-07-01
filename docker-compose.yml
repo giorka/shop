@@ -13,6 +13,15 @@ services:
       - ./certbot/www:/var/www/certbot
     restart: unless-stopped
 
+  frontend:
+    build:
+      context: frontend/
+      dockerfile: Dockerfile
+    image: frontend
+    container_name: frontend
+    ports:
+      - "3000:3000"
+
   backend:
     build:
       context: server/
@@ -25,9 +34,9 @@ services:
       - ./server/staticfiles:/backend_root/staticfiles
       - ./server/mediafiles:/backend_root/mediafiles
     depends_on:
-      - postgres_db
-      - celery_worker
       - celery_beat
+      - celery_worker
+      - postgres_db
     ports:
       - "7000:7000"
     

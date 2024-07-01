@@ -1,0 +1,84 @@
+.container {
+    width: 92%;
+    margin: 0 auto;
+}
+
+.info {
+    padding: 110px 0 38px;
+    width: 90%;
+}
+
+.info h2 {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48.41px;
+}
+
+.info_items {
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.info_item {
+    height: 250px;
+}
+
+.info_item_content {
+    max-width: 673px;
+    display: flex;
+    align-items: center;
+    height: 174px;
+    gap: 20px;
+}
+
+.redCircle {
+    min-width: 85px;
+    height: 85px;
+    border-radius: 100%;
+    background-color: #E22B59;
+}
+
+.redCircle::before {
+        display: inline-block;
+        color: white;
+        position: absolute;
+        font-weight: 600;
+        line-height: 90.66px;
+        
+}
+
+.info_item:nth-child(1) p {
+    max-width: 471px;
+}
+
+
+.info_item:nth-child(2) p {
+    max-width: 471px;
+}
+
+.info_item:nth-child(1) .redCircle::before {
+    content: "1";
+    font-size: 100px;
+    transform: translate(12px, 12px);
+}
+
+.info_item:nth-child(2) .redCircle::before {
+    content: "2";
+    font-size: 100px;
+    transform: translate(10px, 4px);
+}
+
+.info_item:nth-child(3) .redCircle::before {
+    content: "!";
+    font-size: 70.92px;
+    transform: translate(30px);
+}
+
+.info_item p {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+}

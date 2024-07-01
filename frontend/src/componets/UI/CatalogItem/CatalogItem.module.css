@@ -1,0 +1,63 @@
+.catalogItem {
+    max-width: 380px;
+}
+
+.img {
+    object-fit: contain;
+    width: 400px;
+    height: 410px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.subImages {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7.5px;
+}
+
+.subImage {
+    width: 52.5px;
+    height: 52.5px;
+    border-radius: 7.5px;
+}
+
+.catalogItem h1 {
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 32.68px;
+    text-align: left;
+}
+
+h2 {
+    margin-top: 15px;
+    font-size: 22.5px;
+    font-weight: 600;
+    line-height: 27.23px;
+    text-align: left;
+}
+
+h3 {
+    margin-top: 10px;
+    font-size: 22.5px;
+    font-weight: 400;
+    line-height: 27.23px;
+    text-align: left;
+}
+
+.button {
+    margin-top: 53px;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31.47px;
+    text-align: left;
+    padding: 9px 25px;
+    background-color: #E22B59;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}

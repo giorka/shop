@@ -1,0 +1,162 @@
+*{
+    box-sizing: border-box;
+}
+
+.container {
+    width: 92%;
+    margin: 0 auto;
+}
+
+.product {
+    display: flex;
+    gap: 50px;
+    margin-bottom: 150px;
+}
+
+.images {
+    max-width: 880px;
+}
+
+.img {
+    width: 880px;
+    height: 880px;
+    object-fit: contain;
+}
+
+.subImages {
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.subImageItem {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.subImageItem h2 {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+}
+
+.subImage {
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.subImage:hover {
+    border: #b4bac1 1px solid;
+}
+
+.subImageActive {
+    border: #83878C 1px solid;
+    width: 120px;
+    height: 120px;
+    border-radius: 10px;
+    object-fit: contain;
+}
+
+.info {
+    width: 100%;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 43.57px;
+}
+
+.prices {
+    display: flex;
+    gap: 33px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    display: flex;
+    gap: 2px;
+}
+
+.price span {
+    transform: translate(0, -3px);
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 36.31px;
+}
+
+.qr {
+    margin-top: 30px;
+    width: 400px;
+    height: 400px;
+}
+
+.buttons {
+    margin-top: 50px;
+    display: flex;
+    gap: 62px;
+}
+
+.count {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    padding: 9px 10px;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    display: flex;
+    align-content: center;
+    gap: 40px;
+}
+
+.count button {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    background-color: white;
+    cursor: pointer;
+    border: none;
+}
+
+.cartButton {
+        font-size: 26px;
+        font-weight: 600;
+        line-height: 31.47px;
+        text-align: left;
+        padding: 9px 25px;
+        background-color: #E22B59;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+}
+
+table {
+    margin-top: 50px;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+tr {
+    width: 100%;
+}
+
+th {
+    border-radius: 10px;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+    padding: 28px 64px;
+    width: 50%;
+    border: 1px solid #83878C
+}
