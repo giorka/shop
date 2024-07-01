@@ -34,6 +34,7 @@ class Product(models.Model):
     category = models.CharField(max_length=64)
     likes = models.ManyToManyField(to=User, related_name='cart')
     qrcode = models.ImageField(upload_to='qr/')
+    created_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         verbose_name: str = 'Продукт'

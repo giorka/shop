@@ -1,4 +1,7 @@
+import json
+
 from django.db.models import QuerySet
+from django.utils import timezone
 from rest_framework import generics
 
 from . import models, serializers
@@ -6,13 +9,25 @@ from . import models, serializers
 
 class ProductListAPIView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
+    model = serializer_class.Meta.model
+    queryset = models.Product.objects.all()
+    filterset_fields = ['category']
 
     def get_queryset(self) -> QuerySet:
-        target = self.request.query_params.get('target')
+        is_new: bool | None = json.loads(self.request.query_params.get('isNew', 'null'))
 
-        if target:
-            queryset = models.Product.objects.filter(category=target)
+        if is_new is None:
+            return self.model.objects.all()
+
+        ten_days_ago = timezone.now() - timezone.timedelta(days=10)
+
+        if is_new is True:
+            return self.model.objects.filter(created_at__gte=ten_days_ago)
         else:
-            queryset = models.Product.objects.all()
+            return self.model.objects.filter(created_at__lte=ten_days_ago)
 
-        return queryset
+
+class ProductRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = serializers.ProductSerializer
+    model = serializer_class.Meta.model
+    queryset = models.Product.objects.all()

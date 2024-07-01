@@ -4,6 +4,7 @@ from rest_framework import generics, permissions
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from . import permissions as custom_permissions
 from . import serializers
 
 
@@ -13,6 +14,14 @@ class UserCreateAPIView(generics.CreateAPIView):
 
 class GoogleUserCreateAPIView(generics.CreateAPIView):
     serializer_class = serializers.GoogleUserCreateSerializer
+
+
+class ChangePasswordAPIView(generics.CreateAPIView):
+    serializer_class = serializers.ChangePasswordSerializer
+    permission_classes = [
+        permissions.IsAuthenticated,
+        custom_permissions.IsRegisteredByEmail,
+    ]
 
 
 class CartListCreateAPIView(generics.ListCreateAPIView):

@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from . import models
+
+
+@admin.register(models.User)
+class UserAdmin(admin.ModelAdmin):
+    fields = ['email', 'last_login']
+    readonly_fields = ['email', 'last_login']
+    search_fields = ['email']
+    actions = None
