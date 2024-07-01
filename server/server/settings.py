@@ -19,8 +19,11 @@ class Settings(BaseSettings):
     db_host: str = 'localhost'
     db_port: str = '5432'
 
+    # BROKER
+    broker_irl: str = 'redis://localhost:6379/0'
+
     # CACHE
-    redis_irl: str = 'redis://localhost:6379'
+    redis_irl: str = 'redis://localhost:6379/1'
 
     # S3
     s3: bool = False
@@ -121,7 +124,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': settings.redis_irl.strip('/') + '/1',
+        'LOCATION': settings.redis_irl,
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         },
@@ -157,7 +160,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = settings.redis_irl.strip('/') + '/0'
+CELERY_BROKER_URL = settings.broker_irl
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
