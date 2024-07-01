@@ -5,6 +5,7 @@ celery
 django
 django-filter
 django-storages
+django_redis
 djangorestframework
 djoser
 flake8
