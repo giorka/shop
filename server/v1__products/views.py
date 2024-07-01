@@ -25,3 +25,9 @@ class ProductListAPIView(generics.ListAPIView):
             return self.model.objects.filter(created_at__gte=ten_days_ago)
         else:
             return self.model.objects.filter(created_at__lte=ten_days_ago)
+
+
+class ProductRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = serializers.ProductSerializer
+    model = serializer_class.Meta.model
+    queryset = models.Product.objects.all()
