@@ -22,6 +22,13 @@ class Settings(BaseSettings):
     # BROKER
     broker_irl: str = 'redis://localhost:6379/0'
 
+    s3: bool = False
+    s3_key_id: str = 's3-key-id'
+    s3_access_key: str = 's3-access-key'
+    s3_bucket_name: str = 's3-bucket-name'
+    s3_endpoint_url: str = 'https://user-id.r2.cloudflarestorage.com'
+    s3_custom_domain: str = 's3-custom-domain'
+
     model_config = SettingsConfigDict(env_file='.env')
 
 
@@ -145,6 +152,10 @@ AUTH_PASSWORD_VALIDATORS = (
     },
 )
 
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
+
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
@@ -165,3 +176,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CELERY_BROKER_URL = settings.broker_irl
+
+
+AWS_ACCESS_KEY_ID = settings.s3_key_id
+AWS_SECRET_ACCESS_KEY = settings.s3_access_key
+AWS_STORAGE_BUCKET_NAME = settings.s3_bucket_name
+AWS_S3_ENDPOINT_URL = settings.s3_endpoint_url
+AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
+
+if settings.s3:
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
