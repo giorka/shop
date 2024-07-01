@@ -1,12 +1,10 @@
 import asyncio
 import io
-from contextlib import suppress
 from threading import Thread
 
 import requests
 from celery import shared_task
 from django.core.files.base import ContentFile
-from django.db import IntegrityError
 from qrcode import QRCode, constants
 from tqdm import tqdm
 
@@ -41,7 +39,7 @@ def populate(record: dict) -> None:
         image_data = requests.get(url).content
 
         preview = models.Preview(title=color['color'])
-        preview.image.save(record['identifier'] + '.jpg', ContentFile(image_data))
+        preview.image.save(record['identifier'] + color['color'] + '.jpg', ContentFile(image_data))
         preview.save()
 
         product.previews.add(preview)
