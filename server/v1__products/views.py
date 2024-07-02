@@ -2,7 +2,9 @@ import json
 
 from django.db.models import QuerySet
 from django.utils import timezone
-from rest_framework import generics
+from rest_framework import exceptions, generics
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from . import models, paginations, serializers
 
@@ -32,3 +34,18 @@ class ProductRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = serializers.ProductSerializer
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
+
+
+class OrderCreateAPIView(APIView):
+    @staticmethod
+    def post(request) -> Response:
+        if hasattr(request.user, 'order'):
+            raise exceptions.ValidationError('Заказ уже существует.')
+
+        order = models.Order(user=request.user)
+        order.save()
+        order.content.add(*request.user.cart.all())
+
+        request.user.cart.clear()
+
+        return Response(status=201)
