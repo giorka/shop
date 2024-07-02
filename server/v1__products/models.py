@@ -8,6 +8,10 @@ from v1__products.utils.scrapper.constants import CATEGORIES
 
 
 class Preview(models.Model):
+    identifier = models.CharField(
+        max_length=256,
+        unique=True,
+    )  # Уникальное в рамках названия цвета и ID товара
     title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
 
