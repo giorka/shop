@@ -9,7 +9,7 @@ from . import models, paginations, serializers
 
 class ProductListAPIView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
-    pagination_class = paginations.ProductPagination
+    # pagination_class = paginations.ProductPagination
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
     filterset_fields = ['category']

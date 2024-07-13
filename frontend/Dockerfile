@@ -2,10 +2,10 @@ FROM node:20
 
 WORKDIR /frontend/
 
-COPY package.json yarn.lock .
+COPY package*.json ./
 
-RUN npm start
+RUN npm install
 
 COPY . .
 
-CMD npm start
+CMD ["npm", "start"]
