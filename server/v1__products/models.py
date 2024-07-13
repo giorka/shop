@@ -8,6 +8,10 @@ from v1__products.utils.scrapper.constants import CATEGORIES
 
 
 class Preview(models.Model):
+    identifier = models.CharField(
+        max_length=256,
+        unique=True,
+    )  # Уникальное в рамках названия цвета и ID товара
     title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
 
@@ -53,17 +57,6 @@ class CategoryMarkup(models.Model):
         return f'{self.category} {self.markup}%'
 
 
-"""
-url = 'https://zeydankids.sercdn.com/resimler/b26c066263212ffc15826953bb6a2536.jpg'
-response = requests.get(url)
-image_data = response.content
-
-product = Product.objects.create(title='А', item_price=44.3, full_price=44.32)
-product.save()
-
-preview = Preview(title='Красный', product=product)
-preview.image.save('image.jpg', ContentFile(image_data))
-preview.save()
-product = Product.objects.get(id=1)
-print(product.previews.all())
-"""
+class Order(models.Model):
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
+    content = models.ManyToManyField(to=Product, related_name='orders')

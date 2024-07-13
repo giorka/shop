@@ -38,8 +38,10 @@ def populate(record: dict) -> None:
 
         image_data = requests.get(url).content
 
-        preview = models.Preview(title=color['color'])
-        preview.image.save(record['identifier'] + color['color'] + '.jpg', ContentFile(image_data))
+        preview_identifier = record['identifier'] + color['color']
+
+        preview = models.Preview(identifier=preview_identifier, title=color['color'])
+        preview.image.save(preview_identifier + '.jpg', ContentFile(image_data))
         preview.save()
 
         product.previews.add(preview)
