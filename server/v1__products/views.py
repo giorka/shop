@@ -6,11 +6,12 @@ from rest_framework import exceptions, generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from . import models, serializers
+from . import models, paginations, serializers
 
 
 class ProductListAPIView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
+    pagination_class = paginations.ProductPagination
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
     filterset_fields = ['category']
