@@ -14,20 +14,26 @@ class ProductListAPIView(generics.ListAPIView):
     pagination_class = paginations.ProductPagination
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
-    filterset_fields = ['category']
 
     def get_queryset(self) -> QuerySet:
+        category: str | None = self.request.query_params.get('category')
+
+        if not category:
+            queryset = self.model.objects.all()
+        else:
+            queryset = self.model.objects.filter(category=category)
+
         is_new: bool | None = json.loads(self.request.query_params.get('isNew', 'null'))
 
         if is_new is None:
-            return self.model.objects.all()
+            return queryset
 
         ten_days_ago = timezone.now() - timezone.timedelta(days=10)
 
         if is_new is True:
-            return self.model.objects.filter(created_at__gte=ten_days_ago)
+            return queryset.filter(created_at__gte=ten_days_ago)
         else:
-            return self.model.objects.filter(created_at__lte=ten_days_ago)
+            return queryset.filter(created_at__lte=ten_days_ago)
 
 
 class ProductRetrieveAPIView(generics.RetrieveAPIView):

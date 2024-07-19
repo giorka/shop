@@ -3,7 +3,6 @@ boto3
 bs4
 celery
 django
-django-filter
 django-storages
 django_redis
 djangorestframework
