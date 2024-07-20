@@ -14,6 +14,7 @@ class Preview(models.Model):
     )  # Уникальное в рамках названия цвета и ID товара
     title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
+    likes = models.ManyToManyField(to=User, related_name='cart')
 
     class Meta:
         verbose_name: str = 'Изображение'
@@ -36,7 +37,6 @@ class Product(models.Model):
         related_name='products',
     )  # Продукт, которому принадлежит изображение
     category = models.CharField(max_length=64)
-    likes = models.ManyToManyField(to=User, related_name='cart')
     qrcode = models.ImageField(upload_to='qr/')
     created_at = models.DateTimeField(auto_now=True)
 
@@ -59,4 +59,4 @@ class CategoryMarkup(models.Model):
 
 class Order(models.Model):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
-    content = models.ManyToManyField(to=Product, related_name='orders')
+    content = models.ManyToManyField(to=Preview, related_name='orders')

@@ -2,7 +2,8 @@ import json
 
 from django.db.models import QuerySet
 from django.utils import timezone
-from rest_framework import exceptions, generics
+from rest_framework import exceptions, generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -11,9 +12,15 @@ from . import models, paginations, serializers
 
 class ProductListAPIView(generics.ListAPIView):
     serializer_class = serializers.ProductSerializer
-    pagination_class = paginations.ProductPagination
     model = serializer_class.Meta.model
     queryset = models.Product.objects.all()
+
+    @property
+    def pagination_class(self) -> None | PageNumberPagination:
+        if 'no_pagination' in self.request.query_params:
+            return None
+
+        return paginations.ProductPagination()
 
     def get_queryset(self) -> QuerySet:
         category: str | None = self.request.query_params.get('category')
@@ -43,6 +50,10 @@ class ProductRetrieveAPIView(generics.RetrieveAPIView):
 
 
 class OrderCreateAPIView(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
     @staticmethod
     def post(request) -> Response:
         if hasattr(request.user, 'order'):
