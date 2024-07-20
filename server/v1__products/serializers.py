@@ -25,7 +25,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Product
-        exclude = ('full_price', 'item_price', 'likes', 'created_at')
+        exclude = ('full_price', 'item_price', 'created_at')
 
     @staticmethod
     def get_price(price: int | float, currency: str) -> dict[str, int | float]:
