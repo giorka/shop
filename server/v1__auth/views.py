@@ -4,6 +4,8 @@ from rest_framework import generics, permissions
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from v1__products.serializers import CartPreviewSerializer
+
 from . import permissions as custom_permissions
 from . import serializers
 
@@ -26,7 +28,7 @@ class ChangePasswordAPIView(generics.CreateAPIView):
 
 class CartListCreateAPIView(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = serializers.ProductSerializer
+    serializer_class = CartPreviewSerializer
     model = serializer_class.Meta.model
 
     def get_queryset(self) -> QuerySet:

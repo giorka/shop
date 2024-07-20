@@ -2,7 +2,7 @@ import json
 
 from django.db.models import QuerySet
 from django.utils import timezone
-from rest_framework import exceptions, generics
+from rest_framework import exceptions, generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -50,6 +50,10 @@ class ProductRetrieveAPIView(generics.RetrieveAPIView):
 
 
 class OrderCreateAPIView(APIView):
+    permission_classes = [
+        permissions.IsAuthenticated,
+    ]
+
     @staticmethod
     def post(request) -> Response:
         if hasattr(request.user, 'order'):

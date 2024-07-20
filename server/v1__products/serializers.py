@@ -12,6 +12,12 @@ class PreviewSerializer(serializers.ModelSerializer):
         exclude = ('id', 'title')
 
 
+class CartPreviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Preview
+        exclude = ('id',)
+
+
 class ProductSerializer(serializers.ModelSerializer):
     previews = PreviewSerializer(many=True)
     prices = serializers.SerializerMethodField()
