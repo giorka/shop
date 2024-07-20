@@ -16,11 +16,11 @@ class ProductListAPIView(generics.ListAPIView):
     queryset = models.Product.objects.all()
 
     @property
-    def pagination_class(self) -> None | PageNumberPagination:
+    def pagination_class(self) -> type[PageNumberPagination] | None:
         if 'no_pagination' in self.request.query_params:
             return None
 
-        return paginations.ProductPagination()
+        return paginations.ProductPagination
 
     def get_queryset(self) -> QuerySet:
         category: str | None = self.request.query_params.get('category')
