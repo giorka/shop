@@ -38,8 +38,6 @@ services:
       - ./server/staticfiles:/backend_root/staticfiles
       - ./server/mediafiles:/backend_root/mediafiles
     depends_on:
-      - celery_beat
-      - celery_worker
       - postgres_db
     ports:
       - "7000:7000"
