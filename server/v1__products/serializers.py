@@ -9,13 +9,7 @@ from .utils.converter import Value, ValuesEnum
 class PreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Preview
-        exclude = ('id', )
-
-
-class CartPreviewSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = models.Preview
-        exclude = ('id',)
+        exclude = ('id', 'title', 'likes', 'product')
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -60,3 +54,19 @@ class ProductSerializer(serializers.ModelSerializer):
         ten_days_ago = datetime.now().replace(tzinfo=timezone.utc) - timedelta(days=10)
 
         return obj.created_at > ten_days_ago
+
+
+class CartProductSerializer(ProductSerializer):
+    previews = is_new = None
+
+    class Meta:
+        model = models.Product
+        exclude = ('full_price', 'item_price', 'created_at', 'title', 'sizes', 'currency', 'qrcode', 'category')
+
+
+class CartPreviewSerializer(serializers.ModelSerializer):
+    product = CartProductSerializer()
+
+    class Meta:
+        model = models.Preview
+        exclude = ('id', 'likes')
