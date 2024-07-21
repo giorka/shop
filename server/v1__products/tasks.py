@@ -40,11 +40,9 @@ def populate(record: dict) -> None:
 
         preview_identifier = record['identifier'] + color['color']
 
-        preview = models.Preview(identifier=preview_identifier, title=color['color'])
+        preview = models.Preview(identifier=preview_identifier, title=color['color'], product=product)
         preview.image.save(preview_identifier + '.jpg', ContentFile(image_data))
         preview.save()
-
-        product.previews.add(preview)
 
 
 async def parse() -> None:

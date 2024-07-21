@@ -1,24 +1,11 @@
 from django.core import validators
 from django.db import models
+from django.db.models import CASCADE
 
 from v1__auth.models import User
 from v1__products.utils.scrapper.constants import CATEGORIES
 
 # TODO: комментарии перенести в DOCSTRING
-
-
-class Preview(models.Model):
-    identifier = models.CharField(
-        max_length=256,
-        unique=True,
-    )  # Уникальное в рамках названия цвета и ID товара
-    title = models.CharField(max_length=256)  # Заголовок-название цвета
-    image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
-    likes = models.ManyToManyField(to=User, related_name='cart')
-
-    class Meta:
-        verbose_name: str = 'Изображение'
-        verbose_name_plural: str = 'Изображения'
 
 
 class Product(models.Model):
@@ -32,10 +19,6 @@ class Product(models.Model):
     package_count = models.IntegerField()
     sizes = models.CharField(max_length=64)
     currency = models.CharField(max_length=3)
-    previews = models.ManyToManyField(
-        to=Preview,
-        related_name='products',
-    )  # Продукт, которому принадлежит изображение
     category = models.CharField(max_length=64)
     qrcode = models.ImageField(upload_to='qr/')
     created_at = models.DateTimeField(auto_now=True)
@@ -43,6 +26,21 @@ class Product(models.Model):
     class Meta:
         verbose_name: str = 'Продукт'
         verbose_name_plural: str = 'Продукты'
+
+
+class Preview(models.Model):
+    identifier = models.CharField(
+        max_length=256,
+        unique=True,
+    )  # Уникальное в рамках названия цвета и ID товара
+    title = models.CharField(max_length=256)  # Заголовок-название цвета
+    image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
+    likes = models.ManyToManyField(to=User, related_name='cart')
+    product = models.ForeignKey(to=Product, related_name='previews', on_delete=CASCADE)
+
+    class Meta:
+        verbose_name: str = 'Изображение'
+        verbose_name_plural: str = 'Изображения'
 
 
 class CategoryMarkup(models.Model):
