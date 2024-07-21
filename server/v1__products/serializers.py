@@ -9,7 +9,7 @@ from .utils.converter import Value, ValuesEnum
 class PreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Preview
-        exclude = ('id', 'title')
+        exclude = ('id', 'title', 'likes', 'product')
 
 
 class ProductSerializer(serializers.ModelSerializer):
