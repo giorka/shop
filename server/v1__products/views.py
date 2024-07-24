@@ -5,7 +5,6 @@ from django.utils import timezone
 from rest_framework import exceptions, generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from . import models, paginations, serializers
 
@@ -49,20 +48,20 @@ class ProductRetrieveAPIView(generics.RetrieveAPIView):
     queryset = models.Product.objects.all()
 
 
-class OrderCreateAPIView(APIView):
+class OrderListCreateAPIView(generics.ListAPIView):
+    serializer_class = serializers.OrderSerializer
     permission_classes = [
         permissions.IsAuthenticated,
     ]
 
-    @staticmethod
-    def post(request) -> Response:
-        if hasattr(request.user, 'order'):
-            raise exceptions.ValidationError('Заказ уже существует.')
-
+    def post(self, request) -> Response:
         order = models.Order(user=request.user)
         order.save()
         order.content.add(*request.user.cart.all())
 
         request.user.cart.clear()
 
-        return Response(status=201)
+        return Response(data=self.serializer_class(order).data, status=201)
+
+    def get_queryset(self) -> QuerySet:
+        return models.Order.objects.filter(user=self.request.user)

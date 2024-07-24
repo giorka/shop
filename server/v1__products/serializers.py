@@ -70,3 +70,13 @@ class CartPreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Preview
         exclude = ('id', 'likes')
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    content = CartPreviewSerializer(many=True)
+
+    class Meta:
+        model = models.Order
+        fields = [
+            'content',
+        ]
