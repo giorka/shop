@@ -53,6 +53,7 @@ class Service(ABC):
             return
 
         async for link in links:
+            print(link)
             information = await self.get_dict(link)
 
             if not information:
