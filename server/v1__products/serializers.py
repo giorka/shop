@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from rest_framework import serializers
 
 from . import models
-from .utils.converter import Value, ValuesEnum
+from .scrapper2.converter import Value
 
 
 class PreviewSerializer(serializers.ModelSerializer):

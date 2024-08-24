@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models import CASCADE
 
 from v1__auth.models import User
-from v1__products.utils.scrapper.constants import CATEGORIES
+from v1__products.scrapper.constants import CATEGORIES
 
 # TODO: комментарии перенести в DOCSTRING
 
