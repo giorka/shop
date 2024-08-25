@@ -3,13 +3,13 @@ from datetime import datetime, timedelta, timezone
 from rest_framework import serializers
 
 from . import models
-from .scrapper2.converter import Value
+from .converter import Value, ValuesEnum
 
 
 class PreviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Preview
-        exclude = ('id', 'title', 'likes', 'product')
+        exclude = ['id', 'title', 'product']
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -65,11 +65,19 @@ class CartProductSerializer(ProductSerializer):
 
 
 class CartPreviewSerializer(serializers.ModelSerializer):
-    product = CartProductSerializer()
+    preview = PreviewSerializer()
+    product = CartProductSerializer(read_only=True)
 
     class Meta:
-        model = models.Preview
-        exclude = ('id', 'likes')
+        model = models.CartPreview
+        exclude = ['id', 'likes']
+
+    def to_representation(self, *args, **kwargs):
+        representation = super().to_representation(*args, **kwargs)
+        representation |= representation['preview']
+        del representation['preview']
+
+        return representation
 
 
 class OrderSerializer(serializers.ModelSerializer):

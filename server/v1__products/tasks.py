@@ -10,13 +10,13 @@ from parsel import Selector
 from qrcode import QRCode, constants
 
 from v1__products import models
-from v1__products.scrapper2.extractors.interkidsy.product import (
+from .extractors.interkidsy.product import (
     extract_colors,
     extract_full_price,
     extract_item_price,
     extract_title,
 )
-from v1__products.scrapper2.extractors.interkidsy.products import extract_last_page, extract_products_slugs
+from .extractors.interkidsy.products import extract_last_page, extract_products_slugs
 
 qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
 
@@ -38,7 +38,7 @@ def populate(record: dict) -> None:
     qr.clear()
 
     # try:
-    product = models.Product(identifier=url, **record)
+    product = models.Product(identifier=url.strip('https://witcdn.interkidsy.com/'), **record)
     product.qrcode.save(url.strip('https://') + '.jpg', ContentFile(image_bytes))
     product.save()
 

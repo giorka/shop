@@ -5,6 +5,7 @@ from django.db.models import CASCADE
 from v1__auth.models import User
 from v1__products.scrapper.constants import CATEGORIES
 
+
 # TODO: комментарии перенести в DOCSTRING
 
 
@@ -35,12 +36,17 @@ class Preview(models.Model):
     )  # Уникальное в рамках названия цвета и ID товара
     title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
-    likes = models.ManyToManyField(to=User, related_name='cart')
     product = models.ForeignKey(to=Product, related_name='previews', on_delete=CASCADE)
 
     class Meta:
         verbose_name: str = 'Изображение'
         verbose_name_plural: str = 'Изображения'
+
+
+class CartPreview(models.Model):
+    preview = models.ForeignKey(Preview, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField()
+    likes = models.ManyToManyField(to=User, related_name='cart')
 
 
 class CategoryMarkup(models.Model):
