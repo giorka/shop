@@ -9,6 +9,7 @@ djangorestframework
 djoser
 flake8
 googletrans
+grequests==0.7.0
 loguru
 lxml
 parsel==1.9.1
