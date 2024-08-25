@@ -1,4 +1,5 @@
 from django.db.models import QuerySet
+from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -36,8 +37,16 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
     def get_object(self) -> model:
         validated_data = self.get_serializer().validate(self.request.data)
 
+        preview = models.Preview.objects.get(identifier=validated_data['preview'])
+
+        if cart_preview := models.CartPreview.objects.filter(preview=preview).first():
+            cart_preview.count += int(validated_data['count'])
+            cart_preview.save()
+
+            return cart_preview
+
         return models.CartPreview.objects.create(
-            preview=models.Preview.objects.get(identifier=validated_data['preview']),
+            preview=preview,
             count=validated_data['count']
         )
 
