@@ -1,0 +1,311 @@
+{
+   "translation": {
+      "about":{
+         "h1": "Welcome to KIDS LAND STORE - your reliable supplier of children's clothing from Turkey",
+         "h2": "A wide range of children's clothing and shoes",
+         "h3": "Our categories",
+         "h4": "Clothes for boys",
+         "h5": "Clothes for girls",
+         "h6": "Clothes for babies",
+         "h7": "Shoes for children",
+         "h8": "Our advantages",
+         "h9": "Why choose KIDS LAND STORE?",
+         "h10": "Quality and reliability",
+         "h11": "Competitive prices",
+         "h12": "Professional service",
+         "text1": "At KIDSLAND STORE, we offer a wide range of high-quality children's clothing and shoes wholesale from Turkey. Our collections include fashionable and stylish items for children of all ages, from newborns to teenagers. We carefully select products to ensure that each item meets the highest quality and safety standards.",
+         "text2": "Discover a variety of styles and models of clothing for boys. In our assortment you will find everything from casual T-shirts to elegant suits for special occasions.",
+         "text3": "We offer a wide range of clothes for girls, including beautiful dresses, comfortable leggings and stylish jackets. All our products are of high quality and modern design.",
+         "text4": "Our collection of baby clothes includes everything you need for the youngest: bodysuits, pajamas, jumpsuits and more. We pay special attention to the softness and safety of materials.",
+         "text5": "In the KIDSLAND STORE you will also find a variety of shoes for children of all ages. We offer high-quality and comfortable models for everyday wear and sports activities.",
+         "text6": "We offer:",
+         "text7": "We are proud to provide only the best products that meet high quality and safety standards. Each item undergoes strict control before being included in our catalog.",
+         "text8": "We offer favorable conditions for wholesale buyers, which allows you to receive high-quality products at affordable prices.",
+         "text9": "Our team is ready to help you at every stage of your purchase, from product selection to delivery.",
+         "text10": "We invite you to familiarize yourself with our catalog and place an order right now. KIDS LAND STORE is your partner in the successful business of children's clothing and shoes!",
+         "li1": "A wide range of products",
+         "li2": "High quality materials and tailoring",
+         "li3": "Competitive prices",
+         "li4": "Fast delivery",
+         "li5": "Professional service"
+      },
+      "cart": {
+         "header": "Cart",
+         "no_items": "Cart is empty",
+         "no_items_button": "shop now",
+         "cart_info": {
+            "total_cart": "Total in the cart:",
+            "total_price": "Total price:",
+            "count": "Count:",
+            "input1": "International money transfer systems, Western Union, Corona Py, Contact, MoneyGram, Ria, etc.",
+            "input2": "Transfer the payment to our bank account via in your country.",
+            "buy": "buy"
+         },
+         "cart_item": {
+            "count":"Count",
+            "price":"Price",
+            "total": "Full",
+            "delete": "Remove"
+         }
+      },
+      "catalog": {
+         "price_header": "Price",
+         "price1": "per piece ",
+         "price2": "per package ",
+         "cart":"add to cart",
+         "category": {
+            "header": "Filter",
+            "girls_header": "Girl",
+            "boys_header": "Boy",
+            "set": "Set",
+            "trousers": "Trousers",
+            "pajamas": "Pajamas",
+            "underwear": "Underwear",
+            "top": "Top",
+            "shoes": "Shoes",
+            "shirt": "Shirt",
+            "costume": "Costume",
+            "outerwear": "Outerwear",
+            "dress": "Dress",
+            "overalls": "Overalls",
+            "sumbit": "sumbit",
+            "clear": "clear"
+         }
+      },
+      "catalogIdPage": {
+         "sizes": "Sizes:",
+         "price1": "price per piece: ",
+         "price2": "price per package:",
+         "cart": "add to cart"
+      },
+      "contacts": {
+         "header": "Сontacts"
+      },
+      "delivery": {
+         "banner": {
+            "header": "DELIVERY"
+         },
+         "list": {
+            "item1": {
+               "header": "Worldwide Shipping",
+               "ul": {
+                  "li1": "Shipping is carried out to all countries worldwide by the logistics company of your choice.",
+                  "li2": "If you have not received a shipment from Turkey before, we will offer you delivery options to your country.",
+                  "li3": "We can also ship the goods using a method convenient for you if you have other preferences.",
+                  "li4": "The shipping cost is paid directly by you to the logistics companies."
+               }
+            },
+            "item2": {
+               "header": "The delivery process:",
+               "ul": {
+                  "li1": "A logistics company delivers cargo to the capital of your country.",
+                  "li2": "Upon arrival of the goods in your country, a representative of the logistics company contacts you, informs you about the arrival of the cargo and its weight.",
+                  "li3": "Then you coordinate the delivery to your address within the country"
+               }
+            },
+            "item3": {
+               "header": "Additional Information:",
+               "ul": {
+                  "li1": "To obtain information about the price, terms, and possibility of shipping branded goods, you can contact our manager via WhatsApp.",
+                  "li2": "After preparing the goods for shipment, the order is handed over to the logistics company for further delivery to your country."
+               }
+            }
+         },
+         "sendBack": {
+            "main": {
+               "header": "EXCHANGE AND RETURNS",
+               "text": "Despite thorough checks for defects and other imperfections in our products, the risk of sending defective items to you is minimal. Nevertheless, we GUARANTEE compensation to the customer in case of any defects."
+            },
+            "sub1": "Customers wishing to report a defect in a product must send at least two photographs clearly showing the defective areas of the product to our official WhatsApp number or email address within three days of receiving the item.",
+            "sub2": "After approval of the defect claim by our staff, the damage will be assessed. A discount coupon for the value of the defective item will be provided to the customer for our online store. The defective item will remain with the customer, eliminating the need for its return."
+         }
+      },
+      "error":{
+         "text": "The page was not found"
+      },
+      "login": {
+         "login": "Sign in",
+         "register": "Register",
+         "password": "Password",
+         "again_password": "Repeat the password",
+         "google": "Continue via Google",
+         "login_button": "sign in",
+         "register_button": "register"
+      },
+      "main": {
+         "banners":{
+            "banner1": {
+               "header1": "KIDS",
+               "header2": "CLOTHES",
+               "text": "Discover Turkish wholesale world"
+            },
+            "banner2": {
+               "header1": "WELCOME",
+               "text": "Feel your stock with wide range of Turkish kids clothes"
+            },
+            "button": "shop now"
+         },
+         "cards": {
+            "card1": "Cuctomization & Private Labeling",
+            "card2": "15 000+ Styles at One Stop",
+            "card3": "Minimum Order Amount 250",
+            "card4": "Delivery from Turkey",
+            "card5": {
+               "styles": "15000+ styles",
+               "brands": "60+ brands",
+               "login": "sign up"
+            }
+         },
+         "info_text": "Wholesale new arrivals",
+         "aboutUs": {
+            "header": {
+               "part1": "WELCOME",
+               "part2": "to our wholesale online store for children's clothing and footwear!"
+            },
+            "text": {
+               "part1": "We are a team of professionals with extensive experience in wholesale sales of children's clothing, footwear, and accessories. Our website offers a simple and convenient platform for our customers, ensuring an easy and fast ordering process.",
+               "part2": "We take pride in the high quality and affordability of our products, which we can deliver to any part of the world.",
+               "part3": "In addition to selling ready-made products, our company specializes in custom-made clothing under the client's brand, providing uniqueness and individuality to each item.",
+               "part4": "We invite you to explore our wide range of products and experience the reliability and professionalism of our company!"
+            }
+         },
+         "reviews": {
+            "header": "Customer reviews",
+            "review1": {
+               "name": "Leyssan / Russia",
+               "text": "I'm unpacking your product. Huge thanks for the promptness and the quality of the goods supplied. The delivery times greatly surprised me; I received everything in a very short time, which I am insanely happy about."
+            },
+            "review2": {
+               "name": "Madina / Uzbekistan",
+               "text": "Today I received my order. I want to thank the KIDSLAND team for their constant assistance and excellent customer service. Guys, you are just GREAT!!!"
+            },
+            "review3": {
+               "name": "Inna / Georgia",
+               "text": "Hello, we received the goods and are very satisfied with everything, the quality is great, everything is neatly packed."
+            },
+            "review4": {
+               "name": "Zeybo / Turkmenistan",
+               "text": "I want to thank the store for the excellent work. The goods came in excellent condition, high quality. By the way, the price compared to other stores turned out to be cheaper, even with delivery. Good luck and prosperity to you! I will only order from you in the future!"
+            },
+            "review5": {
+               "name": "Gulnara / Kazakhstan",
+               "text": "Hello, I received the goods. The quality is as always superb. Thank you very much!"
+            },
+            "review6": {
+               "name": "Nodira / Tajikistan",
+               "text": "Hi. Thank you for the goods you sent! Excellent prices, excellent quality of goods! Everything is fast and trouble-free. The goods match the photos. Hope for further cooperation"
+            }
+         },
+         "categoryBanners": {
+            "header": "Have you seen our featured categories?",
+            "banner1": {
+               "part1": "ALL",
+               "part2": "SEASONS"
+            },
+            "banner2": "NEWBORN",
+            "banner3": {
+               "part1": "BASIC",
+               "part2": "COLLECTION"
+            },
+            "banner4": {
+               "part1": "ALL",
+               "part2": "SEASONS"
+            },
+            "banner5": {
+               "part1": "GIRLS",
+               "part2": "DRESSES"
+            },
+            "banner6": {
+               "part1": "PARTY",
+               "part2": "WEAR"
+            },
+            "banner7": "ACCESSORIES",
+            "banner8": "BEST SELLER",
+            "banner9": "SALE",
+            "banner10": {
+               "part1": "BELOW",
+               "part2": "3,99$"
+            },
+            "banner11": {
+               "part1": "BELOW",
+               "part2": "7,99$"
+            },
+            "banner12": "PREMIUM",
+            "button": "shop now"
+         }
+      },
+      "payment": {
+         "banner": {
+            "header": "PAYMENT"
+         },
+         "info_text": "We accept the following payment methods:",
+         "list": {
+            "item1": {
+               "text": "International Money Transfer Systems: Such as Western Union, Corona Pay, Contact, MoneyGram, Ria, and others. This method allows for online payments through the applications of these systems."
+            },
+            "item2": {
+               "text": "Bank Transfer to our 'Wise' Account in Your Country: We have an account with Wise, providing convenience for our customers when making transfers from different countries without unnecessary complications."
+            },
+            "item3": {
+               "text": "After confirming your cart, you can choose the payment method that is most convenient for you. Our manager will contact you to finalize your order and answer any questions you may have."
+            }
+         }
+      },
+      "privateLabel": {
+         "banner": {
+            "header": "Private label",
+            "description": {
+               "part1": "Our sleek e-commerce platform offers buyers and retailers a vast array of premium products, ensuring an unparalleled shopping experience and top-notch customer service.",
+               "part2": "But hold on, there's more!",
+               "part3": "Interkidsy isn't just your average marketing company",
+               "part4": "we're a full-stack powerhouse dedicated to guiding retailers and wholesalers in the baby and kids' clothing industry through every step of their sourcing journey. Whether you're on the hunt for specific items or dreaming up a brand-new collection, our team is here to make it happen."
+            }},
+         "info_text": "What we offer:",
+         "list": {
+            "item1": {
+               "header": "Rebranding of Collections:",
+               "text": "We can change the logo of products already on sale on our website to fit your brand."
+            },
+            "item2": {
+               "header": "Clothing Production Under Your Brand",
+               "text": "We can create clothing with your own brand and unique design. This means you will receive unique models that will belong exclusively to you."
+            },
+            "item3": {
+               "header": "Exclusive Models",
+               "text": "We will help you select models that meet your requirements."
+            },
+            "item4": {
+               "header": "Delivery from Turkey",
+               "text": "We will take care of all organizational matters related to shipping your order from Turkey directly to the marketplace warehouse anywhere in the world, taking into account all the requirements of your internet market or deliver to any address you specify."
+            }
+         }
+         
+      },
+      "navbar": {
+         "privateLabel": "Private label",
+         "delivery": "Delivery",
+         "payment": "Payment",
+         "contacts": "Contacts",
+         "catalog": "Catalog"
+      },
+      "footer": {
+         "privateLabel": "Private label",
+         "delivery": "Delivery",
+         "payment": "Payment",
+         "catalog": "Catalog",
+         "aboutUs": "About us"
+      },
+      "profile": {
+         "header": "Profile",
+         "profile_card": {
+            "header": "Profile",
+            "currency": "Currency:",
+            "logOut": "Log out"
+         },
+         "profile": "Profile",
+         "orders": "Orders",
+         "firstButton": "Active orders",
+         "secondButton": "Completed orders"
+      }
+}
+}

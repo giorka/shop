@@ -61,12 +61,12 @@
     text-align: left;
 }
 
-ul {
+.info_item ul {
     margin-top: 31px;
     margin-left: 26px;
 }
 
-ul li {
+.info_item ul li {
     margin-top: 31px;
     font-size: 22px;
     font-weight: 400;
@@ -76,7 +76,7 @@ ul li {
 }
 
 
-li::before {
+.info_item li::before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -156,4 +156,40 @@ li::before {
 
 .sub:nth-child(2) {
     margin-top: 31px;
+}
+
+@media (max-width: 1800px) {
+    .info_item div h2{
+        max-width: 100%;
+        height: 50px;
+    }
+
+    .info_items {
+        flex-direction: column;
+        gap: 55px;
+    }
+
+    .info_item {
+        max-width: 100%;
+        display: flex;
+        gap: 57px;
+    }
+
+    .info_item ul li {
+        max-width: 495px;
+    }
+    
+    .redLine {
+        margin-left: 40px;
+        height: 1000px;
+        width: 3px;
+    }
+
+}
+
+@media (max-width: 1500px) {
+    .sendBack_content {
+        flex-direction: column;
+        gap: 30px;
+    }
 }

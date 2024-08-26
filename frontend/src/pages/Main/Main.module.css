@@ -1,0 +1,387 @@
+.conteiner {
+    width: 92%;
+    margin: 0 auto 120px;
+}
+
+.mainH {
+    margin-top: 100px;
+    font-size: 180px !important;
+    font-weight: 700;
+    line-height: 130px !important ;
+}
+
+.clothes {
+    font-size: 90px !important;
+    font-weight: 700;
+    line-height: 108.92px !important;
+    color: #2076E4 !important;
+    -webkit-text-stroke: 1px white !important;
+
+}
+
+.mainH_ru {
+    margin-top: 100px;
+    font-size: 140px !important;
+    font-weight: 700;
+    line-height: 130px !important ;
+}
+
+.clothes_ru {
+    font-size: 110px !important;
+    font-weight: 700;
+    line-height: 128.92px !important;
+    color: #2076E4 !important;
+    text-shadow: .01em 0 white, -.01em 0 white, 0 .01em white, 0 -.01em white;
+}
+
+.shopNow1 {
+    margin-top: 70px;
+}
+
+.shopNow2 {
+    position: absolute;
+    width: 7.7%;
+    margin-top: 100px;
+}
+
+
+.link {
+    font-size: 26px;
+    font-weight: 600;
+    padding: 9px 25px;
+    text-decoration: none;
+    background-color: #E22B59;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.mainBanner {
+    text-align: center;
+}
+
+.mainParagraph {
+    text-align: center;
+    max-width: 700px;
+    margin-top: 5px !important;
+    font-size: 30px !important;
+    font-weight: 400 !important;
+    line-height: 36.31px !important; 
+}
+
+.cards_block {
+    margin-top: 50px;
+    display: flex;
+    gap: 48px;
+}
+
+.cards {
+    display: flex;
+    gap: 48px;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 58px;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    padding: 131px 32px 105px;
+    max-width: 318px;
+}
+
+.card h2 {
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 36.31px;
+    text-align: center;
+}
+
+.cards_info {
+    padding: 131px 32px 105px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.cards_info div {
+        display: flex;
+        flex-direction: column;
+        gap:15px;
+}
+
+.cards_info h2 {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 20.31px;
+    text-align: center;
+}
+
+.cards_info .signUp {
+    text-decoration: none;
+    border-radius: 8px;
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31.47px;
+    text-align: center;
+    background: #2076E4;
+    color: white;
+    padding: 10px 20px;
+}
+
+.newArrivals h1 {
+    padding: 50px 0;
+}
+
+.aboutUs {
+    background-color: #2076E4;
+    border-radius: 10px;
+    padding: 100px 17px 100px 45px;
+}
+
+.aboutUs_text {
+    display: flex;
+    gap: 150px;
+    justify-content: space-between;
+}
+
+.aboutUs_header h1 {
+    font-size: 140px;
+    font-weight: 700;
+    line-height: 169.43px;
+    text-align: left;
+    color: white;
+}
+
+.aboutUs_block {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.aboutUs_header {
+    display: flex;
+    flex-direction: column;
+}
+
+.aboutUs_header  h2 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 60.51px;
+    text-align: left;
+    color: white;
+}
+
+.aboutUs_block p {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 21.78px;
+    text-align: left;
+    color: white;
+}
+
+.aboutUs_movie {
+    margin: 100px auto 0;
+    background-color: white;
+    width: 987px;
+    height: 560px;
+}
+
+.reviews {
+    margin-top: 100px;
+}
+
+.reviews_header {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48.41px;
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.reviews_list_container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.reviews_list {
+    width: 9999px;
+    margin-top: 50px;
+    gap: 50px;
+    display: flex;
+}
+
+.review {
+    border: 1px solid #000000;
+    border-radius: 10px;
+    padding: 40px;
+    width: 400px !important;
+    height: 430px;
+}
+
+.review_name {
+    padding-bottom: 7.5px;
+    font-size: 27px;
+    font-weight: 600;
+    line-height: 32.68px;
+    text-align: left;
+}
+
+.review_text {
+    margin-top: 10px;
+    font-size: 22.5px;
+    font-weight: 400;
+    line-height: 27.23px;
+    text-align: left;
+}
+
+.catageroyHeader {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 60.51px;
+    text-align: left;
+}
+
+@media (max-width: 1500px) {
+    .cards_block {
+        display: block;
+    }
+
+    .cards {
+        display: grid;
+        gap: 30px;
+        grid-template-columns: 23% 23% 23% 23%;
+    }
+
+    .cards_info {
+        justify-content: center;
+        gap: 15px;
+        flex-direction: row;
+        padding: 32px 0;
+    }
+
+    .cards_info div {
+        gap: 20px;
+        display: flex;
+    }
+
+    
+    .cards_info .signUp {
+        margin-top: 15px;
+    }
+
+    .cards_info div {
+        flex-direction: row;
+}
+
+    .card {
+        padding: 64px 8px;
+    }
+
+    .card h2 {  
+        font-size: 25px;
+    }
+
+    .card_icon svg {
+        height: 60px;
+        width: 60px;
+
+    }
+
+    .mainH {
+        margin-top: 0;
+        font-size: 800% !important;
+    }
+
+    .clothes {
+        font-size: 500% !important;
+        line-height: 80.92px !important;
+    }
+
+    .mainH_ru {
+        margin-top: 0;
+        font-size: 600% !important;
+    }
+    
+    .clothes_ru {
+        font-size: 600% !important;
+        line-height: 80.92px !important;
+    }
+
+    .mainParagraph {
+        margin-top: 5px !important;
+        font-size: 20px !important;
+        font-weight: 400 !important;
+        line-height: 10.31px !important; 
+    }
+    
+    .shopNow1 {
+        margin-top: 30px;
+    }
+
+    .shopNow2{
+        width: 7.5%;
+        margin-top: 50px;
+    }
+
+    .aboutUs_text {
+        justify-content: start;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .aboutUs_movie {
+        width: 90%;
+    }
+}
+
+@media (max-width: 1000px) {
+    .aboutUs_header h1{
+        font-size: 110px;
+    }
+    .mainH {
+        font-size: 500% !important;
+    }
+
+    .clothes {
+        font-size: 300% !important;
+        line-height: 10.92px !important;
+    }
+
+    .mainH_ru {
+        font-size: 500% !important;
+    }
+    
+    .clothes_ru {
+        font-size: 300% !important;
+        line-height: 10.92px !important;
+    }
+
+
+    .mainParagraph {
+        max-width: 700px;
+        margin-top: 20px !important;
+        font-size: 15px !important;
+        font-weight: 400 !important;
+        line-height: 36.31px !important; 
+    }
+
+    .link {
+        font-size: 16px;
+        padding: 5px 21px;
+    }
+
+    .shopNow2{
+        width: 7.7%;
+        margin-top: 20px;
+    }
+
+    .aboutUs_movie {
+        height: 401px;
+    }
+}

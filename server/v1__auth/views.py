@@ -32,6 +32,7 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
     model = serializer_class.Meta.model
 
     def get_queryset(self) -> QuerySet:
+        print(self.request.user.cart)
         return self.request.user.cart.all()
 
     def get_object(self) -> serializers.ProductSerializer.Meta.model:

@@ -1,0 +1,260 @@
+.container {
+    width: 92%;
+    margin: 0 auto 150px;
+}
+
+.profile_content {
+    display: flex;
+    gap: 50px;
+}
+
+.profile_orders {
+    width: 100%;
+}
+
+.profile_orders h1 {
+    padding: 24px 0 100px;
+}
+
+
+.orders {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.order {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 30px 50px 20px;
+    border-radius: 10px;
+    border: 1px solid #83878C;
+}
+.profile_card {
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    width: 492px;
+    height: 762px;
+    padding: 37px 32px 0;
+}
+
+.profile_header h2 {  
+    font-size: 22px;
+    line-height: 26.63px;
+    margin: 0;
+    text-align: center;
+}
+
+.profile_header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.inputs {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profile_card input {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+    width: 100%;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    padding: 13px 28px;
+}
+
+.profile_card input:disabled {
+    color: black;
+}
+
+.changePassword{
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: center;
+    background-color: white;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 28px;
+}
+
+.logOut {
+    cursor: pointer;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: center;
+    background-color: white;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 28px;
+    color: red;
+}
+
+.profile_card h2 {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 43.57px;
+}
+
+.passwordButtons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.passwordButtons button {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 31.47px;
+    text-align: left;
+    padding: 9px 22px;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.sumbit{
+    background-color: #2076E4;
+}
+
+.cancel {
+    background-color: #E22B59;
+}
+
+.selectMode {
+    display: none;
+    padding-bottom: 500px;
+}
+
+.profile_mainHeader {
+    display: none;
+    padding: 24px 0 24px;
+}
+
+.currency {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+}
+
+.currency h2{
+    margin: 0;
+    padding-bottom: 3px;
+}
+
+.select {
+    appearance: none;
+    padding: 8px 40px 8px 20px;
+    background-color: #F5F5F5;
+    border: 1px solid #83878C;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24.2px;
+    color: #83878C;
+    -webkit-appearance: none;
+  -moz-appearance: none;
+  background: transparent;
+  background-image: url('data:image/svg+xml,<svg width="21" height="12" viewBox="0 0 21 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 1L9.775 10.2368C10.1693 10.6518 10.8307 10.6518 11.225 10.2368L20 1" stroke="%2383878C" stroke-width="2" stroke-linecap="round"/></svg>');
+  background-repeat: no-repeat;
+  background-position-x: 88%;
+  background-position-y: 12px;
+}
+
+
+select::-ms-expand {
+    display: none;
+  }
+  
+
+select:focus {
+    outline: none;
+    border: 1px solid #83878C;
+}
+
+select:hover {
+    border: 1px solid #83878C;
+}
+
+
+@media (max-width: 1425px) {
+    
+    .selectMode h2 {
+        width: 100%;
+        padding: 7px 38px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 21.78px;
+        text-align: left;
+        
+    }
+    
+    .profile_content {
+        display: block;
+    }
+
+    .passwordButtons {
+        gap: 40px;
+        justify-content: center;
+    }
+    
+    .profile_orders{
+        display: none;
+    }
+    
+    .orders {
+        width: 100%;
+    }
+
+    .orderItem {
+        width: 80%;
+    }
+    
+    .profile_card {
+        display: none;
+        margin-top: 30px;
+        width: 100%;
+        border: none;
+    }
+
+    .profile_mainHeader {
+        display: block;
+    }
+    
+    .profile_card.active {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .profile_orders.active {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .selectMode.active {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .profile_orders h1 {
+        display: none;
+
+    }
+}

@@ -1,0 +1,38 @@
+.page_wrapper {
+    margin-top: 200px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.page_wrapper svg {
+    cursor: pointer;
+}
+
+.page_numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.page {
+    color: #83878C;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48.41px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.page_current {
+    color: #83878C;
+    font-size: 40px;
+    font-weight: 500;
+    line-height: 48.41px;
+    text-align: left;
+    border-radius: 100%;
+    border: #83878C solid 1px;
+    padding: 0 10px;
+}

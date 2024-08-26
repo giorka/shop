@@ -10,6 +10,19 @@
     justify-content: space-between;
 }
 
+.mobileNavbar_content {
+    display: none;
+}
+
+.menu {
+    border: none;
+    background-color: white;
+}
+
+.mainNavbar {
+    display: none;
+}
+
 .logo {
     max-height: 104px;
     max-width: 283px;
@@ -90,6 +103,28 @@
     -moz-appearance: none;
 }
 
+.currencySelect {
+    padding: 0;
+    margin: 0;
+    font-weight: 300;
+    line-height: 36.31px;
+    font-size: 30px;
+    border: none;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.currencySelect:focus {
+    border: none;
+    outline: none;
+}
+
+.currencySelect:hover {
+    border: none;
+    outline: none;
+}
 
 select::-ms-expand {
     display: none;
@@ -114,6 +149,42 @@ select::-ms-expand {
     margin-left: 30px;
 }
 
+.mobileMenu {
+    position: fixed;
+    z-index: 1;
+    top: 127px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    background: rgba(0,0,0, 0.5);
+}
+
+.mobileMenuContent {
+    background: white;
+    min-width: 50%;
+}
+
+.mobileMenu.active {
+    animation: menu-animation 300ms;
+    display: flex;
+    align-items: start;
+}
+
+.mobileLang {
+    display: flex;
+    align-items: center;
+    margin-left: 27px;
+}
+
+@keyframes menu-animation {
+    from {
+        top: -1000px;
+    }
+    to {
+        top: 100px
+    }
+}
 
 @media (max-width: 1800px) {
     .navbar_item {
@@ -127,5 +198,144 @@ select::-ms-expand {
     .navbar_items {
         gap: 45px;
         margin-left: 50px;
+    }
+
+    .navbar_items {
+        margin-left: 20px;
+        gap: 30px;
+    }
+}
+
+@media (max-width: 1450px) {
+    .navbar_content .search {
+        display: none;
+    }
+
+    .mobileNavbar_content {
+        display: block;
+        width: 92%;
+        margin: 0 auto;
+    }
+
+    .search {
+        height: 100%;
+        padding: 10px 20px;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .navbar {
+        padding: 0;
+    }
+    
+    .navbar_content {
+        display: none;
+    }
+
+    .mobileNavbar_content {
+        margin: 0;
+        width: 100%;
+    }
+
+    .search_conteiner {
+        padding: 130px 0 40px;
+    }
+
+    .search {
+        margin: 0 auto;
+        width: 93%;
+    }
+
+    .mainNavbar_conteiner {
+        padding-top: 25px;
+        z-index: 3;
+        width: 100%;
+        background-color: white;
+        position: fixed;
+    }
+
+    .currencySelect {
+        font-size: 40px;
+    }
+
+    .mainNavbar {
+        margin: 0 auto;
+        width: 93%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .logo div {
+        height: 104px;
+        width: 283px;
+    }
+
+    .lang {
+        margin: 0;
+    }
+
+    .langSelect {
+        margin-left: 10px;
+        font-size: 40px;
+    }
+
+    .profile {
+        margin: 0;
+    }
+
+    .cart {
+        margin: 0;
+    }
+
+    .logo div {
+        top: -30px;
+        height: 124px;
+        width: 303px;
+    }
+
+    .menu svg{
+        width: 50px;
+        height: 50px;
+    }
+
+    .mobileLang svg{
+        width: 50px;
+        height: 50px;
+    }
+
+    .profile svg{
+        width: 50px;
+        height: 50px;
+    }
+
+    .cart svg{
+        width: 50px;
+        height: 50px;
+    }
+
+    .search input {
+        font-size: 40px;
+    }
+
+    .search svg {
+        height: 50px;
+        width: 50px;    
+    }
+
+    .navbar_items {
+        flex-direction: column;
+        gap: 0
+    }
+
+    .navbar_item {
+        padding: 70px 34px;
+        border-top: #83878C 1px solid;
+        font-size: 40px;
+        font-weight: 500;
+        line-height: 19.36px;
+        text-align: left;
     }
 }

@@ -4,7 +4,7 @@
 }
 
 .banner_content {
-    min-width: 40%;
+    min-width: 30%;
     width: 100%;
     background-color: #A682DA;
     display: flex;
@@ -12,11 +12,14 @@
 }
 
 .banner_text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin: auto;
 }
 
 .banner_text h1 {
-    white-space: nowrap;
     transform: translate(-3px);
     color: white;
     font-size: 100px;
@@ -36,6 +39,7 @@
     max-height: 688px
 }
 
+
 @media (max-width: 1800px) {
     .banner_text h1 {
         font-size: 500%;
@@ -46,5 +50,34 @@
         margin-top: 20px;
         font-size: 100%;
         line-height: 20.41px;
+    }
+}
+
+@media (max-width: 1570px) {
+    .banner_text h1 {
+        font-size: 350%;
+        line-height: 100.02px;
+    }
+
+    .banner_text p {
+        margin-top: 0;
+        font-size: 70%;
+        font-weight: 700;     
+        line-height: normal;
+    }
+}
+
+@media (max-width: 1000px) {
+
+    .banner_text h1 {
+        font-size: 300%;
+        line-height: 50.02px;
+    }
+
+    .banner_text p {
+        margin-top: 0;
+        font-size: 35%;
+        font-weight: 700;       
+        line-height: normal;
     }
 }

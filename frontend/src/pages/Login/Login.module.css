@@ -1,24 +1,4 @@
-.buttons {
-    display: flex;
-    gap: 25px;
-}
 
-.button {
-    background-color: white;
-    border: 1px solid #83878C;
-    padding: 20px 25px;
-    font-size: 36px;
-    font-weight: 600;
-    line-height: 43.57px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.select {
-    background-color: #2076E4;
-    color: white;
-    border: none;
-}
 
 .login {
     display: flex;
@@ -45,6 +25,14 @@ form input {
     border: 1px solid #83878C;
     display: block;
     margin-top: 20px;
+}
+
+form input:invalid {
+    border: red 2px solid;
+}
+
+form input:invalid:focus {
+    outline: red 1px solid;
 }
 
 form button {
@@ -85,4 +73,16 @@ form button {
     font-size: 20px;
     font-weight: 400;
     line-height: 24.2px;
+}
+
+.inputError {
+    border: red 1px solid;
+}
+
+.error {
+    padding: 5px 0;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24.2px;
+    color: #E22B59;
 }

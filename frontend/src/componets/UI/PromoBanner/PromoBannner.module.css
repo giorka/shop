@@ -1,0 +1,76 @@
+.promoBanner {
+    margin-top: 30px;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    width: 560px;
+    height: 380px;
+    border-radius: 10px;
+}
+
+.promoHeaders {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 55px 33px 33px 0;
+}
+
+.promoHeaders h2 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 60.51px;
+    text-align: left;
+}
+
+.image {
+    position: absolute;
+    z-index: -1;
+    object-fit: cover;
+    overflow: hidden;
+    width: 560px;
+    height: 380px;
+    border-radius: 10px;
+    transform: scaleX(-1);
+}
+
+.categoryBanner img{
+    object-fit: cover;
+    height: 380px;
+    border-radius: 10px;
+}
+
+.promoButton {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 31.47px;
+    text-align: left;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 26px;
+    white-space: nowrap;
+    background-color: #E22B59;
+}
+
+.promoButton_container {
+    justify-content: center;
+    display: flex;
+}
+
+@media (max-width: 1300px) {
+    .image {
+        width: 900px;
+        height: 500px;
+    }
+    .promoBanner {
+        width: 900px;
+        height: 500px;
+    }
+
+    .promoHeaders h2 {
+        font-size: 100px;
+        font-weight: 700;
+        line-height: 100.51px;
+        text-align: left;
+    }
+}

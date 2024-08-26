@@ -1,11 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import cl from './CartItem.module.css'
+import DeleteIcon from '../../icons/DeleteIcon'
+import { useNavigate } from 'react-router-dom'
+import { CurrencyContext } from '../../../context/CurrencyContext'
+import { useTranslation } from 'react-i18next'
 
-function CartItem({id, setMainCount, item, remove}) {
-    const [count, setCount] = useState(item.count)
+function CartItem({id, deleteButton, setMainCount, item, remove}) {
+    const { t, i18n } = useTranslation();
+    const [count, setCount] = useState(item.product.package_count)
+    const router = useNavigate()
+    const {currency, setCurrency} = useContext(CurrencyContext)
+
+    function changeCount(button) {
+        if(!setMainCount || !remove) return
+        if(button === "-"){
+            setCount(count - 1)
+        }
+        if(button === "+"){
+            setCount(count + 1)
+        }
+    }
 
     useEffect(() => {
-        item.count = count
+        item.product.package_count = count
         setMainCount(id, count)
     },[count])
 
@@ -13,41 +30,40 @@ function CartItem({id, setMainCount, item, remove}) {
         remove(id)
     }
 
-    item.finalPrice = item.price * count
+    item.finalPrice = item.product.prices.item_price[currency] * count
   return (
         <div className={cl.cartItem}>
             <div className={cl.item_main}>
-                <div className={cl.img}></div>
+                <img onClick={() => router(`/catalog/${item.product.identifier}`)} src={item.image} alt=""className={cl.img}/>
                 <div className={cl.item_info}>
-                    <h2>{item.name}</h2>
-                    <p>{item.description}</p>
+                    <h2 onClick={() => router(`/catalog/${item.product.identifier}`)}>{item.product.identifier}</h2>
                 </div>
             </div>
             <div className={cl.item_params}>
                 <div className={cl.item_param}>
-                    <h2>Количество</h2>
+                    <h2>{t("cart.cart_item.count")}</h2>
                     <div className={cl.count}>
-                        <button onClick={() => setCount(count - 1)}>-</button>
+                        <button>-</button>
                         <div>{count}</div>
-                        <button onClick={() => setCount(count + 1)}>+</button>
+                        <button>+</button>
                     </div>
                 </div>
                 <div className={cl.item_param}>
-                    <h2>Цена</h2>
-                    <div>{item.price}</div>
+                    <h2>{t("cart.cart_item.price")}</h2>
+                    <div>{item.product.prices.item_price[currency]}</div>
                 </div>
                 <div className={cl.item_param}>
-                    <h2>Общая</h2>
-                    <div>{(item.price * count).toFixed(2)}</div>
+                    <h2>{t("cart.cart_item.total")}</h2>
+                    <div>{(item.product.prices.item_price[currency] * count).toFixed(2)}</div>
                 </div>
+                {deleteButton &&
                 <div className={cl.item_param}>
-                    <h2>Удалить</h2>
+                    <h2>{t("cart.cart_item.delete")}</h2>
                     <button onClick={() => remove(id)}>
-                        <svg width="22" height="23" viewBox="0 0 22 23" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 6H4M21.5 6H18.5M4 6V22.5H18.5V6M4 6H7M18.5 6H15M15 6V1H7V6M15 6H7M8 10V19.5M11.5 10V19.5M15 10V19.5" stroke="black" strokeLinejoin="round"/>
-                        </svg>
+                        <DeleteIcon/>
                     </button>
                 </div>
+                }
             </div>
         </div>
   )

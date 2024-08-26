@@ -1,0 +1,46 @@
+.leftArrow {
+    position: absolute;
+    margin-left: 10px;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.rightArrow {
+    cursor: pointer;
+    position: absolute;
+    margin-top: 320px;
+    right: 90px;
+    z-index: 5;
+}
+
+@media (max-width: 1500px) {
+    .leftArrow {
+        margin-top: 230px;
+    }
+
+    .rightArrow {
+        margin-top: 230px;
+        right: 70px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .leftArrow {
+        margin-top: 160px;
+    }
+
+    .leftArrow svg {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .rightArrow {
+        margin-top: 160px;
+        right: 50px;
+    }
+
+    .rightArrow svg {
+        width: 40px;
+        height: 40px;
+    }
+}

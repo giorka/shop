@@ -1,0 +1,40 @@
+.conteiner {
+    width: 92%;
+    margin: 0 auto 120px;
+}
+
+.about h1 {
+    font-size: 37px;
+    padding: 20px 0;
+    line-height: 26.63px;
+    text-align: center;
+}
+
+.about p {
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+}
+
+.about h2 {
+    font-size: 32px;
+    padding: 10px 0;
+    line-height: 26.63px;
+    text-align: left;
+}
+
+.about h3 {
+    font-size: 25px;
+    padding: 5px 0;
+    line-height: 26.63px;
+    text-align: left;
+}
+
+.about li {
+    padding: 8px 0;
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 26.63px;
+    text-align: left;
+}

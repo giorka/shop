@@ -33,6 +33,7 @@
 }
 
 .links_item span{
+    width: 100%;
     text-decoration: underline;
 }
 
@@ -94,5 +95,13 @@
 @media (max-width: 1800px) {
     .links_item  {
         font-size: 28px;
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1400px) {
+    .cards {
+        display: none;
     }
 }

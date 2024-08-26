@@ -56,3 +56,11 @@
         gap:70px
     }
 }
+
+@media (max-width: 1570px) {
+    .list {
+        margin-left: 4%;
+        flex-wrap: wrap;
+    }
+}
+

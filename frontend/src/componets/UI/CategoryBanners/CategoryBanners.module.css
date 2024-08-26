@@ -1,0 +1,42 @@
+.banners_header {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 48.41px;
+    padding: 50px 0;
+}
+
+.banners_list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.banners_row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bottomBanner {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32%;
+    height: 200px;
+    border-radius: 10px;
+    color: white;
+}
+
+.bottomBanner h2 {
+    font-size: 40px;
+}
+
+@media (max-width: 1300px) {
+    .bottomBanner {
+        height: 130px;
+    }
+    .bottomBanner h2 {
+        font-size: 35px;
+    }
+}

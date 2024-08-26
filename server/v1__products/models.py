@@ -35,7 +35,6 @@ class Preview(models.Model):
     )  # Уникальное в рамках названия цвета и ID товара
     title = models.CharField(max_length=256)  # Заголовок-название цвета
     image = models.ImageField(upload_to='images/')  # Путь к изображению на сервере
-    likes = models.ManyToManyField(to=User, related_name='cart')
     product = models.ForeignKey(to=Product, related_name='previews', on_delete=CASCADE)
 
     class Meta:
@@ -55,6 +54,23 @@ class CategoryMarkup(models.Model):
         return f'{self.category} {self.markup}%'
 
 
-class Order(models.Model):
+class Cart(models.Model):
     user = models.OneToOneField(to=User, on_delete=models.CASCADE)
-    content = models.ManyToManyField(to=Preview, related_name='orders')
+    full_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class CartItem(models.Model):
+    product = models.ManyToManyField(to=Preview)
+    cart = models.ForeignKey(to=Cart, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField()
+
+
+class Order(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    full_price = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+class OrderItem(models.Model):
+    product = models.ManyToManyField(to=Preview)
+    order = models.ForeignKey(to=Order, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField()
