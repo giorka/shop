@@ -3,7 +3,8 @@ from django.db import models
 from django.db.models import CASCADE
 
 from v1__auth.models import User
-from v1__products.utils.scrapper.constants import CATEGORIES
+from v1__products.scrapper.constants import CATEGORIES
+
 
 # TODO: комментарии перенести в DOCSTRING
 
@@ -40,6 +41,12 @@ class Preview(models.Model):
     class Meta:
         verbose_name: str = 'Изображение'
         verbose_name_plural: str = 'Изображения'
+
+
+class CartPreview(models.Model):
+    preview = models.ForeignKey(Preview, on_delete=models.CASCADE)
+    count = models.PositiveIntegerField()
+    likes = models.ManyToManyField(to=User, related_name='cart')
 
 
 class CategoryMarkup(models.Model):

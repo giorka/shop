@@ -1,63 +1,16 @@
 import asyncio
-import io
-from threading import Thread
 from typing import Dict, List
 
 import aiohttp
-from celery import shared_task
-from django.core.files.base import ContentFile
 from parsel import Selector
-from qrcode import QRCode, constants
-
-from v1__products import models
-from .extractors.interkidsy.product import (
+from scrapper2.converter import Value
+from scrapper2.extractors.interkidsy.product import (
     extract_colors,
     extract_full_price,
     extract_item_price,
     extract_title,
 )
-from .extractors.interkidsy.products import extract_last_page, extract_products_slugs
-
-qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
-
-
-def populate(record: dict) -> None:
-    print(list(record.values()))
-    if any([item is None for item in record.values()]):
-        return
-
-    url, colors = record['url'], record['colors']
-    del record['colors'], record['url']
-
-    qr.add_data(url)
-    qr.make(fit=True)
-    qr_image = qr.make_image(fill_color='black', back_color='white')
-    image_stream = io.BytesIO()
-    qr_image.save(image_stream)
-    image_bytes = image_stream.getvalue()
-    qr.clear()
-
-    # try:
-    product = models.Product(identifier=url.strip('https://witcdn.interkidsy.com/'), **record)
-    product.qrcode.save(url.strip('https://') + '.jpg', ContentFile(image_bytes))
-    product.save()
-
-    for color_name, color_image_url in colors.items():
-        if not color_name or not color_image_url:
-            continue
-
-        if not url.lower().startswith('http'):
-            continue
-
-        image_data = fetch_content_sync(color_image_url)
-
-        preview_identifier = color_image_url + color_name
-
-        preview = models.Preview(identifier=preview_identifier, title=color_name, product=product)
-        preview.image.save(preview_identifier.strip('https://') + '.jpg', ContentFile(image_data))
-        preview.save()
-    # except IntegrityError:
-    #     return None
+from scrapper2.extractors.interkidsy.products import extract_last_page, extract_products_slugs
 
 
 async def fetch_htmls(urls: List[str]) -> Dict[str, str]:
@@ -81,19 +34,6 @@ async def fetch_htmls(urls: List[str]) -> Dict[str, str]:
 
 def fetch_htmls_sync(urls: List[str]) -> Dict[str, str]:
     return asyncio.run(fetch_htmls(urls))
-
-
-async def fetch_content(url: str) -> bytes:
-    async with aiohttp.ClientSession() as session:
-        async with session.get(url) as response:
-            if response.status == 200:
-                return await response.content.read()
-            else:
-                return b''
-
-
-def fetch_content_sync(url: str) -> bytes:
-    return asyncio.run(fetch_content(url))
 
 
 I_DOMAIN = 'www.interkidsy.com'  # noqa
@@ -184,27 +124,11 @@ CATEGORIES = {
 }
 
 
-@shared_task(name='populate_the_database')
-def main(*args, **kwargs):
-    # product = {
-    #     'url': 'https://www.interkidsy.com/wholesale-girls-dress-5-8y-elayza-2023-2236',
-    #     'title': 'Wholesale Girls Dress 5-8Y Elayza 2023-2236',
-    #     'item_price': 12.44,
-    #     'full_price': 49.75,
-    #     'colors': {
-    #         'Beige': 'https://witcdn.interkidsy.com/wholesale-girls-dress-5-8y-elayza-2023-2236-girls-dress-83659-46-K.jpg',
-    #         'Blanced Almond': 'https://witcdn.interkidsy.com/wholesale-girls-dress-5-8y-elayza-2023-2236-girls-dress-84038-46-K.jpg',
-    #         'Mustard': 'https://witcdn.interkidsy.com/wholesale-girls-dress-5-8y-elayza-2023-2236-girls-dress-83658-46-K.jpg',
-    #         'Salmon Color': 'https://witcdn.interkidsy.com/wholesale-girls-dress-5-8y-elayza-2023-2236-girls-dress-83660-46-K.jpg'
-    #     }, 'sizes': '5-8Y',
-    #     'currency': 'USD',
-    #     'package_count': 4
-    # }
-    # Thread(target=populate, args=[product]).start()
+def main():
     for category in CATEGORIES.values():
         url = category['I']
-        print(fetch_htmls_sync([url]).values())
-        html = [*fetch_htmls_sync([url]).values()][0]
+
+        html = fetch_htmls_sync([url])[url]
 
         pages_urls = []
 
@@ -214,7 +138,9 @@ def main(*args, **kwargs):
             page_url = url + '?pg=' + str(page_number)
             pages_urls.append(page_url)
 
-        htmls = fetch_htmls_sync(pages_urls).values()
+        htmls = fetch_htmls_sync([url]).values()
+
+        products = []
 
         for html in htmls:
             slugs = extract_products_slugs(Selector(html))
@@ -235,26 +161,36 @@ def main(*args, **kwargs):
                     if title.lower().strip() == 'assortment':
                         sizes = value
                         break
+
                 try:
                     item_price_usd = extract_item_price(Selector(html))
                     full_price_usd = extract_full_price(Selector(html))
 
                     product = {
-                        'url': url,
                         'title': extract_title(Selector(html)),
-                        'item_price': item_price_usd,
-                        'full_price': full_price_usd,
+                        'prices': {
+                            'item_price': {
+                                'USD': item_price_usd,
+                                'RUB': Value(item_price_usd, currency='USD')['RUB'],
+                                'TRY': Value(item_price_usd, currency='USD')['TRY'],
+                            },
+                            'full_price': {
+                                'USD': full_price_usd,
+                                'RUB': Value(full_price_usd, currency='USD')['RUB'],
+                                'TRY': Value(full_price_usd, currency='USD')['TRY'],
+                            },
+                        },
                         'colors': extract_colors(Selector(html)),
                         'sizes': sizes,
-                        'currency': 'USD',
-                        'package_count': int(Selector(html).css('input[type="number"]::attr("value")').get()),
                     }
-                    Thread(target=populate, args=[product]).start()
                 except:
                     continue
 
+                products.append(product)
 
-main.apply_async()
+    for product in products:
+        print(product)
+
 
 if __name__ == '__main__':
     main()

@@ -12,6 +12,7 @@ flake8
 googletrans
 loguru
 lxml
+parsel==1.9.1
 Pillow
 pre-commit
 psycopg2
