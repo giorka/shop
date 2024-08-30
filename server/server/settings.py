@@ -33,6 +33,10 @@ class Settings(BaseSettings):
     s3_endpoint_url: str = 'https://user-id.r2.cloudflarestorage.com'
     s3_custom_domain: str = 's3-custom-domain'
 
+    # Telegram
+    tg_token: str
+    tg_chat_id: str
+
     model_config = SettingsConfigDict(env_file='.env')
 
 

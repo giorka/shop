@@ -2,11 +2,12 @@ import json
 
 from django.db.models import QuerySet
 from django.utils import timezone
-from rest_framework import exceptions, generics, permissions
+from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 
 from . import models, paginations, serializers
+from .usecases import send_about_order
 
 
 class ProductListAPIView(generics.ListAPIView):
@@ -55,13 +56,24 @@ class OrderListCreateAPIView(generics.ListAPIView):
     ]
 
     def post(self, request) -> Response:
-        order = models.Order(user=request.user)
+        order = models.Order()
+        order.user = request.user
         order.save()
-        order.content.add(*request.user.cart.all())
+        cart_previews = request.user.cart.all()
+        previews = [cart_preview.preview for cart_preview in cart_previews]
+        order.content.add(*previews)
 
         request.user.cart.clear()
 
-        return Response(data=self.serializer_class(order).data, status=201)
+        send_about_order(
+            email=request.user.email,
+            id_count={
+                cart_preview.preview.identifier: cart_preview.count
+                for cart_preview in cart_previews
+            }
+        )
+
+        return Response(data=serializers.RetrieveOrderSerializer(order).data, status=201)
 
     def get_queryset(self) -> QuerySet:
         return models.Order.objects.filter(user=self.request.user)

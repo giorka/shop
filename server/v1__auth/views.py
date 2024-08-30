@@ -38,7 +38,7 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
 
         preview = models.Preview.objects.get(identifier=validated_data['preview'])
 
-        if cart_preview := models.CartPreview.objects.filter(preview=preview).first():
+        if cart_preview := self.request.user.cart.first():
             cart_preview.count += int(validated_data['count'])
             cart_preview.save()
 

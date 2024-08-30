@@ -88,3 +88,13 @@ class OrderSerializer(serializers.ModelSerializer):
         fields = [
             'content',
         ]
+
+
+class RetrieveOrderSerializer(serializers.ModelSerializer):
+    content = PreviewSerializer(many=True)
+
+    class Meta:
+        model = models.Order
+        fields = [
+            'content',
+        ]

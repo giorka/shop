@@ -62,5 +62,5 @@ class CategoryMarkup(models.Model):
 
 
 class Order(models.Model):
-    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
-    content = models.ManyToManyField(to=Preview, related_name='orders')
+    user = models.ForeignKey(to=User, related_name='orders', on_delete=CASCADE)
+    content = models.ManyToManyField(to=Preview)

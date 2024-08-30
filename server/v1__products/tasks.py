@@ -23,7 +23,7 @@ qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_C
 
 def populate(record: dict) -> None:
     print(list(record.values()))
-    if any([item is None for item in record.values()]):
+    if any(item is None for item in record.values()):
         return
 
     url, colors = record['url'], record['colors']

@@ -1,10 +1,9 @@
-exclude = [
-    '__init__.py'
-]
 line-length = 120
 
 [lint]
 select = [
+    "ERA", # no commented-out code
+    "T201", # no prints
     'C90', # mccabe
     'N', # pep8-naming
     'S', # bandit
@@ -13,7 +12,6 @@ select = [
     'C4', # comprehensions
     'DTZ', # datetimez
     'EM', # error-messages
-    'FA', # future-annotations
     'PIE', # flake8-pie
     'PT', # flake8-pytest-style
     'SLF', # flake8-self
