@@ -1,5 +1,4 @@
 from django.db.models import QuerySet
-from django.shortcuts import get_object_or_404
 from rest_framework import generics, permissions
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -32,7 +31,6 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
     model = models.CartPreview
 
     def get_queryset(self) -> QuerySet:
-        print(self.request.user.cart)
         return self.request.user.cart.all()
 
     def get_object(self) -> model:
@@ -40,7 +38,7 @@ class CartListCreateAPIView(generics.ListCreateAPIView):
 
         preview = models.Preview.objects.get(identifier=validated_data['preview'])
 
-        if cart_preview := models.CartPreview.objects.filter(preview=preview).first():
+        if cart_preview := self.request.user.cart.first():
             cart_preview.count += int(validated_data['count'])
             cart_preview.save()
 
