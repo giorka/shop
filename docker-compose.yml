@@ -1,114 +1,104 @@
 services:
-  # nginx:
-  #   image: nginx:latest
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
-  #     - "443:443"
-  #   volumes:
-  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-  #     - ./server/staticfiles:/backend_root/staticfiles
-  #     - ./server/mediafiles:/backend_root/mediafiles
-  #     - ./certbot/conf:/etc/letsencrypt
-  #     - ./certbot/www:/var/www/certbot
-  #   depends_on:
-  #     - backend
-  #     - frontend
-  #   restart: unless-stopped
+   nginx:
+     image: nginx:latest
+     container_name: nginx
+     ports:
+       - "80:80"
+       - "443:443"
+     volumes:
+       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+       - ./server/staticfiles:/backend_root/staticfiles
+       - ./server/mediafiles:/backend_root/mediafiles
+       - ./certbot/conf:/etc/letsencrypt
+       - ./certbot/www:/var/www/certbot
+     depends_on:
+       - backend
+       - frontend
+     restart: unless-stopped
 
-  # frontend:
-  #   build:
-  #     context: frontend/
-  #     dockerfile: Dockerfile
-  #   image: frontend
-  #   container_name: frontend
-  #   restart: unless-stopped
-  #   ports:
-  #     - "3000:3000"
+   frontend:
+     build:
+       context: frontend/
+       dockerfile: Dockerfile
+     image: frontend
+     container_name: frontend
+     restart: unless-stopped
+     ports:
+       - "3000:3000"
 
-  backend:
-    build:
-      context: server/
-      dockerfile: Dockerfile
-    image: backend
-    command: gunicorn server.wsgi:application --bind 0.0.0.0:7000
-    container_name: backend
-    restart: unless-stopped
-    volumes:
-      - ./server/staticfiles:/backend_root/staticfiles
-      - ./server/mediafiles:/backend_root/mediafiles
-    depends_on:
-      - postgres_db
-    ports:
-      - "7000:7000"
-    
-  rabbitmq:
-    image: rabbitmq
-    ports:
-      - "5672:5672"
-    container_name: rabbitmq
-    restart: unless-stopped
-    environment:
-      - RABBITMQ_DEFAULT_USER=rmuser
-      - RABBITMQ_DEFAULT_PASS=rmpassword
-  
-  celery_worker: 
-    build:
-      context: server/
-      dockerfile: Dockerfile
-    command: celery -A v1__products worker --pool=solo -l info
-    container_name: celery_worker
-    volumes:
-      - ./server/mediafiles:/backend_root/mediafiles
-    depends_on:
-      - rabbitmq
-    restart: unless-stopped
-  
-  celery_beat: 
-    build:
-      context: server/
-      dockerfile: Dockerfile
-    command: celery -A v1__products beat -l info
-    container_name: celery_beat
-    volumes:
-      - ./server/mediafiles:/backend_root/mediafiles
-    depends_on:
-      - rabbitmq
-    restart: unless-stopped
-      
-  # tg_bot:
-  #   build:
-  #     context: tg_bot/
-  #     dockerfile: Dockerfile
-  #   image: tg_bot
-  #   container_name: tg_bot
-  #   restart: unless-stopped
-  #   ports:
-  #     - "6000:6000"
-  
-  postgres_db:
-    image: postgres:13.3
-    container_name: postgres_db
-    environment:
-      POSTGRES_DB: "shop"
-      POSTGRES_USER: "user"
-      POSTGRES_PASSWORD: "database_password"
-      PGDATA: "/var/lib/postgresql/data/pgdata"
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_db_data:/var/lib/postgresql/data
-    restart: unless-stopped
+   backend:
+      build:
+        context: server/
+        dockerfile: Dockerfile
+      image: backend
+      command: gunicorn server.wsgi:application --bind 0.0.0.0:7000
+      container_name: backend
+      restart: unless-stopped
+      volumes:
+        - ./server/staticfiles:/backend_root/staticfiles
+        - ./server/mediafiles:/backend_root/mediafiles
+      depends_on:
+        - postgres_db
+      ports:
+        - "7000:7000"
 
-#  certbot:
-#      image: certbot/certbot
-#      container_name: certbot
-#      volumes:
-#        - ./certbot/conf:/etc/letsencrypt
-#        - ./certbot/www:/var/www/certbot
-#      command: certonly --webroot -w /var/www/certbot --force-renewal --email murat.muhiddin96@gmail.com -d kidsland-store.com --agree-tos
-#      depends_on:
-#        - nginx
+   rabbitmq:
+      image: rabbitmq
+      ports:
+        - "5672:5672"
+      container_name: rabbitmq
+      restart: unless-stopped
+      environment:
+        - RABBITMQ_DEFAULT_USER=rmuser
+        - RABBITMQ_DEFAULT_PASS=rmpassword
+
+   celery_worker:
+      build:
+        context: server/
+        dockerfile: Dockerfile
+      command: celery -A v1__products worker --pool=solo -l info
+      container_name: celery_worker
+      volumes:
+        - ./server/mediafiles:/backend_root/mediafiles
+      depends_on:
+        - rabbitmq
+      restart: unless-stopped
+
+   celery_beat:
+      build:
+        context: server/
+        dockerfile: Dockerfile
+      command: celery -A v1__products beat -l info
+      container_name: celery_beat
+      volumes:
+        - ./server/mediafiles:/backend_root/mediafiles
+      depends_on:
+        - rabbitmq
+      restart: unless-stopped
+
+   postgres_db:
+      image: postgres:13.3
+      container_name: postgres_db
+      environment:
+        POSTGRES_DB: "shop"
+        POSTGRES_USER: "user"
+        POSTGRES_PASSWORD: "database_password"
+        PGDATA: "/var/lib/postgresql/data/pgdata"
+      ports:
+        - "5432:5432"
+      volumes:
+        - postgres_db_data:/var/lib/postgresql/data
+      restart: unless-stopped
+
+#   certbot:
+#        image: certbot/certbot
+#        container_name: certbot
+#        volumes:
+#          - ./certbot/conf:/etc/letsencrypt
+#          - ./certbot/www:/var/www/certbot
+#        command: certonly --webroot -w /var/www/certbot --force-renewal --email murat.muhiddin96@gmail.com -d kidsland-store.com --agree-tos
+#        depends_on:
+#          - nginx
 
 
 volumes:
