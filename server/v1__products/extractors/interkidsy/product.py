@@ -1,6 +1,6 @@
 from parsel import Selector
 
-from ...utils import convert_to_float
+from ...scrapper.utils import convert_to_float
 
 
 def extract_title(selector: Selector) -> str:
