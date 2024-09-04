@@ -19,3 +19,7 @@ async def get_spider(url: str) -> BeautifulSoup:
     spider.url = url
 
     return spider
+
+
+def convert_to_float(price: str) -> float:
+    return float(price.replace(',', '.'))
