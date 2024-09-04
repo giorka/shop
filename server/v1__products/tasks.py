@@ -49,7 +49,7 @@ def populate(record: dict) -> None:
         if not url.lower().startswith('http'):
             continue
 
-        image_data = fetch_content_sync(color_image_url)
+        image_data = fetch_content_sync(color_image_url.strip('https://witcdn.interkidsy.com/'))
 
         preview_identifier = color_image_url + color_name
 
