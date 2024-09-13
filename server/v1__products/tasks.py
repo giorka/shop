@@ -1,6 +1,5 @@
 import asyncio
 import io
-from threading import Thread
 from typing import Dict, List
 
 import aiohttp
@@ -49,7 +48,7 @@ def populate(record: dict) -> None:
             print('penis2')
             continue
 
-        image_data = fetch_content_sync(color_image_url)
+        image_data = fetch_content_sync(color_image_url.strip('https://witcdn.interkidsy.com/'))
 
         preview_identifier = color_image_url + color_name
 
