@@ -22,7 +22,6 @@ qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_C
 
 
 def populate(record: dict) -> None:
-    print(list(record.values()))
     if any(item is None for item in record.values()):
         return
 
@@ -44,12 +43,13 @@ def populate(record: dict) -> None:
 
     for color_name, color_image_url in colors.items():
         if not color_name or not color_image_url:
+            print('penis1')
+            continue
+        if not color_image_url.lower().startswith('http'):
+            print('penis2')
             continue
 
-        if not url.lower().startswith('http'):
-            continue
-
-        image_data = fetch_content_sync(color_image_url.strip('https://witcdn.interkidsy.com/'))
+        image_data = fetch_content_sync(color_image_url)
 
         preview_identifier = color_image_url + color_name
 
@@ -201,8 +201,8 @@ def main(*args, **kwargs):
     #     'package_count': 4
     # }
     # Thread(target=populate, args=[product]).start()
-    for category in CATEGORIES.values():
-        url = category['I']
+    for category_name, category_urls, in CATEGORIES.items():
+        url = category_urls['I']
         print(fetch_htmls_sync([url]).values())
         html = [*fetch_htmls_sync([url]).values()][0]
 
@@ -248,8 +248,10 @@ def main(*args, **kwargs):
                         'sizes': sizes,
                         'currency': 'USD',
                         'package_count': int(Selector(html).css('input[type="number"]::attr("value")').get()),
+                        'category': category_name
                     }
-                    Thread(target=populate, args=[product]).start()
+                    print(product)
+                    # Thread(target=populate, args=[product]).start()
                 except:
                     continue
 
