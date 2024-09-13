@@ -38,7 +38,7 @@ def populate(record: dict) -> None:
 
     # try:
     product = models.Product(identifier=url.strip('https://witcdn.interkidsy.com/'), **record)
-    product.qrcode.save(url.strip('https://') + '.jpg', ContentFile(image_bytes))
+    product.qrcode.save(url.strip('https://www.interkidsy.com') + '.jpg', ContentFile(image_bytes))
     product.save()
 
     for color_name, color_image_url in colors.items():
@@ -51,7 +51,7 @@ def populate(record: dict) -> None:
 
         image_data = fetch_content_sync(color_image_url)
 
-        preview_identifier = color_image_url + color_name
+        preview_identifier = color_image_url.strip('https://witcdn.interkidsy.com/') + color_name
 
         preview = models.Preview(identifier=preview_identifier, title=color_name, product=product)
         preview.image.save(preview_identifier.strip('https://') + '.jpg', ContentFile(image_data))
@@ -250,8 +250,8 @@ def main(*args, **kwargs):
                         'package_count': int(Selector(html).css('input[type="number"]::attr("value")').get()),
                         'category': category_name
                     }
-                    print(product)
-                    # Thread(target=populate, args=[product]).start()
+                    # print(product)
+                    Thread(target=populate, args=[product]).start()
                 except:
                     continue
 
