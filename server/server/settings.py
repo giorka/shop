@@ -22,6 +22,10 @@ class Settings(BaseSettings):
     # BROKER
     broker_irl: str = 'redis://localhost:6379/0'
 
+    # CACHE
+    redis_irl: str = 'redis://localhost:6379/1'
+
+    # S3
     s3: bool = False
     s3_key_id: str = 's3-key-id'
     s3_access_key: str = 's3-access-key'
@@ -46,32 +50,6 @@ SECRET_KEY = settings.secret_key
 
 ALLOWED_HOSTS = ['*']
 
-# CSRF_TRUSTED_ORIGINS = ["https://kidsland-store.com", "http://kidsland-store.com", "http://localhost:3000"]
-
-# CORS_ORIGIN_WHITELIST = ("https://kidsland-store.com", "http://kidsland-store.com", "http://localhost:3000", "http://0.0.0.0:3000", "http://127.0.0.1:3000")
-CORS_ORIGIN_ALLOW_ALL = True
-СORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_METHODS = (
-    "GET",
-    "POST",
-    "OPTIONS",
-    "DELETE"
-)
-CORS_ALLOW_HEADERS = [
-    "accept",
-    "accept-encoding",
-    "authorization",
-    "content-type",
-    "dnt",
-    "origin",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-    'Access-Control-Allow-Headers',
-    'Access-Control-Allow-Credentials',
-    "Access-Control-Allow-Origin"
-]
-
 DJANGO_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -80,6 +58,7 @@ DJANGO_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'storages',
 )
 
 APPS = (
@@ -93,11 +72,9 @@ INSTALLED_APPS = (
     *APPS,
     'djoser',
     'rest_framework.authtoken',
-    "corsheaders"
 )
 
 MIDDLEWARE = (
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,6 +108,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
 }
 
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.' + settings.db_engine,
@@ -139,6 +120,16 @@ DATABASES = {
         'PASSWORD': settings.db_password,
         'HOST': settings.db_host,
         'PORT': settings.db_port,
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': settings.redis_irl,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        },
     },
 }
 
@@ -157,10 +148,6 @@ AUTH_PASSWORD_VALIDATORS = (
     },
 )
 
-DJOSER = {
-    'LOGIN_FIELD': 'email',
-}
-
 LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'UTC'
@@ -171,17 +158,14 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'v1__auth.User'
 
-STATIC_URL = "/api/static/"
-STATIC_ROOT = BASE_DIR / "staticfiles"
-
-MEDIA_URL = "/api/media/"
-MEDIA_ROOT = BASE_DIR / "mediafiles"
+STATIC_URL = 'api/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
 CELERY_BROKER_URL = settings.broker_irl
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AWS_ACCESS_KEY_ID = settings.s3_key_id
 AWS_SECRET_ACCESS_KEY = settings.s3_access_key
@@ -191,3 +175,4 @@ AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
 
 if settings.s3:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+    MEDIA_URL = 'https://' + settings.s3_custom_domain + '/'

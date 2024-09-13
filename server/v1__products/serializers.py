@@ -12,6 +12,12 @@ class PreviewSerializer(serializers.ModelSerializer):
         exclude = ['id', 'title', 'product']
 
 
+class FullPreviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Preview
+        exclude = ['id', 'title']
+
+
 class ProductSerializer(serializers.ModelSerializer):
     previews = PreviewSerializer(many=True)
     prices = serializers.SerializerMethodField()
