@@ -17,3 +17,17 @@ async def send_about_order(email: str, id_count: dict[int, int]) -> None:
             f'Email -> {email}\n\n'
             f'{products_info}'
         )
+
+
+@async_to_sync
+async def send_notification(url: str, title: str, photos: list[str]) -> None:
+    service = dependencies.get_telegram_service()
+
+    async with service:
+        await service.send(
+            f"""
+            Ссылка: {url}
+            Заголовок: {title}
+            """,
+            photos=photos
+        )
