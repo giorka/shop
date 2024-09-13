@@ -249,7 +249,7 @@ def main(*args, **kwargs):
                         'package_count': int(Selector(html).css('input[type="number"]::attr("value")').get()),
                         'category': category_name
                     }
-                    Thread(target=populate, args=[product]).start()
+                    populate(product)
                 except:
                     continue
 
