@@ -175,3 +175,4 @@ AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
 
 if settings.s3:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
+    MEDIA_URL = 'https://' + settings.s3_custom_domain + '/'
