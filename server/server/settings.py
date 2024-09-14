@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -164,15 +163,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = settings.broker_irl
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+STORAGES = {'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'}}
 AWS_ACCESS_KEY_ID = settings.s3_key_id
 AWS_SECRET_ACCESS_KEY = settings.s3_access_key
 AWS_STORAGE_BUCKET_NAME = settings.s3_bucket_name
 AWS_S3_ENDPOINT_URL = settings.s3_endpoint_url
 AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
 
-if settings.s3:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3.S3Storage'
-    MEDIA_URL = 'https://' + settings.s3_custom_domain + '/'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'

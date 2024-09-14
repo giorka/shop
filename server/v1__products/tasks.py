@@ -5,17 +5,12 @@ from typing import Dict, List
 import aiohttp
 from celery import shared_task
 from django.core.files.base import ContentFile
-from parsel import Selector
+from django.db import IntegrityError
 from qrcode import QRCode, constants
 
 from v1__products import models
-from .extractors.interkidsy.product import (
-    extract_colors,
-    extract_full_price,
-    extract_item_price,
-    extract_title,
-)
-from .extractors.interkidsy.products import extract_last_page, extract_products_slugs
+from v1__products.extractors.interkidsy.product import *
+from v1__products.extractors.interkidsy.products import *
 
 qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
 
@@ -35,28 +30,29 @@ def populate(record: dict) -> None:
     image_bytes = image_stream.getvalue()
     qr.clear()
 
-    # try:
-    product = models.Product(identifier=url.strip('https://witcdn.interkidsy.com/'), **record)
-    product.qrcode.save(url.strip('https://') + '.jpg', ContentFile(image_bytes))
-    product.save()
+    try:
+        product = models.Product(identifier=url.strip('https://witcdn.interkidsy.com/'), **record)
+        product.qrcode.save(url.strip('https://') + '.jpg', ContentFile(image_bytes))
+        product.save()
 
-    for color_name, color_image_url in colors.items():
-        if not color_name or not color_image_url:
-            print('penis1')
-            continue
-        if not color_image_url.lower().startswith('http'):
-            print('penis2')
-            continue
+        for color_name, color_image_url in colors.items():
+            if not color_name or not color_image_url:
+                print('penis1')
+                continue
+            if not color_image_url.lower().startswith('http'):
+                print('penis2')
+                continue
 
-        image_data = fetch_content_sync(color_image_url.strip('https://witcdn.interkidsy.com/'))
+            image_data = fetch_content_sync(color_image_url)
 
-        preview_identifier = color_image_url + color_name
+            preview_identifier = color_image_url + color_name
 
-        preview = models.Preview(identifier=preview_identifier, title=color_name, product=product)
-        preview.image.save(preview_identifier.strip('https://') + '.jpg', ContentFile(image_data))
-        preview.save()
-    # except IntegrityError:
-    #     return None
+            preview = models.Preview(identifier=preview_identifier, title=color_name, product=product)
+            preview.image.save(preview_identifier.strip('https://witcdn.interkidsy.com/')) + '.jpg', ContentFile(
+                image_data)
+            preview.save()
+    except IntegrityError:
+        return None
 
 
 async def fetch_htmls(urls: List[str]) -> Dict[str, str]:
@@ -199,7 +195,7 @@ def main(*args, **kwargs):
     #     'currency': 'USD',
     #     'package_count': 4
     # }
-    # Thread(target=populate, args=[product]).start()
+    # populate(product)
     for category_name, category_urls, in CATEGORIES.items():
         url = category_urls['I']
         print(fetch_htmls_sync([url]).values())

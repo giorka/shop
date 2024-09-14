@@ -8,3 +8,4 @@ celerybeat-schedule.dir
 /media/
 .ruff_cache
 __pycache__
+.vscode
