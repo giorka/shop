@@ -1,16 +1,17 @@
-from __future__ import annotations
-
+import copy
 from pathlib import Path
 
+import scrapy.utils.log
+from colorlog import ColoredFormatter
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    # DJANGO
+    # Django
     secret_key: str = 'secret-key'
     debug: bool = True
 
-    # DB
+    # Database
     db_engine: str = 'postgresql'
     db_name: str = 'db'
     db_user: str = 'admin'
@@ -18,10 +19,10 @@ class Settings(BaseSettings):
     db_host: str = 'localhost'
     db_port: str = '5432'
 
-    # BROKER
+    # Broker
     broker_irl: str = 'redis://localhost:6379/0'
 
-    # CACHE
+    # Cache
     redis_irl: str = 'redis://localhost:6379/1'
 
     # S3
@@ -61,6 +62,8 @@ DJANGO_APPS = (
 )
 
 APPS = (
+    'server',
+    'scraper',
     'v1',
     'v1__products',
     'v1__auth',
@@ -163,7 +166,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = settings.broker_irl
 
-STORAGES = {'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'}}
+STORAGES = {
+    'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'},
+    'staticfiles': {'BACKEND': 'django.core.files.storage.FileSystemStorage'},
+}
 AWS_ACCESS_KEY_ID = settings.s3_key_id
 AWS_SECRET_ACCESS_KEY = settings.s3_access_key
 AWS_STORAGE_BUCKET_NAME = settings.s3_bucket_name
@@ -171,3 +177,45 @@ AWS_S3_ENDPOINT_URL = settings.s3_endpoint_url
 AWS_S3_CUSTOM_DOMAIN = settings.s3_custom_domain
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# Scrapy
+BOT_NAME = 'scraper'
+
+SPIDER_MODULES = ['scraper.spiders']
+NEWSPIDER_MODULE = 'scraper.spiders'
+
+ROBOTSTXT_OBEY = True
+
+CONCURRENT_REQUESTS = 999_999
+
+REQUEST_FINGERPRINTER_IMPLEMENTATION = '2.7'
+TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
+FEED_EXPORT_ENCODING = 'utf-8'
+
+color_formatter = ColoredFormatter(
+    (
+        '%(log_color)s%(levelname)-5s%(reset)s '
+        '%(yellow)s[%(asctime)s]%(reset)s'
+        '%(white)s %(name)s %(funcName)s %(bold_purple)s:%(lineno)d%(reset)s '
+        '%(log_color)s%(message)s%(reset)s'
+    ),
+    datefmt='%y-%m-%d %H:%M:%S',
+    log_colors={
+        'DEBUG': 'blue',
+        'INFO': 'bold_cyan',
+        'WARNING': 'red',
+        'ERROR': 'bg_bold_red',
+        'CRITICAL': 'red,bg_white',
+    },
+)
+
+_get_handler = copy.copy(scrapy.utils.log._get_handler)
+
+
+def _get_handler_custom(*args, **kwargs):
+    handler = _get_handler(*args, **kwargs)
+    handler.setFormatter(color_formatter)
+    return handler
+
+
+scrapy.utils.log._get_handler = _get_handler_custom
