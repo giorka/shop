@@ -1,0 +1,1 @@
+from .interkidsy import InterkidsySpider
