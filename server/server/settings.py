@@ -22,9 +22,6 @@ class Settings(BaseSettings):
     # Broker
     broker_irl: str = 'redis://localhost:6379/0'
 
-    # Cache
-    redis_irl: str = 'redis://localhost:6379/1'
-
     # S3
     s3: bool = False
     s3_key_id: str = 's3-key-id'
@@ -125,16 +122,6 @@ DATABASES = {
     },
 }
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': settings.redis_irl,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
-    },
-}
-
 AUTH_PASSWORD_VALIDATORS = (
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -160,7 +147,8 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'v1__auth.User'
 
-STATIC_URL = 'static/'
+STATIC_URL = 'api/static/'
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

@@ -40,6 +40,15 @@ services:
       ports:
         - "7000:7000"
 
+   schedules:
+     build:
+       context: server/
+       dockerfile: Dockerfile
+     image: schedules
+     command: "python3 scraper/schedules.py"
+     container_name: schedules
+     restart: unless-stopped
+
    rabbitmq:
       image: rabbitmq
       ports:
@@ -49,26 +58,6 @@ services:
       environment:
         - RABBITMQ_DEFAULT_USER=rmuser
         - RABBITMQ_DEFAULT_PASS=rmpassword
-
-   celery_worker:
-      build:
-        context: server/
-        dockerfile: Dockerfile
-      command: celery -A v1__products worker --pool=solo -l info
-      container_name: celery_worker
-      depends_on:
-        - rabbitmq
-      restart: unless-stopped
-
-   celery_beat:
-      build:
-        context: server/
-        dockerfile: Dockerfile
-      command: celery -A v1__products beat -l info
-      container_name: celery_beat
-      depends_on:
-        - rabbitmq
-      restart: unless-stopped
 
    postgres_db:
       image: postgres:13.3
