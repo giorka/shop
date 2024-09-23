@@ -1,9 +1,9 @@
 from datetime import datetime, timedelta, timezone
 
-from rest_framework import serializers
-
 from . import models
 from .converter import Value, ValuesEnum
+
+from rest_framework import serializers
 
 
 class PreviewSerializer(serializers.ModelSerializer):

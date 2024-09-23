@@ -2,15 +2,15 @@ import asyncio
 import io
 from typing import Dict, List
 
+from v1__products import models
+from v1__products.extractors.interkidsy.product import *
+from v1__products.extractors.interkidsy.products import *
+
 import aiohttp
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.db import IntegrityError
 from qrcode import QRCode, constants
-
-from v1__products import models
-from v1__products.extractors.interkidsy.product import *
-from v1__products.extractors.interkidsy.products import *
 
 qr = QRCode(version=1, box_size=10, border=4, error_correction=constants.ERROR_CORRECT_L)
 
@@ -46,8 +46,10 @@ def populate(record: dict) -> None:
             preview_identifier = color_image_url + color_name
 
             preview = models.Preview(identifier=preview_identifier, title=color_name, product=product)
-            preview.image.save(preview_identifier.strip('https://witcdn.interkidsy.com/')) + '.jpg', ContentFile(
-                image_data)
+            preview.image.save(
+                preview_identifier.strip('https://witcdn.interkidsy.com/')) + '.jpg',
+                ContentFile(image_data)
+            )
             preview.save()
     except IntegrityError:
         return None

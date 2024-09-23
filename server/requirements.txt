@@ -26,6 +26,10 @@ redis
 requests
 ruff
 social-auth-app-django
+Scrapy==2.11.2
+colorlog==6.8.2
+scrapy-djangoitem==1.1.1
+schedule==1.2.2
 tqdm
 amqp
 gunicorn
