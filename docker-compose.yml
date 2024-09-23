@@ -8,7 +8,6 @@ services:
      volumes:
        - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
        - ./server/staticfiles:/backend_root/staticfiles
-       - ./server/mediafiles:/backend_root/mediafiles
        - ./certbot/conf:/etc/letsencrypt
        - ./certbot/www:/var/www/certbot
      depends_on:
@@ -36,7 +35,6 @@ services:
       restart: unless-stopped
       volumes:
         - ./server/staticfiles:/backend_root/staticfiles
-        - ./server/mediafiles:/backend_root/mediafiles
       depends_on:
         - postgres_db
       ports:
@@ -58,8 +56,6 @@ services:
         dockerfile: Dockerfile
       command: celery -A v1__products worker --pool=solo -l info
       container_name: celery_worker
-      volumes:
-        - ./server/mediafiles:/backend_root/mediafiles
       depends_on:
         - rabbitmq
       restart: unless-stopped
@@ -70,8 +66,6 @@ services:
         dockerfile: Dockerfile
       command: celery -A v1__products beat -l info
       container_name: celery_beat
-      volumes:
-        - ./server/mediafiles:/backend_root/mediafiles
       depends_on:
         - rabbitmq
       restart: unless-stopped

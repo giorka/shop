@@ -145,14 +145,16 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'v1__auth.User'
 
-STATIC_URL = 'static/'
+STATIC_URL = 'api/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CELERY_BROKER_URL = settings.broker_irl
 
-STORAGES = {'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'}}
+STORAGES = {'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'}, "staticfiles": {
+        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+    }}
 AWS_ACCESS_KEY_ID = settings.s3_key_id
 AWS_SECRET_ACCESS_KEY = settings.s3_access_key
 AWS_STORAGE_BUCKET_NAME = settings.s3_bucket_name

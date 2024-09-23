@@ -11,5 +11,4 @@ urlpatterns = (
     path('api/v1/', include('v1.urls')),
 )
 
-urlpatterns += tuple(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
 urlpatterns += tuple(static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

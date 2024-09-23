@@ -37,10 +37,8 @@ def populate(record: dict) -> None:
 
         for color_name, color_image_url in colors.items():
             if not color_name or not color_image_url:
-                print('penis1')
                 continue
             if not color_image_url.lower().startswith('http'):
-                print('penis2')
                 continue
 
             image_data = fetch_content_sync(color_image_url)
@@ -198,7 +196,6 @@ def main(*args, **kwargs):
     # populate(product)
     for category_name, category_urls, in CATEGORIES.items():
         url = category_urls['I']
-        print(fetch_htmls_sync([url]).values())
         html = [*fetch_htmls_sync([url]).values()][0]
 
         pages_urls = []
