@@ -3,7 +3,7 @@ from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 
 
-def run_spiders(*spiders: Spider) -> None:
+def run_spiders(*spiders: type[Spider]):
     process = CrawlerProcess(get_project_settings())
 
     for spider in spiders:

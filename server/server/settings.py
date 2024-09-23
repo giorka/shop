@@ -201,9 +201,9 @@ color_formatter = ColoredFormatter(
     ),
     datefmt='%y-%m-%d %H:%M:%S',
     log_colors={
-        'DEBUG': 'blue',
+        'DEBUG': 'bold_blue',
         'INFO': 'bold_cyan',
-        'WARNING': 'red',
+        'WARNING': 'bold_red',
         'ERROR': 'bg_bold_red',
         'CRITICAL': 'red,bg_white',
     },
@@ -219,3 +219,5 @@ def _get_handler_custom(*args, **kwargs):
 
 
 scrapy.utils.log._get_handler = _get_handler_custom
+
+ITEM_PIPELINES = {'scraper.pipelines.DjangoPipeline': 300}

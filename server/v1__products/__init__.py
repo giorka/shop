@@ -1,1 +1,1 @@
-from .schedules import *
+from ..scraper.schedules import *

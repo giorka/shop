@@ -1,19 +1,15 @@
-from django.core import validators
-from django.db import models
-from django.db.models import CASCADE
-
 from v1__auth.models import User
 from v1__products.scrapper.constants import CATEGORIES
 
+from django.core import validators
+from django.db import models
+from django.db.models import CASCADE
 
 # TODO: комментарии перенести в DOCSTRING
 
 
 class Product(models.Model):
-    identifier = models.CharField(
-        max_length=256,
-        primary_key=True,
-    )  # 6ти значное ID / Slug поле (зависит от источника). Уникальное в рамках обоих сайтов
+    identifier = models.CharField(max_length=256, primary_key=True)  # Уникальное в рамках обоих сайтов
     title = models.CharField(max_length=256)  # Заголовок
     full_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена за упаковку в дробях
     item_price = models.DecimalField(max_digits=10, decimal_places=2)  # Цена в дробях
