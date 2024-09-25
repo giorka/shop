@@ -100,12 +100,9 @@ class InterkidsySpider(scrapy.Spider):
             colors.append({'name': color_name, 'url': color_image_url, 'stock': color_stock})
 
         for color in colors:
-            try:
-                yield items.PreviewItem(
-                    identifier=response.url.split('/')[-1] + color['name'],
-                    title=color['name'],
-                    image_url=color['url'],
-                    product=response.url,
-                )
-            except:
-                input()
+            yield items.PreviewItem(
+                identifier=response.url.split('/')[-1] + color['name'],
+                title=color['name'],
+                image_url=color['url'],
+                product=response.url,
+            )

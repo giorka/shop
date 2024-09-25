@@ -34,7 +34,7 @@ class DjangoPipeline:
         match type(item):
             case items.ProductItem:
                 product = Product(
-                    identifier=item['identifier'].strip('/')[-1],
+                    identifier=item['identifier'].split('/')[-1],
                     title=item['title'],
                     full_price=item['full_price'],
                     item_price=item['item_price'],
@@ -47,11 +47,11 @@ class DjangoPipeline:
                 product.save()
             case items.PreviewItem:
                 preview = Preview(
-                    identifier=item['identifier'].strip('/')[-1],
+                    identifier=item['identifier'].split('/')[-1],
                     title=item['title'],
-                    product=Product.objects.get(identifier=item['product']),
+                    product=Product.objects.get(identifier=item['product'].split('/')[-1]),
                 )
-                preview.image.save(item + '.jpg', ContentFile(requests.get(item['image_url']).content))
+                preview.image.save(item['identifier'] + '.jpg', ContentFile(requests.get(item['image_url']).content))
                 preview.save()
 
         return item
