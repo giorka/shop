@@ -88,7 +88,7 @@ class InterkidsySpider(scrapy.Spider):
             sizes='1-2',
         )
 
-        elements = response.css('a.sub-image-item')
+        elements = response.css('a.sub-image-item[data-type]')
 
         colors = []
 
