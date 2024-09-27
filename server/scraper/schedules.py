@@ -1,6 +1,7 @@
+# @bodge: Bash only
 import os
 import time
 
 while True:
     os.popen('python3 manage.py interkidsy').read()
-    time.sleep(43200)  # 12h.
+    time.sleep(60 * 60 * 12)  # 12h.

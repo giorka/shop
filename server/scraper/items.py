@@ -1,20 +1,34 @@
-import scrapy
+from dataclasses import dataclass
+
+from . import utils
 
 
-class ProductItem(scrapy.Item):
-    url = scrapy.Field()
-    identifier = scrapy.Field()
-    title = scrapy.Field()
-    item_price = scrapy.Field()
-    full_price = scrapy.Field()
-    package_count = scrapy.Field()
-    currency = scrapy.Field()
-    category = scrapy.Field()
-    sizes = scrapy.Field()
+@dataclass
+class ProductItem:
+    url: str
+    title: str
+    item_price: int | float
+    package_count: int
+    currency: str
+    category: str
+    sizes: str
+
+    @property
+    def id_(self) -> str:
+        return utils.encode_url(self.url)
+
+    @property
+    def full_price(self) -> int | float:
+        return self.item_price * self.package_count
 
 
-class PreviewItem(scrapy.Item):
-    identifier = scrapy.Field()
-    title = scrapy.Field()
-    image_url = scrapy.Field()
-    product = scrapy.Field()
+@dataclass
+class PreviewItem:
+    url: str
+    title: str
+    image: bytes
+    product_id: str
+
+    @property
+    def id_(self) -> str:
+        return utils.encode_url(self.url)

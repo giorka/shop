@@ -5,7 +5,7 @@ from v1__products.models import Preview, Product
 from . import items
 
 import qrcode
-import requests
+import scrapy
 from asgiref.sync import sync_to_async
 from django.core.files.base import ContentFile
 
@@ -30,28 +30,26 @@ def make_qr(url):
 
 class DjangoPipeline:
     @sync_to_async
-    def process_item(self, item, spider):
-        match type(item):
-            case items.ProductItem:
-                product = Product(
-                    identifier=item['identifier'].split('/')[-1],
-                    title=item['title'],
-                    full_price=item['full_price'],
-                    item_price=item['item_price'],
-                    package_count=item['package_count'],
-                    sizes=item['sizes'],
-                    currency=item['currency'],
-                    category=item['category'],
-                )
-                product.qrcode.save(item['url'].split('/')[-1] + '.jpg', make_qr(item['url']))
-                product.save()
-            case items.PreviewItem:
-                preview = Preview(
-                    identifier=item['identifier'].split('/')[-1],
-                    title=item['title'],
-                    product=Product.objects.get(identifier=item['product'].split('/')[-1]),
-                )
-                preview.image.save(item['identifier'] + '.jpg', ContentFile(requests.get(item['image_url']).content))
-                preview.save()
+    def process_item(self, item, spider: scrapy.Spider):
+        if type(item) is items.ProductItem:
+            product = Product(
+                identifier=item.id_,
+                title=item.title,
+                item_price=item.item_price,
+                full_price=item.full_price,
+                package_count=item.package_count,
+                sizes=item.sizes,
+                currency=item.currency,
+                category=item.category,
+            )
+            product.qrcode.save(item.id_ + '.jpg', make_qr(item.url))
+            product.save()
+        elif type(item) is items.PreviewItem:
+            product = Product.objects.get(identifier=item.product_id)
+            preview = Preview(identifier=item.id_, title=item.title, product=product)
+            preview.image.save(item.id_ + '.jpg', ContentFile(item.image))
+            preview.save()
+        else:
+            raise TypeError('No pipeline for ' + item.__class__.__name__)
 
         return item
