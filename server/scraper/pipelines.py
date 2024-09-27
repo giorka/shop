@@ -31,7 +31,7 @@ def make_qr(url):
 class DjangoPipeline:
     @sync_to_async
     def process_item(self, item, spider: scrapy.Spider):
-        if type(item) is items.ProductItem:
+        if type(item) == items.ProductItem:
             product = Product(
                 identifier=item.id_,
                 title=item.title,
@@ -44,7 +44,7 @@ class DjangoPipeline:
             )
             product.qrcode.save(item.id_ + '.jpg', make_qr(item.url))
             product.save()
-        elif type(item) is items.PreviewItem:
+        elif type(item) == items.PreviewItem:
             product = Product.objects.get(identifier=item.product_id)
             preview = Preview(identifier=item.id_, title=item.title, product=product)
             preview.image.save(item.id_ + '.jpg', ContentFile(item.image))

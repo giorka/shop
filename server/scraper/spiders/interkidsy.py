@@ -73,6 +73,7 @@ class InterkidsySpider(scrapy.Spider):
         except TypeError as err:
             raise ex.CloseSpider(f'Cannot cast {item_price} to float') from err
 
+        self.logger.info('Parsing ' + r.url)
         product = items.ProductItem(
             url=r.url,
             title=title,
@@ -99,4 +100,5 @@ class InterkidsySpider(scrapy.Spider):
             )
 
     def parse_preview(self, r: Response):
+        self.logger.info(r.meta['product'] + ' Parsing ' + r.url)
         yield items.PreviewItem(url=r.url, title=r.meta['name'], image=r.body, product_id=r.meta['product'])

@@ -221,3 +221,4 @@ def _get_handler_custom(*args, **kwargs):
 scrapy.utils.log._get_handler = _get_handler_custom
 
 ITEM_PIPELINES = {'scraper.pipelines.DjangoPipeline': 300}
+LOG_LEVEL = 'INFO'
