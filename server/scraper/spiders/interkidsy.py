@@ -21,7 +21,6 @@ class InterkidsySpider(scrapy.Spider):
                     callback=self.parse_pages,
                     meta={'category_name': category_name},
                 )
-            break
 
     def parse_pages(self, r: Response):
         last_page = r.css('div.pagination > a.last')

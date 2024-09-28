@@ -22,9 +22,6 @@ class Settings(BaseSettings):
     # Broker
     broker_irl: str = 'redis://localhost:6379/0'
 
-    # Cache
-    redis_irl: str = 'redis://localhost:6379/1'
-
     # S3
     s3: bool = False
     s3_key_id: str = 's3-key-id'
@@ -122,16 +119,6 @@ DATABASES = {
         'PASSWORD': settings.db_password,
         'HOST': settings.db_host,
         'PORT': settings.db_port,
-    },
-}
-
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': settings.redis_irl,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        },
     },
 }
 
