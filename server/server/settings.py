@@ -19,9 +19,6 @@ class Settings(BaseSettings):
     db_host: str = 'localhost'
     db_port: str = '5432'
 
-    # Broker
-    broker_irl: str = 'redis://localhost:6379/0'
-
     # S3
     s3: bool = False
     s3_key_id: str = 's3-key-id'
@@ -150,8 +147,6 @@ AUTH_USER_MODEL = 'v1__auth.User'
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CELERY_BROKER_URL = settings.broker_irl
 
 STORAGES = {
     'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'},
