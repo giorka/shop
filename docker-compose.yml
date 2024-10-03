@@ -4,7 +4,46 @@ services:
       context: server/
       dockerfile: Dockerfile
     image: backend
+    command: sh -c "python manage.py makemigrations && python manage.py migrate && gunicorn server.wsgi:application --bind 0.0.0.0:7000"
     container_name: backend
+    env_file:
+      - server/.env
     restart: unless-stopped
+    volumes:
+      - ./server/staticfiles:/backend_root/staticfiles
+    depends_on:
+      - postgres_db
     ports:
       - "7000:7000"
+  schedules:
+    build:
+      context: server/
+      dockerfile: Dockerfile
+    image: schedules
+    command: "python3 schedules.py"
+    container_name: schedules
+    restart: unless-stopped
+    depends_on:
+      - backend
+  postgres_db:
+    image: postgres:13.3
+    container_name: postgres_db
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=1000"
+      - "-c"
+      - "shared_buffers=1GB"
+    environment:
+      POSTGRES_DB: "shop"
+      POSTGRES_USER: "user"
+      POSTGRES_PASSWORD: "database_password"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_db_data:

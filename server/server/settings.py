@@ -28,8 +28,8 @@ class Settings(BaseSettings):
     s3_custom_domain: str = 's3-custom-domain'
 
     # Telegram
-    tg_token: str
-    tg_chat_id: str
+    # tg_token: str
+    # tg_chat_id: str
 
     model_config = SettingsConfigDict(env_file='.env')
 
@@ -59,8 +59,8 @@ APPS = (
     'server',
     'scraper',
     'v1',
-    'v1__products',
     'v1__auth',
+    'v1__products',
 )
 
 INSTALLED_APPS = (
