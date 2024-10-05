@@ -1,13 +1,14 @@
 import json
 
+from usecases import send_about_order
+
+from . import models, paginations, serializers
+
 from django.db.models import QuerySet
 from django.utils import timezone
 from rest_framework import generics, permissions
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-
-from . import models, paginations, serializers
-from .usecases import send_about_order
 
 
 class ProductListAPIView(generics.ListAPIView):
@@ -67,10 +68,7 @@ class OrderListCreateAPIView(generics.ListAPIView):
 
         send_about_order(
             email=request.user.email,
-            id_count={
-                cart_preview.preview.identifier: cart_preview.count
-                for cart_preview in cart_previews
-            }
+            id_count={cart_preview.preview.identifier: cart_preview.count for cart_preview in cart_previews},
         )
 
         return Response(data=serializers.RetrieveOrderSerializer(order).data, status=201)

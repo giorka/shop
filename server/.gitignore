@@ -7,3 +7,4 @@ celerybeat-schedule.dir
 .ruff_cache
 __pycache__
 .vscode
+staticfiles

@@ -1,5 +1,7 @@
 .idea
 venv
+*/migrations/*
 celerybeat-schedule.bak
 celerybeat-schedule.dat
 celerybeat-schedule.dir
+/media/

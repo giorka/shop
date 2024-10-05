@@ -1,7 +1,7 @@
+from . import views
+
 from django.urls import path
 from djoser import views as djoser
-
-from . import views
 
 urlpatterns = (
     path('register/', views.UserCreateAPIView.as_view()),

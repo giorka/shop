@@ -8,7 +8,6 @@ django
 django-storages
 django_redis
 djangorestframework
-django-cors-headers
 djoser
 flake8
 googletrans
@@ -31,5 +30,4 @@ colorlog==6.8.2
 scrapy-djangoitem==1.1.1
 schedule==1.2.2
 tqdm
-amqp
-gunicorn
+gunicorn==23.0.0

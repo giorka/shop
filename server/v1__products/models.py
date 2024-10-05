@@ -1,5 +1,5 @@
+from categories import CATEGORIES
 from v1__auth.models import User
-from v1__products.scrapper.constants import CATEGORIES
 
 from django.core import validators
 from django.db import models

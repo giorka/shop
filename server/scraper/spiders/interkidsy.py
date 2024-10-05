@@ -3,7 +3,6 @@ from categories import CATEGORIES
 from .. import items
 
 import scrapy
-from scrapy import exceptions as ex
 from scrapy.http.response.html import HtmlResponse as Response
 
 
@@ -12,16 +11,11 @@ class InterkidsySpider(scrapy.Spider):
     allowed_domains = ['interkidsy.com']
 
     def start_requests(self):
-        for category_name, links in CATEGORIES.items():
+        for category, links in CATEGORIES.items():
             urls = filter(lambda link: self.name in link, links)
 
             for url in urls:
-                yield scrapy.Request(
-                    url,
-                    callback=self.parse_pages,
-                    meta={'category_name': category_name},
-                )
-            break
+                yield scrapy.Request(url, callback=self.parse_pages, meta={'category': category})
 
     def parse_pages(self, r: Response):
         last_page = r.css('div.pagination > a.last')
@@ -29,8 +23,8 @@ class InterkidsySpider(scrapy.Spider):
         if not last_page:
             last_page_number = 1
         else:
-            last_page_link = last_page.attrib['href']  # ...?pg=(page number)
-            last_page_number = int(last_page_link.split('pg=')[-1])
+            last_page_link = last_page.attrib.get('href')  # ...?pg=(page number)
+            last_page_number = int(last_page_link.split('pg=')[-1])  # type: ignore noqa
 
         self.log('Parsed ' + str(last_page_number) + ' from ' + r.url)
 
@@ -48,30 +42,9 @@ class InterkidsySpider(scrapy.Spider):
             yield r.follow(url, callback=self.parse_product, meta=r.meta)
 
     def parse_product(self, r: Response):
-        title = r.css('#product-title::text').get()
-
-        if not title:
-            raise ex.CloseSpider(f'Cannot extract title from {r.url}')
-
-        count = r.css('input[type="number"]::attr(value)').get()
-
-        if not count:
-            raise ex.CloseSpider(f'Cannot extract count')
-
-        try:
-            count = int(count)
-        except TypeError as err:
-            raise ex.CloseSpider(f'Cannot cast {count} to float') from err
-
-        item_price = r.css('span.product-price::text').get()
-
-        if not item_price:
-            raise ex.CloseSpider(f'Cannot extract price')
-
-        try:
-            item_price = float(item_price.replace(',', '.'))
-        except TypeError as err:
-            raise ex.CloseSpider(f'Cannot cast {item_price} to float') from err
+        title = str(r.css('#product-title::text').get())  # type: ignore noqa
+        count = int(r.css('input[type="number"]::attr(value)').get())  # type: ignore noqa
+        item_price = float(r.css('span.product-price::text').get().replace(',', '.'))  # type: ignore noqa
 
         product = items.ProductItem(
             url=r.url,
@@ -79,23 +52,22 @@ class InterkidsySpider(scrapy.Spider):
             item_price=item_price,
             package_count=count,
             currency='USD',
-            category=r.meta['category_name'],
+            category=r.meta['category'],
             sizes='1-2',
         )
         yield product
 
-        elements = r.css('a.sub-image-item[data-type]')
+        previews = r.css('a.sub-image-item[data-type]')
 
-        for element in elements:
+        for preview in previews:
+            url = preview.css('figure > span > img::attr(src)').get()
+            name = preview.attrib.get('data-type').strip()  # type: ignore noqa
+            stock = int(preview.attrib.get('data-stock'))  # type: ignore noqa
+
             yield r.follow(
-                element.css('figure > span > img::attr(src)').get(),
+                url,
                 callback=self.parse_preview,
-                meta=r.meta
-                | {
-                    'name': element.attrib['data-type'].strip(),
-                    'product': product.id_,
-                    'stock': int(element.attrib['data-stock']),
-                },
+                meta=r.meta | {'name': name, 'product': product.id_, 'stock': stock},
             )
 
     def parse_preview(self, r: Response):

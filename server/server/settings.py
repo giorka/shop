@@ -19,9 +19,6 @@ class Settings(BaseSettings):
     db_host: str = 'localhost'
     db_port: str = '5432'
 
-    # Broker
-    broker_irl: str = 'redis://localhost:6379/0'
-
     # S3
     s3: bool = False
     s3_key_id: str = 's3-key-id'
@@ -31,8 +28,8 @@ class Settings(BaseSettings):
     s3_custom_domain: str = 's3-custom-domain'
 
     # Telegram
-    tg_token: str
-    tg_chat_id: str
+    # tg_token: str
+    # tg_chat_id: str
 
     model_config = SettingsConfigDict(env_file='.env')
 
@@ -62,8 +59,8 @@ APPS = (
     'server',
     'scraper',
     'v1',
-    'v1__products',
     'v1__auth',
+    'v1__products',
 )
 
 INSTALLED_APPS = (
@@ -147,12 +144,9 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'v1__auth.User'
 
-STATIC_URL = 'api/static/'
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-CELERY_BROKER_URL = settings.broker_irl
 
 STORAGES = {
     'default': {'BACKEND': 'storages.backends.s3boto3.S3StaticStorage'},
@@ -209,3 +203,4 @@ def _get_handler_custom(*args, **kwargs):
 scrapy.utils.log._get_handler = _get_handler_custom
 
 ITEM_PIPELINES = {'scraper.pipelines.DjangoPipeline': 300}
+LOG_LEVEL = 'INFO'
